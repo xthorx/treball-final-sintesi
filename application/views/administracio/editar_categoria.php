@@ -26,7 +26,13 @@
         <?php
 
             foreach ($categoriesList as $rec){
-                echo "<option value='".$rec->id."'>".$rec->nom."</option>";
+
+                if($editarCategoria[0]->categoria_pare == $rec->id){
+                    echo "<option value='".$rec->id."' selected>".$rec->nom."</option>";
+                }else{
+                    echo "<option value='".$rec->id."'>".$rec->nom."</option>";
+                }
+
             }
 
         ?>

@@ -370,14 +370,13 @@ class controlador_principal  extends CI_Controller
                     return redirect(base_url("administracio_categories"));
                 }
                 else{
+                    $this->session->set_flashdata('errorformulari', "error");
                     return redirect(base_url("administracio_categories"));
                 }
             }
             else{
-                $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
-                $this->load->view('templates/header', $data);
-                $this->load->view('administracio/editar_categoria', $data);
-                $this->load->view('templates/footer', $data);
+                $this->session->set_flashdata('errorformulari', "error");
+                return redirect(base_url("administracio_categories"));
             }
         }else{
             
