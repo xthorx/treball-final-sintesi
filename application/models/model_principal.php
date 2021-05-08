@@ -128,5 +128,25 @@ class model_principal  extends CI_Model
     }
 
 
+    public function borrar_recurs($id){
+        echo $sql = "DELETE FROM recursos WHERE id='$id'";
+        $query = $this->db->query($sql);
+        return true;
+    }
+
+
+    public function get_recurs_individual($id){
+        $query = $this->db->get_where('recursos', array('id' => $id));
+        return $query->result();
+    }
+
+
+    public function editar_recurs($id,$titol,$desc,$categoria,$tipus_recurs,$privadesa){
+        echo $sql = "UPDATE recursos SET titol='$titol', descripcio='". htmlspecialchars(nl2br($desc), ENT_QUOTES) ."', categoria='$categoria', tipus_recurs='$tipus_recurs', privadesa='$privadesa' WHERE id='$id'";
+        $query = $this->db->query($sql);
+        return true;
+    }
+
+
     
 }

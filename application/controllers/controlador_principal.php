@@ -189,14 +189,82 @@ class controlador_principal  extends CI_Controller
             $this->load->view('crear_recurs', $data);
             $this->load->view('templates/footer', $data);
 		}
+    }
 
 
+    public function editar_recursos($id=NULL){
 
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            // $data['loggedin'] = false;
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+        }
+
+        $data['title'] = 'Editar recurs';
+        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+
+        $this->form_validation->set_rules('titol', 'titol', 'required');
+        $this->form_validation->set_rules('descripcio', 'descripcio', 'required');
+        $this->form_validation->set_rules('categoria', 'categoria', 'required');
+        $this->form_validation->set_rules('tipus_recurs', 'tipus de recurs', 'required');
+        $this->form_validation->set_rules('privadesa', 'privadesa', 'required');
+
+
+        if($id==NULL){
+            if ($this->form_validation->run() === TRUE)
+            {
+
+
+                $id = $this->input->post('id');
+                $titol = $this->input->post('titol');
+                $desc = $this->input->post('descripcio');
+                $cat = $this->input->post('categoria');
+                $tipus = $this->input->post('tipus_recurs');
+                $priv = $this->input->post('privadesa');
+
+
+                if ($this->model_principal->editar_recurs($id,$titol,$desc,$cat,$tipus,$priv)){
+                    return redirect(base_url("recursos"));
+                }
+                else{
+                    return redirect(base_url("recursos"));
+
+                }
+            }
+            else
+            {
+
+                // return redirect(base_url("recursos"));
+            }
+        }else{
+            $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
+            $data['recursInfo']= $this->model_principal->get_recurs_individual($id);
+            
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('editar_recurs', $data);
+            $this->load->view('templates/footer', $data);
+        }
         
 
-
-
     }
+
+    public function borrar_recursos($id){
+        if($id != NULL){
+            if ($this->model_principal->borrar_recurs($id)){
+                return redirect(base_url("recursos"));
+            }
+            else{
+                return redirect(base_url("recursos"));
+            }
+        }
+
+    }    
 
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
