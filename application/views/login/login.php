@@ -1,6 +1,16 @@
 <div class="container text-center">
 
 
+<?php if($this->session->flashdata('not_loggedin') != NULL){ ?>
+    <div class="alert alert-warning alert-dismissible fade show mx-auto" role="alert" style="position:absolute; top: 10px; left:0; right:0; margin-left: auto; margin-right: auto; max-width: 500px;">
+        <strong>Error!</strong> No tens permís d'accedir sense iniciar sessió abans.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php } ?>
+
+
 <h2><?php echo $title; ?></h2>
 
 <span class="text-danger"><?php echo validation_errors(); ?></span>

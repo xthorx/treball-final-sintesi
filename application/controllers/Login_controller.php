@@ -179,9 +179,9 @@ class Login_controller  extends CI_Controller
 			];
 
             if($pass1==$pass2){
-                if($this->ion_auth->register($user, $pass, $email, $additional_data)){
+                if($this->ion_auth->register($user, $pass1, $email, $additional_data)){
 
-                    if ($this->ion_auth->login($user, $pass)){
+                    if ($this->ion_auth->login($user, $pass1)){
                         //if the login is successful
                         //redirect them back to the home page
                         $this->session->set_flashdata('message', $this->ion_auth->messages());

@@ -145,7 +145,10 @@ class controlador_principal  extends CI_Controller
             $data['loggedin'] = true;
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
-            $data['loggedin'] = false;
+            // $data['loggedin'] = false;
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
         }
 
         $data['title'] = 'Crear un recurs nou';
@@ -207,7 +210,12 @@ class controlador_principal  extends CI_Controller
             $data['loggedin'] = true;
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
-            $data['loggedin'] = false;
+
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
         }
 
         $data['title'] = 'Crear un recurs nou';
@@ -226,7 +234,11 @@ class controlador_principal  extends CI_Controller
             $data['loggedin'] = true;
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
-            $data['loggedin'] = false;
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
         }
 
 
@@ -268,6 +280,20 @@ class controlador_principal  extends CI_Controller
 
 
     public function crear_tag_individual(){
+
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
+        }
+
+
         $this->form_validation->set_rules('tagname', 'nom del tag', 'required');
         $data['title']= "Crear un tag";
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
@@ -282,16 +308,6 @@ class controlador_principal  extends CI_Controller
             }
         }
         else{
-
-            //HEADER LOGGEDIN VARIABLE
-            if($this->ion_auth->logged_in()){
-                $data['loggedin'] = true;
-                $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
-            }else{
-                $data['loggedin'] = false;
-            }
-
-
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/crear_tag', $data);
             $this->load->view('templates/footer', $data);
@@ -322,18 +338,12 @@ class controlador_principal  extends CI_Controller
             $data['loggedin'] = true;
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
-            $data['loggedin'] = false;
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
         }
-
-
-        // $data['categoriesName'];
-
-        // $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
-
-        // foreach($data['categoriesList'] as $cat){
-        //     $data['categoriesName'][$cat->id]= $this->model_principal->obtenir_info_categoria($cat->categoria_pare);
-            
-        // }
 
         $data['title'] = 'Crear un recurs nou';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
@@ -352,7 +362,11 @@ class controlador_principal  extends CI_Controller
             $data['loggedin'] = true;
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
-            $data['loggedin'] = false;
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
         }
 
 
@@ -393,6 +407,19 @@ class controlador_principal  extends CI_Controller
 
 
     public function crear_categoria_individual(){
+
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
+        }
+
         $this->form_validation->set_rules('categorianame', 'nom de la categoria', 'required');
         $data['title']= "Crear una categoria";
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
@@ -407,15 +434,6 @@ class controlador_principal  extends CI_Controller
             }
         }
         else{
-
-            //HEADER LOGGEDIN VARIABLE
-            if($this->ion_auth->logged_in()){
-                $data['loggedin'] = true;
-                $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
-            }else{
-                $data['loggedin'] = false;
-            }
-
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/crear_categoria', $data);
             $this->load->view('templates/footer', $data);
@@ -423,6 +441,15 @@ class controlador_principal  extends CI_Controller
     }
 
     public function borrar_categoria($id=NULL){
+
+        //HEADER LOGGEDIN VARIABLE
+        if(!$this->ion_auth->logged_in()){
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+        }
+
+
         if($id != NULL){
             if ($this->model_principal->borrar_categoria($id)){
                 return redirect(base_url("administracio_categories"));

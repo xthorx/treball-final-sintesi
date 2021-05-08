@@ -23,9 +23,9 @@
         <a href="administracio_categories" class="btn btn-success">CRUD Categories</a>
     </div>
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <a href="grocerycrud_news/news_management/" class="btn btn-primary">Grocery Crud Editor (Nomes usuaris)</a>
-    </div>
+    </div> -->
 
 </div>
 
