@@ -42,6 +42,9 @@ $route['administracio_categories/editar/(:any)'] = 'controlador_principal/editar
 $route['administracio_categories/borrar/(:any)'] = 'controlador_principal/borrar_categoria/$1';
 
 
+$route['buscador'] = 'controlador_buscador/buscar_titol_desc';
+
+
 
 
 
