@@ -29,18 +29,40 @@ class controlador_buscador  extends CI_Controller
             $data['loggedin'] = false;
         }
 
-        $this->form_validation->set_rules('categorianame', 'nom de la categoria', 'required');
+        $this->form_validation->set_rules('busqueda', 'text per buscar', 'required');
         $data['title']= "Buscador de recursos";
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
 
+        $data['totsTags']= $this->model_principal->obtenir_tots_tags();
+
         if ($this->form_validation->run() === TRUE){
-            $categorianame = $this->input->post('categorianame');
-            if ($this->model_principal->insert_categoria($categorianame)){
-                return redirect(base_url("administracio_categories"));
+
+
+            if($this->input->post('tagBuscar') != NULL){
+                $busqueda = htmlspecialchars($this->input->post('busqueda'));
+                $tagBuscar= $this->input->post('tagBuscar');
+                
+                $data['resultatBusqueda']= $this->model_buscador->buscar_recurs_avancat($busqueda,$tagBuscar);
+
+                foreach ($data['resultatBusqueda'] as $rec){
+                    $data['rec_categoria'][$rec->id]= $this->model_principal->category_name($rec->categoria)[0]->nom;
+                    $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+                }
+            }else{
+                $busqueda = htmlspecialchars($this->input->post('busqueda'));
+                
+                $data['resultatBusqueda']= $this->model_buscador->buscar_recurs($busqueda);
+
+                foreach ($data['resultatBusqueda'] as $rec){
+                    $data['rec_categoria'][$rec->id]= $this->model_principal->category_name($rec->categoria)[0]->nom;
+                    $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+                }
             }
-            else{
-                return redirect(base_url("administracio_categories"));
-            }
+
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('buscador', $data);
+            $this->load->view('templates/footer', $data);
         }
         else{
             $this->load->view('templates/header', $data);

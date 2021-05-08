@@ -6,17 +6,72 @@
 <span class="text-danger"><?php echo validation_errors(); ?></span>
 
     
-    
-<form action="<?php echo base_url('administracio_tags/crear/')?>" method="POST" class="mx-auto" style="max-width: 250px">
-    <div class="row">
-        <input type="text" name="tagname" placeholder="Text per buscar" class="form-control text-center d-inline-block col-9" required>
-        <input type="submit" name="submit" value="Buscar" class="btn btn-primary d-inline-block col-3">
-    </div>
+<?php if(!$this->input->get('buscador_avancat')){ ?>
+    <form action="<?php echo base_url('buscador')?>" method="POST" class="mx-auto" style="max-width: 250px">
+        <p class="m-0">Buscador per titol i descripcio</p>
+        <div class="row">
+            <input type="text" name="busqueda" placeholder="Text per buscar" class="form-control text-center d-inline-block col-10" required>
+            
 
-</form>
+            <button type="submit" class="btn btn-primary col-2 mb-3">
+                <i class="fas fa-search"></i>
+            </button>
+
+        </div>
+        <a href="?buscador_avancat=true">Buscador avançat</a>
+    </form>
+<?php }else{ ?>
+
+    <form action="<?php echo base_url('buscador?buscador_avancat=true')?>" method="POST" class="mx-auto" style="max-width: 250px">
+        <p class="m-0">Buscador per titol i descripcio</p>
+
+        <input type="text" name="busqueda" placeholder="Text per buscar" class="form-control text-center d-inline-block" required>
+
+        <p class="m-0 mt-2">Buscador per tags</p>
+
+
+        <select name="tagBuscar" class="form-control">
+            <?php
+
+                foreach ($totsTags as $tag){
+                    echo "<option value='".$tag->id."' selected>".$tag->tag."</option>";
+                }
+
+            ?>
+        </select>
+
+
+        <button type="submit" class="btn btn-primary form-control my-3">
+            <i class="fas fa-search"></i> Buscar
+        </button>
+
+        <a href="<?php echo base_url('buscador')?>">Buscador senzill</a>
+    </form>
+
+<?php } ?>
+
+
 
 <?php if (isset($missatge)){echo $missatge;} ?>
 <?php if (isset($messageion)){echo "<div class='text-danger'>$messageion</div>";} ?>
 
-
 </div>
+
+
+
+<?php if(isset($resultatBusqueda)){
+    foreach($resultatBusqueda as $recurs){ ?>
+    <div class="bg-light p-3 mb-2 container">
+        <div class="row text-center">
+            <div class="col-1"><p class="m-0 p-0">ID: <?php echo $recurs->id?></p></div>
+            <div class="col-2"><p class="m-0 p-0">Titol: <b><?php echo $recurs->titol?></b></p></div>
+
+            <div class="col-3"><p class="m-0 p-0">Descripcio: <b><?php echo $recurs->descripcio?></b></p></div>
+            <!-- <div class="col-3"><p class="m-0 p-0">Descripcio: <b><?php echo htmlspecialchars_decode($recurs->descripcio)?></b></p></div> -->
+            
+
+            <div class="col-3"><p class="m-0 p-0">Categoria: <b><?php echo $rec_categoria[$recurs->id]?></b></p></div>
+            <div class="col-3"><p class="m-0 p-0">Autor: <b><?php echo $rec_autor[$recurs->id]?></b></p></div>
+        </div>
+    </div>
+<?php }} ?>

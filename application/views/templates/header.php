@@ -3,6 +3,7 @@
         <title><?php echo $title; ?></title>
         <link rel="stylesheet" href="<?php echo base_url("assets/css/bootstrap.min.css")?>">
         <link rel="stylesheet" href="<?php echo base_url("assets/css/estils.css")?>">
+        <link href="<?php echo base_url("assets/fontawesome/css/all.css")?>" rel="stylesheet">
 
         <script src="<?php echo base_url("assets/js/jquery-3.5.1.min.js")?>"></script>
         <script src="<?php echo base_url("assets/js/bootstrap.min.js")?>"></script>
@@ -29,7 +30,7 @@
   <div class="navbar-collapse collapse" id="navb" style="">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)">Link 1</a>
+        <a class="nav-link" href="<?php echo base_url("buscador")?>">Buscador</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="javascript:void(0)">Link 2</a>
