@@ -37,26 +37,63 @@ class controlador_buscador  extends CI_Controller
 
         if ($this->form_validation->run() === TRUE){
 
-
             if($this->input->post('tagBuscar') != NULL){
                 $busqueda = htmlspecialchars($this->input->post('busqueda'));
                 $tagBuscar= $this->input->post('tagBuscar');
                 
-                $data['resultatBusqueda']= $this->model_buscador->buscar_recurs_avancat($busqueda,$tagBuscar);
-
-                foreach ($data['resultatBusqueda'] as $rec){
-                    $data['rec_categoria'][$rec->id]= $this->model_principal->category_name($rec->categoria)[0]->nom;
-                    $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+                if($data['resultatBusquedaTags']= $this->model_buscador->buscar_recurs_avancat($busqueda,$tagBuscar)){
+                    foreach ($data['resultatBusquedaTags'] as $rec){
+                        $data['rec_categoria'][$rec->id]= $this->model_principal->category_name($rec->categoria)[0]->nom;
+                        $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+                    }
+                }else{
+                    $data['no_resultat']= true;
                 }
-            }else{
-                $busqueda = htmlspecialchars($this->input->post('busqueda'));
+
                 
-                $data['resultatBusqueda']= $this->model_buscador->buscar_recurs($busqueda);
+            }else if($this->input->post('tagFiltre') != NULL){
 
-                foreach ($data['resultatBusqueda'] as $rec){
-                    $data['rec_categoria'][$rec->id]= $this->model_principal->category_name($rec->categoria)[0]->nom;
-                    $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+                $data['tagsFiltre']= $this->model_principal->obtenir_tots_tags();
+
+                $busqueda = htmlspecialchars($this->input->post('busqueda'));
+                $tag = htmlspecialchars($this->input->post('tagFiltre'));
+                $data['busqueda_text']= $busqueda;
+
+                if($data['resultatBusquedaTags']= $this->model_buscador->buscar_recurs_avancat($busqueda,$tag)){
+                    foreach ($data['resultatBusquedaTags'] as $rec){
+                        $data['rec_categoria'][$rec->id]= $this->model_principal->category_name($rec->categoria)[0]->nom;
+                        $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+
+                        for($i=0; $i<count($this->model_buscador->tags_recurs($rec->id)); $i++){
+                            echo $data['tags_recurs_list'][$rec->id][$i] = $this->model_buscador->tags_recurs($rec->id)[$i]->tag;
+                        }
+                    }
+                }else{
+                    $data['no_resultat']= true;
                 }
+
+
+            }else{
+
+                $data['tagsFiltre']= $this->model_principal->obtenir_tots_tags();
+
+                $busqueda = htmlspecialchars($this->input->post('busqueda'));
+                $data['busqueda_text']= $busqueda;
+
+                if($data['resultatBusqueda']= $this->model_buscador->buscar_recurs($busqueda)){
+                    foreach ($data['resultatBusqueda'] as $rec){
+                        $data['rec_categoria'][$rec->id]= $this->model_principal->category_name($rec->categoria)[0]->nom;
+                        $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+
+                        for($i=0; $i<count($this->model_buscador->tags_recurs($rec->id)); $i++){
+                            echo $data['tags_recurs_list'][$rec->id][$i] = $this->model_buscador->tags_recurs($rec->id)[$i]->tag;
+                        }
+                    }
+                }else{
+                    $data['no_resultat']= true;
+                }
+
+                
             }
 
 
