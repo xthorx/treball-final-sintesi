@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2021 a las 20:43:48
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.14
+-- Tiempo de generación: 09-05-2021 a las 04:24:44
+-- Versión del servidor: 10.4.14-MariaDB
+-- Versión de PHP: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -89,7 +89,9 @@ CREATE TABLE `login_attempts` (
 --
 
 INSERT INTO `login_attempts` (`id`, `ip_address`, `login`, `time`) VALUES
-(33, '127.0.0.1', 'admin', 1620408858);
+(34, '127.0.0.1', 'admin', 1620492086),
+(35, '127.0.0.1', 'admin', 1620492087),
+(36, '127.0.0.1', 'admin', 1620492090);
 
 -- --------------------------------------------------------
 
@@ -114,12 +116,14 @@ CREATE TABLE `recursos` (
 --
 
 INSERT INTO `recursos` (`id`, `titol`, `descripcio`, `autor`, `categoria`, `tipus_recurs`, `grup_acces`, `perfil_acces`, `privadesa`) VALUES
-(1, 'Recurs numero 1', 'Descripcio del recurs 1', 1, 3, 'video', 0, 0, 'public'),
+(1, 'Recurs numero 1wefwef', '&lt;p&gt;wef&lt;/p&gt;', 1, 1, 'video', 0, 0, 'public'),
 (2, 'ergerg', '<p>ergerg</p>', 1, 3, 'ergerg', 0, 0, 'ergerg'),
 (4, 'erverv', '<p>erberb</p>', 1, 5, 'erberb', 0, 0, 'erb'),
 (5, 'gramatica castellana', '<p>hola test</p>', 1, 9, 'erg', 0, 0, 'erg'),
-(6, 'wefwef', '<p>wefwef</p>', 1, 2, 'wefwef', 0, 0, 'wef'),
-(7, 'wefwef', '<p>wefwef</p>', 2, 11, 'wef', 0, 0, 'wef');
+(8, 'Recurs numero 122', '<p>22</p>', 2, 1, 'video', 0, 0, 'public'),
+(9, 'Recurs numero 12', '<p>2</p>', 2, 1, 'video', 0, 0, 'public'),
+(10, 'Recurs numero 122', '<p>d</p>', 2, 1, 'video', 0, 0, 'public'),
+(11, 'Hola667788', '&lt;p&gt;eswfewf&lt;/p&gt;', 2, 1, 'Vídeo', 0, 0, 'public');
 
 -- --------------------------------------------------------
 
@@ -137,8 +141,9 @@ CREATE TABLE `tags` (
 --
 
 INSERT INTO `tags` (`id`, `tag`) VALUES
-(1, 'tag de prova'),
-(2, 'tag de prova 2');
+(1, 'informatica'),
+(2, 'ordinadors'),
+(4, 'programacio');
 
 -- --------------------------------------------------------
 
@@ -151,6 +156,14 @@ CREATE TABLE `tags_recursos` (
   `id_recurs` int(11) NOT NULL,
   `id_tag` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tags_recursos`
+--
+
+INSERT INTO `tags_recursos` (`id`, `id_recurs`, `id_tag`) VALUES
+(1, 1, 4),
+(2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -205,12 +218,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, '127.0.0.1', 'administrator', '$2y$10$wSzGTByP7bCsq1Mu3fcXl.HnhlAR32KnIm/RaSPsB0lX9ym7655Pa', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1620300814, 1, 'Admin', 'istrator', 'ADMIN', '0'),
-(2, '::1', 'artur', '$2y$10$nYnPCIFIXdDa4hWP2xJWqe8FnjwbfyWGzOIXnCzH8z0s0UPvhMbm2', 'artur@test.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1620240787, 1620301207, 1, NULL, NULL, NULL, NULL),
+(1, '127.0.0.1', 'administrator', '$2y$10$wSzGTByP7bCsq1Mu3fcXl.HnhlAR32KnIm/RaSPsB0lX9ym7655Pa', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1620492976, 1, 'Admin', 'istrator', 'ADMIN', '0'),
+(2, '::1', 'artur', '$2y$10$nYnPCIFIXdDa4hWP2xJWqe8FnjwbfyWGzOIXnCzH8z0s0UPvhMbm2', 'artur@test.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1620240787, 1620507325, 1, NULL, NULL, NULL, NULL),
 (3, '::1', 'artur2', '$2y$10$FtMJsjs05AU8vr0U03K1RORuQQQgeO1L2RJq1MbRgIuOR8Zd8qCiy', 'artur@test2.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1620240949, NULL, 1, NULL, NULL, NULL, NULL),
 (4, '::1', 'test2', '$2y$10$IzExj71/AaDhSHsKfYnl8uLwdgRZoN6rzaCR1wO.p3ejp1EQAfuzu', 'erg@erg.erg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1620241053, 1620241053, 1, NULL, NULL, NULL, NULL),
 (5, '::1', 'ergerg', '$2y$10$4WcBJ9AxHW6usvLtQbfgUuXE9ZxDfkY43yt22xUjjuWFyut2.OFmq', 'ergerg#@erg.erg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1620251033, 1620251033, 1, NULL, NULL, NULL, NULL),
-(6, '::1', 'arbofa', '$2y$10$GiEntHBkMDSws7EXFRlnaeG2V8UFa7OchL7Sl3GFd6wSURw9uK47q', 'a@test.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1620411204, 1620411204, 1, 'Artur', 'Boladeres Fabregat', NULL, '644208509');
+(6, '::1', 'arbofa', '$2y$10$GiEntHBkMDSws7EXFRlnaeG2V8UFa7OchL7Sl3GFd6wSURw9uK47q', 'a@test.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1620411204, 1620411204, 1, 'Artur', 'Boladeres Fabregat', NULL, '644208509'),
+(7, '::1', 'wefwefwe3', '$2y$10$jPPEjx88rQlPdPcaYXBarORU2zWBRZHDIumvx3bRkNZ7gJPP/K8Ga', 'a.bolad23rat@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1620431929, 1620431929, 1, 'artur', 'boladeres fabregat', NULL, '234234');
 
 -- --------------------------------------------------------
 
@@ -235,7 +249,8 @@ INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
 (4, 3, 2),
 (5, 4, 2),
 (6, 5, 2),
-(7, 6, 2);
+(7, 6, 2),
+(8, 7, 2);
 
 --
 -- Índices para tablas volcadas
@@ -310,7 +325,7 @@ ALTER TABLE `users_groups`
 -- AUTO_INCREMENT de la tabla `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `groups`
@@ -322,37 +337,37 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT de la tabla `login_attempts`
 --
 ALTER TABLE `login_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `recursos`
 --
 ALTER TABLE `recursos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tags_recursos`
 --
 ALTER TABLE `tags_recursos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `users_groups`
 --
 ALTER TABLE `users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
