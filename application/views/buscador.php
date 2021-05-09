@@ -58,7 +58,7 @@
 </div>
 
 
-<?php if(isset($tagsFiltre)){ ?>
+<?php if(!$this->input->get('buscador_avancat')){if(isset($tagsFiltre)){ ?>
     <div class="container text-right mb-2">
         <h3>Filtrar per tags:</h3>
 
@@ -95,7 +95,7 @@
         
 
     </div>
-<?php } ?>
+<?php }} ?>
 
 
 
