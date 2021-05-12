@@ -7,24 +7,30 @@
 
     
     
-<form action="<?php echo base_url('recursos/editar')?>" method="POST" class="mx-auto" style="max-width: 250px">
+<form action="<?php echo base_url('recursos/editar')?>" method="POST" class="mx-auto mt-4">
 
     <input type="text" name="id" value="<?php echo $recursInfo[0]->id ?>" hidden><br>
     
-    <input type="text" name="titol" placeholder="Titol" class="form-control text-center" value="<?php echo $recursInfo[0]->titol ?>" required><br>
+    <label for="titol">Títol del recurs:</label>
+    <input type="text" name="titol" placeholder="Titol" class="form-control text-center" style="max-width: 300px; margin: 0 auto;" value="<?php echo $recursInfo[0]->titol ?>" required><br>
     
+    <label for="descripcio">Descripció del recurs:</label>
     <textarea name="descripcio" id="editor"></textarea><br>
 
     <script>
         ClassicEditor
             .create( document.querySelector( '#editor' ) )
+            .then( editor => {
+                editor.setData("<?php echo htmlspecialchars_decode($recursInfo[0]->descripcio); ?>")
+                
+            } )
             .catch( error => {
                 console.error( error );
             } );
     </script>
 
     <label for="categoria">Tria una categoria:</label>
-    <select name="categoria" class="form-control">
+    <select name="categoria" class="form-control" style="max-width: 300px; margin: 0 auto;">
 
         <?php
 
@@ -34,9 +40,21 @@
 
         ?>
     </select><br>
+
+    <style>
+
+        .ck-editor__editable {
+            min-height: 200px !important;
+        }
     
-    <input type="text" name="tipus_recurs" placeholder="Tipus de recurs" class="form-control text-center" value="<?php echo $recursInfo[0]->tipus_recurs ?>" required><br>
-    <input type="text" name="privadesa" placeholder="Privadesa" class="form-control text-center" value="<?php echo $recursInfo[0]->privadesa ?>" required><br>
+    </style>
+    
+    <label for="tipus_recurs">Tipus de recurs:</label>
+    <input type="text" name="tipus_recurs" class="form-control text-center" style="max-width: 300px; margin: 0 auto;" value="<?php echo $recursInfo[0]->tipus_recurs ?>" disabled><br>
+
+
+    <label for="tipus_recurs">Privadesa del recurs:</label>
+    <input type="text" name="privadesa" placeholder="Privadesa" class="form-control text-center" style="max-width: 300px; margin: 0 auto;" value="<?php echo $recursInfo[0]->privadesa ?>" required><br>
 
 
 

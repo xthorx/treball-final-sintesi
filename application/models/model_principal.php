@@ -53,7 +53,10 @@ class model_principal  extends CI_Model
             'privadesa'=>$privadesa
             );
         $this->db->insert('recursos',$data);
-        return true;
+
+        $sql = "SELECT LAST_INSERT_ID() AS id_inserted";
+        $query = $this->db->query($sql);
+        return $query->result();
     }
 
     public function get_tots_recursos(){

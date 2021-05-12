@@ -12,7 +12,9 @@ class controlador_principal  extends CI_Controller
         $this->load->helper('url_helper');
         $this->load->library('session');
         $this->load->library('form_validation');
+        $this->load->helper('date');
         $this->load->database();
+        
 
         $this->load->add_package_path(APPPATH.'third_party/ion_auth/');
         $this->load->library('ion_auth');
@@ -164,20 +166,76 @@ class controlador_principal  extends CI_Controller
 
         if ($this->form_validation->run() === TRUE)
 		{
-
-
             $titol = $this->input->post('titol');
             $desc = $this->input->post('descripcio');
             $cat = $this->input->post('categoria');
             $tipus = $this->input->post('tipus_recurs');
             $priv = $this->input->post('privadesa');
+                
+            if($tipus=="infografia"){
+
+                if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
+                    
+                    if (!is_dir('uploads/recurs_' . $last_inserted))
+                    {
+                        mkdir('./uploads/recurs_' . $last_inserted, 0777, true);
+                        $dir_exist = false; // dir not exist
+                    }
 
 
-			if ($this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)){
-                return redirect(base_url("recursos"));
-			}
-			else{
-			}
+                    $config = array(
+                        'upload_path' => './uploads/recurs_' . $last_inserted,
+                        'allowed_types' => 'gif|jpg|png|jpeg|pdf',
+                        'file_name' => 'infografia'
+                    );
+                    $this->load->library('upload', $config);
+                    if($this->upload->do_upload('infografia')){
+                        echo $data = array('upload_data' => $this->upload->data());
+                    }
+                    else{
+                        echo $error = array('error' => $this->upload->display_errors());
+                    }
+
+
+                    return redirect(base_url("recursos"));
+                }
+                else{
+                }
+            }
+
+            else if($tipus=="video_arxiu"){
+
+                if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
+                    
+                    if (!is_dir('uploads/recurs_' . $last_inserted))
+                    {
+                        mkdir('./uploads/recurs_' . $last_inserted, 0777, true);
+                        $dir_exist = false; // dir not exist
+                    }
+
+
+                    $config = array(
+                        'upload_path' => './uploads/recurs_' . $last_inserted,
+                        'allowed_types' => 'mp4',
+                        'file_name' => 'video_arxiu'
+                    );
+                    $this->load->library('upload', $config);
+                    if($this->upload->do_upload('video_arxiu')){
+                        echo $data = array('upload_data' => $this->upload->data());
+                    }
+                    else{
+                        echo $error = array('error' => $this->upload->display_errors());
+                    }
+
+
+                    return redirect(base_url("recursos"));
+                }
+                else{
+                }
+            }
+
+
+
 		}
 		else
 		{
@@ -265,6 +323,17 @@ class controlador_principal  extends CI_Controller
         }
 
     }    
+
+
+
+    public function recurs_veure($id){
+        print_r($data['recursInfo']= $this->model_principal->get_recurs_individual($id));
+        
+
+    }  
+
+
+
 
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

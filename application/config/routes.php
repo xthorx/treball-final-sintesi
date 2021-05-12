@@ -27,6 +27,8 @@ $route['recursos'] = 'controlador_principal/veure_recursos';
 $route['recursos/editar/(:any)'] = 'controlador_principal/editar_recursos/$1';
 $route['recursos/editar'] = 'controlador_principal/editar_recursos';
 $route['recursos/borrar/(:any)'] = 'controlador_principal/borrar_recursos/$1';
+$route['recursos/mostrar/(:any)'] = 'controlador_principal/recurs_veure/$1';
+
 
 $route['administracio_tags'] = 'controlador_principal/admin_tags';
 $route['administracio_tags/editar'] = 'controlador_principal/editar_tag_individual';
