@@ -6,8 +6,8 @@ class model_principal  extends CI_Model
     public function __construct()
     {
         parent::__construct();
-
         $this->load->database();
+
     }
 
 
@@ -132,8 +132,14 @@ class model_principal  extends CI_Model
 
 
     public function borrar_recurs($id){
+        $this->load->helper("file");
+
         echo $sql = "DELETE FROM recursos WHERE id='$id'";
         $query = $this->db->query($sql);
+
+        delete_files('./uploads/recurs_' . $id);
+        rmdir('./uploads/recurs_' . $id);
+
         return true;
     }
 
