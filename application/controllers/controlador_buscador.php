@@ -65,7 +65,7 @@ class controlador_buscador  extends CI_Controller
                         $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
 
                         for($i=0; $i<count($this->model_buscador->tags_recurs($rec->id)); $i++){
-                            echo $data['tags_recurs_list'][$rec->id][$i] = $this->model_buscador->tags_recurs($rec->id)[$i]->tag;
+                            $data['tags_recurs_list'][$rec->id][$i] = $this->model_buscador->tags_recurs($rec->id)[$i]->tag;
                         }
                     }
                 }else{
@@ -86,7 +86,7 @@ class controlador_buscador  extends CI_Controller
                         $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
 
                         for($i=0; $i<count($this->model_buscador->tags_recurs($rec->id)); $i++){
-                            echo $data['tags_recurs_list'][$rec->id][$i] = $this->model_buscador->tags_recurs($rec->id)[$i]->tag;
+                            $data['tags_recurs_list'][$rec->id][$i] = $this->model_buscador->tags_recurs($rec->id)[$i]->tag;
                         }
                     }
                 }else{

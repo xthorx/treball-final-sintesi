@@ -105,18 +105,14 @@
         echo "<div class='bg-light p-3 mb-2 container text-center'>No s'ha trobat cap resultat a la teva busqueda.</div>";
     }
     foreach($resultatBusqueda as $recurs){ ?>
+
     <div class="bg-light p-3 mb-2 container">
         <div class="row text-center">
-            <div class="col-1"><p class="m-0 p-0">ID: <?php echo $recurs->id ?></p></div>
-            <div class="col-2"><p class="m-0 p-0">Titol: <b><?php echo $recurs->titol ?></b></p></div>
-
-            <div class="col-3"><p class="m-0 p-0">Descripcio: <b><?php echo $recurs->descripcio ?></b></p></div>
-            <!-- <div class="col-3"><p class="m-0 p-0">Descripcio: <b><?php echo htmlspecialchars_decode($recurs->descripcio)?></b></p></div> -->
-            
-
-            <div class="col-2"><p class="m-0 p-0">Categoria: <b><?php echo $rec_categoria[$recurs->id] ?></b></p></div>
-            <div class="col-2"><p class="m-0 p-0">Autor: <b><?php echo $rec_autor[$recurs->id] ?></b></p></div>
-
+            <div class="col-1"><p class="m-0 p-0">ID: <?php echo $recurs->id?></p></div>
+            <div class="col-3"><p class="m-0 p-0">Titol: <b><?php echo $recurs->titol?></b></p></div>
+            <div class="col-2"><p class="m-0 p-0">Categoria: <b><?php echo $rec_categoria[$recurs->id]?></b></p></div>
+            <div class="col-2"><p class="m-0 p-0">Autor: <b><?php echo $rec_autor[$recurs->id]?></b></p></div>
+            <div class="col-2"><p class="m-0 p-0">Tipus: <b><?php echo $recurs->tipus_recurs?></b></p></div>
             <div class="col-2"><p class="m-0 p-0">Tag/s: <b><?php echo implode(',',$tags_recurs_list[$recurs->id]) ?></b></p></div>
         </div>
     </div>
@@ -131,18 +127,15 @@ if(isset($no_resultat)){
 }
 foreach($resultatBusquedaTags as $recurs){ ?>
 <div class="bg-light p-3 mb-2 container">
-    <div class="row text-center">
-        <div class="col-1"><p class="m-0 p-0">ID: <?php echo $recurs->id_recurs ?></p></div>
-        <div class="col-2"><p class="m-0 p-0">Titol: <b><?php echo $recurs->titol ?></b></p></div>
-
-        <div class="col-3"><p class="m-0 p-0">Descripcio: <b><?php echo $recurs->descripcio ?></b></p></div>
-        <!-- <div class="col-3"><p class="m-0 p-0">Descripcio: <b><?php echo htmlspecialchars_decode($recurs->descripcio)?></b></p></div> -->
-        
-
-        <div class="col-2"><p class="m-0 p-0">Categoria: <b><?php echo $rec_categoria[$recurs->id] ?></b></p></div>
-        <div class="col-2"><p class="m-0 p-0">Autor: <b><?php echo $rec_autor[$recurs->id] ?></b></p></div>
-
-        <div class="col-2"><p class="m-0 p-0">Tag/s: <b><?php echo $recurs->tag ?></b></p></div>
+<div class="bg-light p-3 mb-2 container">
+        <div class="row text-center">
+            <div class="col-1"><p class="m-0 p-0">ID: <?php echo $recurs->id?></p></div>
+            <div class="col-3"><p class="m-0 p-0">Titol: <b><?php echo $recurs->titol?></b></p></div>
+            <div class="col-2"><p class="m-0 p-0">Categoria: <b><?php echo $rec_categoria[$recurs->id]?></b></p></div>
+            <div class="col-2"><p class="m-0 p-0">Autor: <b><?php echo $rec_autor[$recurs->id]?></b></p></div>
+            <div class="col-2"><p class="m-0 p-0">Tipus: <b><?php echo $recurs->tipus_recurs?></b></p></div>
+            <div class="col-2"><p class="m-0 p-0">Tag/s: <b><?php echo $recurs->tag ?></b></p></div>
+        </div>
     </div>
 </div>
 <?php }} ?>

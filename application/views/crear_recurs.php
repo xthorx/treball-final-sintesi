@@ -54,6 +54,18 @@
 
     <div id="contingut_variable"></div><br>
 
+    <p class="mb-2">Tags del recurs:</p>
+    <div class="overflow-auto bg-light" style="max-width: 300px; margin: 0 auto; max-height: 100px">
+
+        <?php foreach($tagslist as $tag){ ?>
+
+            <label><input type="checkbox" name="check_list[]" value="<?php echo $tag->id; ?>"><?php echo $tag->tag; ?></label><br>
+
+        <?php } ?>
+
+    </div><br>
+
+
     <label for="privadesa">Privadesa del recurs:</label>
     <select name="privadesa" class="form-control" onchange="tipus_recurs_canviat()" style="max-width: 300px; margin: 0 auto;" id="tipus_recurs_selector">
         <option value='infografia'>Public</option>

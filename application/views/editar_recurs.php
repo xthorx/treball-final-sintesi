@@ -52,6 +52,18 @@
     <label for="tipus_recurs">Tipus de recurs:</label>
     <input type="text" name="tipus_recurs" class="form-control text-center" style="max-width: 300px; margin: 0 auto;" value="<?php echo $recursInfo[0]->tipus_recurs ?>" disabled><br>
 
+    <div id="contingut_variable"></div><br>
+
+    <p class="mb-2">Tags del recurs:</p>
+    <div class="overflow-auto bg-light" style="max-width: 300px; margin: 0 auto; max-height: 100px">
+
+        <?php foreach($tagslist as $tag){ ?>
+
+            <label><input type="checkbox" name="check_list[]" value="<?php echo $tag->id; ?>"><?php echo $tag->tag; ?></label><br>
+
+        <?php } ?>
+
+    </div><br>
 
     <label for="tipus_recurs">Privadesa del recurs:</label>
     <input type="text" name="privadesa" placeholder="Privadesa" class="form-control text-center" style="max-width: 300px; margin: 0 auto;" value="<?php echo $recursInfo[0]->privadesa ?>" required><br>

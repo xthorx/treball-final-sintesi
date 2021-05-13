@@ -162,6 +162,8 @@ class controlador_principal  extends CI_Controller
         $this->form_validation->set_rules('tipus_recurs', 'tipus de recurs', 'required');
         $this->form_validation->set_rules('privadesa', 'privadesa', 'required');
 
+        $data['tagslist']= $this->model_principal->obtenir_tots_tags();
+
 
 
         if ($this->form_validation->run() === TRUE)
@@ -171,7 +173,8 @@ class controlador_principal  extends CI_Controller
             $cat = $this->input->post('categoria');
             $tipus = $this->input->post('tipus_recurs');
             $priv = $this->input->post('privadesa');
-                
+
+
             if($tipus=="infografia"){
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
@@ -189,12 +192,15 @@ class controlador_principal  extends CI_Controller
                         'file_name' => 'infografia'
                     );
                     $this->load->library('upload', $config);
-                    if($this->upload->do_upload('infografia')){
-                        echo $data = array('upload_data' => $this->upload->data());
+                    $this->upload->do_upload('infografia');
+
+
+                    if(!empty($this->input->post('check_list'))) {
+                        foreach($this->input->post('check_list') as $tag) {
+                            $this->model_principal->set_recurs_tag($last_inserted,$tag);
+                        }
                     }
-                    else{
-                        echo $error = array('error' => $this->upload->display_errors());
-                    }
+
 
 
                     return redirect(base_url("recursos"));
@@ -221,10 +227,10 @@ class controlador_principal  extends CI_Controller
                     );
                     $this->load->library('upload', $config);
                     if($this->upload->do_upload('video_arxiu')){
-                        echo $data = array('upload_data' => $this->upload->data());
+                        $data = array('upload_data' => $this->upload->data());
                     }
                     else{
-                        echo $error = array('error' => $this->upload->display_errors());
+                        $error = array('error' => $this->upload->display_errors());
                     }
 
 
@@ -241,7 +247,6 @@ class controlador_principal  extends CI_Controller
 		{
 
             $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
-
 
 			$this->load->view('templates/header', $data);
             $this->load->view('crear_recurs', $data);
@@ -272,6 +277,7 @@ class controlador_principal  extends CI_Controller
         $this->form_validation->set_rules('tipus_recurs', 'tipus de recurs', 'required');
         $this->form_validation->set_rules('privadesa', 'privadesa', 'required');
 
+        $data['tagslist']= $this->model_principal->obtenir_tots_tags();
 
         if($id==NULL){
             if ($this->form_validation->run() === TRUE)
