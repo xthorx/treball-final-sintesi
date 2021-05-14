@@ -192,7 +192,19 @@ class controlador_principal  extends CI_Controller
                         'file_name' => 'infografia'
                     );
                     $this->load->library('upload', $config);
-                    $this->upload->do_upload('infografia');
+
+                    if($this->upload->do_upload('infografia')){
+                        $uploaded_data = array('upload_data' => $this->upload->data());
+
+                        $file_nameuploaded = $uploaded_data['upload_data']['file_name'];
+
+                        $this->model_principal->set_filename_recurs($last_inserted,$file_nameuploaded);
+                    }
+
+                    
+
+                    $upload_data = $this->upload->data(); //Returns array of containing all of the data related to the file you uploaded.
+                    $file_name = $upload_data['file_name'];
 
 
                     if(!empty($this->input->post('check_list'))) {
@@ -226,14 +238,16 @@ class controlador_principal  extends CI_Controller
                         'file_name' => 'video_arxiu'
                     );
                     $this->load->library('upload', $config);
+
                     if($this->upload->do_upload('video_arxiu')){
-                        $data = array('upload_data' => $this->upload->data());
-                    }
-                    else{
-                        $error = array('error' => $this->upload->display_errors());
+                        $uploaded_data = array('upload_data' => $this->upload->data());
+
+                        $file_nameuploaded = $uploaded_data['upload_data']['file_name'];
+
+                        $this->model_principal->set_filename_recurs($last_inserted,$file_nameuploaded);
                     }
 
-
+                    die();
                     return redirect(base_url("recursos"));
                 }
                 else{
@@ -333,8 +347,37 @@ class controlador_principal  extends CI_Controller
 
 
     public function recurs_veure($id){
-        print_r($data['recursInfo']= $this->model_principal->get_recurs_individual($id));
-        
+
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $data['loggedin'] = false;
+            // $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            // return redirect(base_url("login"));
+            // die();
+        }
+
+        $data['title'] = 'Editar recurs';
+        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+
+
+        if($id != NULL){
+            $data['inforecurs']= $this->model_principal->get_recurs_individual($id)[0];
+            $data['categoriarecurs']= $this->model_principal->get_recurs_individual($id)[0];
+            $data['tagsrecurs']= $this->model_principal->get_recurs_individual($id)[0];
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('veure_recurs', $data);
+            $this->load->view('templates/footer', $data);
+
+        }else{
+            return redirect(base_url());
+        }
+
+
+
 
     }  
 
@@ -602,6 +645,8 @@ class controlador_principal  extends CI_Controller
             }
         }
     }
+
+
 
 
     

@@ -171,5 +171,16 @@ class model_principal  extends CI_Model
     }
 
 
+    public function set_filename_recurs($id,$filename){
+        
+        $sql = "UPDATE recursos SET arxiu_name='$filename' WHERE id='$id'";
+        $query = $this->db->query($sql);
+        return true;
+
+
+    }
+
+
+
     
 }

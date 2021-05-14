@@ -59,7 +59,7 @@
 
         <?php foreach($tagslist as $tag){ ?>
 
-            <label><input type="checkbox" name="check_list[]" value="<?php echo $tag->id; ?>"><?php echo $tag->tag; ?></label><br>
+            <label><input type="checkbox" name="check_list[]" value="<?php echo $tag->id; ?>"> <?php echo $tag->tag; ?></label><br>
 
         <?php } ?>
 

@@ -19,7 +19,7 @@
     <div class="bg-light p-3 mb-2 container">
         <div class="row text-center">
             <div class="col-1"><p class="m-0 p-0">ID: <?php echo $recurs->id?></p></div>
-            <div class="col-2"><p class="m-0 p-0">Titol: <b><?php echo $recurs->titol?></b></p></div>
+            <div class="col-2"><p class="m-0 p-0">Titol: <b><a href="<?php echo base_url("/recursos/mostrar/" . $recurs->id)?>"><?php echo $recurs->titol?></a></b></p></div>
             <div class="col-2"><p class="m-0 p-0">Categoria: <b><?php echo $rec_categoria[$recurs->id]?></b></p></div>
             <div class="col-2"><p class="m-0 p-0">Autor: <b><?php echo $rec_autor[$recurs->id]?></b></p></div>
             <div class="col-2"><p class="m-0 p-0">Tipus: <b><?php echo $recurs->tipus_recurs?></b></p></div>

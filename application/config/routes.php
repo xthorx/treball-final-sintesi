@@ -50,6 +50,8 @@ $route['buscador'] = 'controlador_buscador/buscar_titol_desc';
 
 
 
+
+
 $route['api'] = 'news_api/index';
 
 
