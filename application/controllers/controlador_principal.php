@@ -14,6 +14,7 @@ class controlador_principal  extends CI_Controller
         $this->load->library('session');
         $this->load->library('form_validation');
         $this->load->helper('date');
+        $this->load->helper('cookie');
         $this->load->database();
         
 
@@ -252,6 +253,50 @@ class controlador_principal  extends CI_Controller
                     return redirect(base_url("recursos"));
                 }
                 else{
+                }
+            }else if("pissarra"){
+
+                if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
+                    
+                    if (!is_dir('uploads/recurs_' . $last_inserted))
+                    {
+                        mkdir('./uploads/recurs_' . $last_inserted, 0777, true);
+                        $dir_exist = false; // dir not exist
+                    }
+
+
+                    $config = array(
+                        'upload_path' => './uploads/recurs_' . $last_inserted,
+                        // 'allowed_types' => 'png',
+                        'file_name' => 'pissarra'
+                    );
+                    $this->load->library('upload', $config);
+
+                    if($this->upload->do_upload('pissarra')){
+                        $uploaded_data = array('upload_data' => $this->upload->data());
+
+                        $file_nameuploaded = $uploaded_data['upload_data']['file_name'];
+
+                        $this->model_principal->set_filename_recurs($last_inserted,$file_nameuploaded);
+                    }
+
+                    die();
+                    return redirect(base_url("recursos"));
+                }
+                else{
+                }
+
+
+
+
+
+
+
+                $imgBase64= $this->input->cookie('imageBase64Pissarra', TRUE);
+                delete_cookie('imageBase64Pissarra');
+
+                if($imgBase64 != null){
+                    file_put_contents("././uploads/pissarra.png", file_get_contents($imgBase64));
                 }
             }
 
@@ -651,6 +696,10 @@ class controlador_principal  extends CI_Controller
     }
 
     public function pissarra(){
+
+        
+
+
 
         $this->load->view('pissarra');
 

@@ -63,6 +63,13 @@
                 buttonElegirTipus.setAttribute("class", "btn btn-warning");
                 buttonElegirTipus.addEventListener("click", this.clearCanvas.bind(this));
                 divControllers.appendChild(buttonElegirTipus);
+
+
+                var buttonElegirTipus = document.createElement("button");
+                buttonElegirTipus.appendChild(document.createTextNode("Guardar"));
+                buttonElegirTipus.setAttribute("class", "btn btn-primary");
+                buttonElegirTipus.addEventListener("click", this.canvasToImage.bind(this));
+                divControllers.appendChild(buttonElegirTipus);
                 
                 
                 document.body.appendChild(divControllers);
@@ -318,6 +325,34 @@
                 ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
                 
             }
+
+
+            // saveCanvas(){
+            //     var myImage = this.canvasElement.toDataURL("image/png");
+            //     console.log(myImage);
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "",
+            //         data: { 
+            //             imgBase64: myImage
+            //         }
+            //     }).done(function(o) {
+            //         console.log(o);
+            //     });
+            // }
+            
+
+            canvasToImage(){
+
+                var myImage = this.canvasElement.toDataURL("image/png");
+
+                document.body.innerHTML = "<img src='"+ myImage +"' class='border' id='imatgeCanvas'>";
+            }
+
+
+
+
+
             
 
         }

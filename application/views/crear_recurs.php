@@ -99,12 +99,19 @@ function tipus_recurs_canviat(){
 
     }else if(document.getElementById("tipus_recurs_selector").value=="pissarra"){
 
-        document.getElementById("contingut_variable").innerHTML= "<iframe class='w-100' style='height: 400px;' frameBorder='0' scrolling='no' src='<?php echo base_url("pissarra")?>' title='Pissarra Digital'>";
-
+        document.getElementById("contingut_variable").innerHTML= "<iframe id='framePissarra' class='w-100' style='height: 400px;' frameBorder='0' scrolling='no' src='<?php echo base_url("pissarra")?>' title='Pissarra Digital'>";
+        document.getElementById("contingut_variable").innerHTML += "<span onclick='guardarVideoiFrame()'>Guardar</span>";
 
     }else{alert("Tipus de recurs no vàlid.");location.reload();}
+}
 
+function guardarVideoiFrame(){
+    console.log("aaaa");
 
+    var imgBase64= document.getElementById('framePissarra').contentWindow.document.getElementById('imatgeCanvas').src;
+    document.cookie = "imageBase64Pissarra=" + imgBase64;
+
+    document.getElementById("contingut_variable").innerHTML = "<img src='"+ imgBase64 +"'><input type='text' name='pissarra' value='"+ imgBase64 +"' hidden>";
 
 }
 
