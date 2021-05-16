@@ -45,6 +45,7 @@ $route['administracio_categories/borrar/(:any)'] = 'controlador_principal/borrar
 
 
 $route['buscador'] = 'controlador_buscador/buscar_titol_desc';
+$route['pissarra'] = 'controlador_principal/pissarra';
 
 
 

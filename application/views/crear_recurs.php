@@ -99,6 +99,9 @@ function tipus_recurs_canviat(){
 
     }else if(document.getElementById("tipus_recurs_selector").value=="pissarra"){
 
+        document.getElementById("contingut_variable").innerHTML= "<iframe class='w-100' style='height: 400px;' frameBorder='0' scrolling='no' src='<?php echo base_url("pissarra")?>' title='Pissarra Digital'>";
+
+
     }else{alert("Tipus de recurs no vàlid.");location.reload();}
 
 

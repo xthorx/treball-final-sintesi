@@ -9,6 +9,7 @@ class controlador_principal  extends CI_Controller
     {
         parent::__construct();
         $this->load->model('model_principal');
+        $this->load->model('model_buscador');
         $this->load->helper('url_helper');
         $this->load->library('session');
         $this->load->library('form_validation');
@@ -348,6 +349,8 @@ class controlador_principal  extends CI_Controller
 
     public function recurs_veure($id){
 
+        
+
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -365,8 +368,9 @@ class controlador_principal  extends CI_Controller
 
         if($id != NULL){
             $data['inforecurs']= $this->model_principal->get_recurs_individual($id)[0];
-            $data['categoriarecurs']= $this->model_principal->get_recurs_individual($id)[0];
-            $data['tagsrecurs']= $this->model_principal->get_recurs_individual($id)[0];
+            $data['categoriarecurs']= $this->model_principal->get_categoria_recurs($id);
+            $data['tagsrecurs']= $this->model_buscador->tags_recurs($id);
+
 
             $this->load->view('templates/header', $data);
             $this->load->view('veure_recurs', $data);
@@ -644,6 +648,12 @@ class controlador_principal  extends CI_Controller
                 return redirect(base_url("administracio_categories"));
             }
         }
+    }
+
+    public function pissarra(){
+
+        $this->load->view('pissarra');
+
     }
 
 

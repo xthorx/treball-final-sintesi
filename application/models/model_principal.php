@@ -108,11 +108,11 @@ class model_principal  extends CI_Model
         return true;
     }
 
-    public function comprovar_tag_recurs($idrecurs,$idtag){
-        $sql = "INSERT INTO tags_recursos (id_recurs, id_tag) VALUES ($idrecurs, $idtag);";
-        $query = $this->db->query($sql);
-        return true;
-    }
+    // public function comprovar_tag_recurs($idrecurs,$idtag){
+    //     $sql = "INSERT INTO tags_recursos (id_recurs, id_tag) VALUES ($idrecurs, $idtag);";
+    //     $query = $this->db->query($sql);
+    //     return true;
+    // }
 
 
     
@@ -176,6 +176,21 @@ class model_principal  extends CI_Model
         $sql = "UPDATE recursos SET arxiu_name='$filename' WHERE id='$id'";
         $query = $this->db->query($sql);
         return true;
+
+
+    }
+
+    public function get_categoria_recurs($id){
+        
+        $sql = "SELECT categoria FROM recursos WHERE id=$id";
+        $query = $this->db->query($sql);
+
+        $categoriaid= $query->result()[0]->categoria;
+
+        $sql = "SELECT nom FROM categories WHERE id=$categoriaid";
+        $query = $this->db->query($sql);
+
+        return $query->result()[0]->nom;
 
 
     }
