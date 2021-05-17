@@ -326,20 +326,7 @@
                 
             }
 
-
-            // saveCanvas(){
-            //     var myImage = this.canvasElement.toDataURL("image/png");
-            //     console.log(myImage);
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "",
-            //         data: { 
-            //             imgBase64: myImage
-            //         }
-            //     }).done(function(o) {
-            //         console.log(o);
-            //     });
-            // }
+            
             
 
             canvasToImage(){

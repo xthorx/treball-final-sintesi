@@ -173,7 +173,7 @@ class controlador_principal  extends CI_Controller
             $titol = $this->input->post('titol');
             $desc = $this->input->post('descripcio');
             $cat = $this->input->post('categoria');
-            $tipus = $this->input->post('tipus_recurs');
+            echo $tipus = $this->input->post('tipus_recurs');
             $priv = $this->input->post('privadesa');
 
 
@@ -221,9 +221,7 @@ class controlador_principal  extends CI_Controller
                 }
                 else{
                 }
-            }
-
-            else if($tipus=="video_arxiu"){
+            }else if($tipus=="video_arxiu"){
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
                     
@@ -249,12 +247,37 @@ class controlador_principal  extends CI_Controller
                         $this->model_principal->set_filename_recurs($last_inserted,$file_nameuploaded);
                     }
 
-                    die();
+                    if(!empty($this->input->post('check_list'))) {
+                        foreach($this->input->post('check_list') as $tag) {
+                            $this->model_principal->set_recurs_tag($last_inserted,$tag);
+                        }
+                    }
+
                     return redirect(base_url("recursos"));
                 }
                 else{
                 }
-            }else if("pissarra"){
+            }else if($tipus=="video_youtube"){
+
+
+                $videoYT = $this->input->post('video_youtube');
+
+                $last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted;
+                $this->model_principal->set_videoyt_recurs($last_inserted,$videoYT);
+
+
+                if(!empty($this->input->post('check_list'))) {
+                    foreach($this->input->post('check_list') as $tag) {
+                        $this->model_principal->set_recurs_tag($last_inserted,$tag);
+                    }
+                }
+
+
+
+                return redirect(base_url("recursos"));
+
+
+            }else if($tipus=="video_arxiu"){
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
                     
@@ -265,39 +288,51 @@ class controlador_principal  extends CI_Controller
                     }
 
 
-                    $config = array(
-                        'upload_path' => './uploads/recurs_' . $last_inserted,
-                        // 'allowed_types' => 'png',
-                        'file_name' => 'pissarra'
-                    );
-                    $this->load->library('upload', $config);
+                    file_put_contents('./uploads/recurs_' . $last_inserted . '/pissarra.png', file_get_contents($this->input->post('pissarra')));
 
-                    if($this->upload->do_upload('pissarra')){
-                        $uploaded_data = array('upload_data' => $this->upload->data());
+                    $this->model_principal->set_filename_recurs($last_inserted,"pissarra.png");
 
-                        $file_nameuploaded = $uploaded_data['upload_data']['file_name'];
-
-                        $this->model_principal->set_filename_recurs($last_inserted,$file_nameuploaded);
+                    if(!empty($this->input->post('check_list'))) {
+                        foreach($this->input->post('check_list') as $tag) {
+                            $this->model_principal->set_recurs_tag($last_inserted,$tag);
+                        }
                     }
 
-                    die();
+                    // $config = array(
+                    //     'upload_path' => './uploads/recurs_' . $last_inserted,
+                    //     // 'allowed_types' => 'png',
+                    //     'file_name' => 'pissarra'
+                    // );
+                    // $this->load->library('upload', $config);
+
+                    // echo "PISSARRA POST: " .$this->input->post('pissarra');
+
+                    // $pissarraPostBase64 = preg_replace('#data:image/[^;]+;base64,#', '', $this->input->post('pissarra'));
+
+                    // // echo "PISSARRA POST: " .$pissarraPostBase64;
+
+
+
+                    // $imgPissarra = imagecreatefromstring(base64_decode($pissarraPostBase64));
+
+                    // // $this->input->post('pissarra')= $imgPissarra;
+                    // $_POST['pissarra'] = $imgPissarra;
+
+                    // echo "PISSARRA POST: " .$this->input->post('pissarra');
+
+                    // if($this->upload->do_upload('pissarra')){
+                    //     $uploaded_data = array('upload_data' => $this->upload->data());
+
+                    //     $file_nameuploaded = $uploaded_data['upload_data']['file_name'];
+
+                    //     $this->model_principal->set_filename_recurs($last_inserted,$file_nameuploaded);
+                    // }
+
                     return redirect(base_url("recursos"));
                 }
                 else{
                 }
 
-
-
-
-
-
-
-                $imgBase64= $this->input->cookie('imageBase64Pissarra', TRUE);
-                delete_cookie('imageBase64Pissarra');
-
-                if($imgBase64 != null){
-                    file_put_contents("././uploads/pissarra.png", file_get_contents($imgBase64));
-                }
             }
 
 

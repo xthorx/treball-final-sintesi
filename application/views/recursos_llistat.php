@@ -25,8 +25,29 @@
             <div class="col-2"><p class="m-0 p-0">Tipus: <b><?php echo $recurs->tipus_recurs?></b></p></div>
             <div class="col-2">
                 <a href="<?php echo base_url("/recursos/editar/" . $recurs->id)?>" class="btn btn-primary">Editar</a>
-                <a href="<?php echo base_url("/recursos/borrar/" . $recurs->id)?>" class="btn btn-danger">Borrar</a>
+                <button class="btn btn-danger" onclick="borrarRecurs('<?php echo $recurs->id?>')">Borrar</button>
+                <!-- <a href="<?php //echo base_url("/recursos/borrar/" . $recurs->id)?>" class="btn btn-danger">Borrar</a> -->
+                <!-- <a href="<?php //echo base_url("/recursos/borrar/" . $recurs->id)?>" class="btn btn-danger">Borrar</a> -->
             </div>
         </div>
     </div>
 <?php } ?>
+
+
+
+<script>
+
+function borrarRecurs(id){
+    $.ajax({
+        type:"POST",
+        url:"<?php echo base_url("/recursos/borrar/")?>" + id,
+        success:function(datos){
+            console.log(datos);
+            console.log("fet");
+    }})
+}
+
+
+
+
+</script>

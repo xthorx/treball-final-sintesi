@@ -151,8 +151,14 @@ class model_principal  extends CI_Model
         $sql = "DELETE FROM recursos WHERE id='$id'";
         $query = $this->db->query($sql);
 
+        $sql = "DELETE FROM tags_recursos WHERE id_recurs='$id'";
+        $query = $this->db->query($sql);
+
         delete_files('./uploads/recurs_' . $id);
+
+        rmdir('./uploads/recurs_' . $id . '/fitxers');
         rmdir('./uploads/recurs_' . $id);
+        
 
         return true;
     }
@@ -172,12 +178,15 @@ class model_principal  extends CI_Model
 
 
     public function set_filename_recurs($id,$filename){
-        
         $sql = "UPDATE recursos SET arxiu_name='$filename' WHERE id='$id'";
         $query = $this->db->query($sql);
         return true;
+    }
 
-
+    public function set_videoyt_recurs($id,$videoyt){
+        $sql = "UPDATE recursos SET video_youtube='$videoyt' WHERE id='$id'";
+        $query = $this->db->query($sql);
+        return true;
     }
 
     public function get_categoria_recurs($id){
