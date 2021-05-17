@@ -55,7 +55,7 @@
     <div id="contingut_variable"></div><br>
 
     <p class="mb-2">Tags del recurs:</p>
-    <div class="overflow-auto bg-light" style="max-width: 300px; margin: 0 auto; max-height: 100px">
+    <div class="overflow-auto bg-light" style="max-width: 300px; margin: 0 auto; max-height: 200px">
 
         <?php foreach($tagslist as $tag){ ?>
 

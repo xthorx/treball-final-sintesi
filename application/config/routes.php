@@ -49,6 +49,10 @@ $route['pissarra'] = 'controlador_principal/pissarra';
 
 
 
+$route['admin/usuaris'] = 'controlador_administrador/usuaris_administracio';
+
+
+
 
 
 

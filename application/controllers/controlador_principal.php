@@ -277,7 +277,7 @@ class controlador_principal  extends CI_Controller
                 return redirect(base_url("recursos"));
 
 
-            }else if($tipus=="video_arxiu"){
+            }else if($tipus=="pissarra"){
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
                     

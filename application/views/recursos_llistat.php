@@ -16,7 +16,7 @@
 
 
 <?php foreach($recursos_categoria as $recurs){ ?>
-    <div class="bg-light p-3 mb-2 container">
+    <div class="bg-light p-3 mb-2 container" id="recurs<?php echo $recurs->id ?>">
         <div class="row text-center">
             <div class="col-1"><p class="m-0 p-0">ID: <?php echo $recurs->id?></p></div>
             <div class="col-2"><p class="m-0 p-0">Titol: <b><a href="<?php echo base_url("/recursos/mostrar/" . $recurs->id)?>"><?php echo $recurs->titol?></a></b></p></div>
@@ -38,12 +38,15 @@
 <script>
 
 function borrarRecurs(id){
+
+    var myobj = document.getElementById("recurs" + id);
+    myobj.remove();
+
     $.ajax({
         type:"POST",
         url:"<?php echo base_url("/recursos/borrar/")?>" + id,
-        success:function(datos){
-            console.log(datos);
-            console.log("fet");
+        success:function(response){
+            // console.log("borrat");
     }})
 }
 
