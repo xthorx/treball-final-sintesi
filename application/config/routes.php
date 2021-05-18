@@ -50,6 +50,11 @@ $route['pissarra'] = 'controlador_principal/pissarra';
 
 
 $route['admin/usuaris'] = 'controlador_administrador/usuaris_administracio';
+$route['perfil'] = 'controlador_administrador/editar_perfil';
+$route['contrasenya'] = 'controlador_administrador/canviar_contrasenya';
+$route['contrasenya_admin'] = 'controlador_administrador/canviar_contrasenya_admin';
+$route['contrasenya_admin/(:any)'] = 'controlador_administrador/canviar_contrasenya_admin/$1';
+$route['borrar_usuari/(:any)'] = 'controlador_administrador/borrar_usuari/$1';
 
 
 

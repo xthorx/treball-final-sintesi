@@ -33,8 +33,14 @@
                     <td id="lname<?php echo $user->id ?>"><?php echo $user->last_name ?></td>
                     <td id="phone<?php echo $user->id ?>"><?php echo $user->phone ?></td>
                     <td>
-                        <span id="editarButton<?php echo $user->id ?>"><button class="btn btn-primary" type="button" id="editar<?php echo $user->id ?>" onclick="editarCasella(<?php echo $user->id ?>)">Editar</button></span>
-                        <button class="btn btn-danger" type="button" id="borrar<?php echo $user->id ?>">Borrar</button>
+                    <?php if($user->id != 1){ ?>
+                        <span id="editarButton<?php echo $user->id ?>"><button class="btn btn-primary" type="button" id="editar<?php echo $user->id ?>" onclick="editarCasella(<?php echo $user->id ?>)"><i class="fas fa-edit"></i></button></span>
+                        <a href="<?php echo base_url("borrar_usuari/" . $user->id) ?>" class="btn btn-danger" type="button" id="borrar<?php echo $user->id ?>"><i class="fas fa-trash-alt"></i></a>
+                        <a href="<?php echo base_url("contrasenya_admin/" . $user->id) ?>" class="btn btn-secondary" id="borrar<?php echo $user->id ?>"><i class="fas fa-key"></i></a>
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url("perfil") ?>" class="btn btn-primary" id="borrar<?php echo $user->id ?>"><i class="fas fa-edit"></i></a>
+                        <a href="<?php echo base_url("contrasenya_admin/" . $user->id) ?>" class="btn btn-secondary" id="borrar<?php echo $user->id ?>"><i class="fas fa-key"></i></a>
+                        <?php } ?>
                     </td>
                 </tr>
             <?php } ?>
@@ -74,7 +80,7 @@
                 inputToText(edicioCasella);
             }
 
-            document.getElementById("user" + id).innerHTML= "<input type='text' name='inputuser' id='inputuser"+id+"' class='form-control' onfocus='activarFormulari("+id+")' value='"+ document.getElementById("user" + id).innerHTML +"'>";
+            // document.getElementById("user" + id).innerHTML= "<input type='text' name='inputuser' id='inputuser"+id+"' class='form-control' onfocus='activarFormulari("+id+")' value='"+ document.getElementById("user" + id).innerHTML +"'>";
             document.getElementById("email" + id).innerHTML= "<input type='text' name='inputemail' id='inputemail"+id+"' class='form-control' onfocus='activarFormulari("+id+")' value='"+ document.getElementById("email" + id).innerHTML +"'>";
             
             groupID= document.getElementById("groupHidden" + id).innerHTML;
@@ -106,9 +112,9 @@
 
     function inputToText(id){
 
-        document.getElementById("user" + id).innerHTML=document.getElementById("inputuser" + id).value;
+        // document.getElementById("user" + id).innerHTML=document.getElementById("inputuser" + id).value;
         document.getElementById("email" + id).innerHTML=document.getElementById("inputemail" + id).value;
-        document.getElementById("desc" + id).innerHTML=document.getElementById("inputdesc" + id).value + '<span id="groupHidden'+id+'" hidden>'+groupID+'</span>';
+        document.getElementById("desc" + id).innerHTML=document.getElementById("opcio" + groupID).innerHTML + '<span id="groupHidden'+id+'" hidden>'+groupID+'</span>';
         document.getElementById("act" + id).innerHTML=document.getElementById("inputact" + id).value;
         document.getElementById("fname" + id).innerHTML=document.getElementById("inputfname" + id).value;
         document.getElementById("lname" + id).innerHTML=document.getElementById("inputlname" + id).value;
@@ -121,7 +127,7 @@
     function activarFormulari(id){
 
 
-        document.getElementById("inputuser" + id).value;
+        // document.getElementById("inputuser" + id).value;
         document.getElementById("inputemail" + id).value;
         document.getElementById("inputdesc" + id).value;
         document.getElementById("inputact" + id).value;
@@ -132,7 +138,7 @@
 
 
         console.log("editarButton" + id);
-        document.getElementById("editarButton" + id).innerHTML = "<button class='btn btn-success' name='submitNewEntry' type='submit' value='"+id+"'>Guardar</button>";
+        document.getElementById("editarButton" + id).innerHTML = "<button class='btn btn-success' name='submitNewEntry' type='submit' value='"+id+"'><i class='fas fa-save'></i></button>";
 
 
 

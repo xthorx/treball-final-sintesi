@@ -41,6 +41,14 @@ class model_administrador  extends CI_Model
         return $query->result();
 
     }
+
+    public function select_user_info($id){
+        $sql = "SELECT * FROM users WHERE id='$id'";
+        $query = $this->db->query($sql);
+        return $query->result();
+
+    }
+    
     
     
 }

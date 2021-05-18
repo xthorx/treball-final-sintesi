@@ -14,6 +14,7 @@
     <p><?php echo $subtitle; ?></p>
     
     <div class="mb-3">
+        <a href="perfil" class="btn btn-secondary">Editar perfil</a>
         <a href="recursos" class="btn btn-primary">Veure recursos</a>
         <a href="crear_recurs" class="btn btn-warning">Crear recurs</a>
     </div>
