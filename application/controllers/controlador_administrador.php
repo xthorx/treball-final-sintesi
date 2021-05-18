@@ -29,10 +29,28 @@ class controlador_administrador  extends CI_Controller
             $data['loggedin'] = false;
         }
 
-        $data['title'] = 'Crear un recurs nou';
+
+        if ($this->input->server('REQUEST_METHOD') === 'POST'){
+
+
+            // editar_usuari($id, $email, $active, $fname, $lname, $phone)
+
+            $this->model_administrador->editar_usuari($this->input->post('submitNewEntry'), $this->input->post('inputemail'), 
+            $this->input->post('inputact'), $this->input->post('inputfname'), $this->input->post('inputlname'), 
+            $this->input->post('inputphone'), $this->input->post('inputdesc'));
+
+
+
+            return redirect(base_url("admin/usuaris"));
+        }
+
+
+
+        $data['title'] = 'Administrador de usuaris';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
 
         $data['infoUsers']= $this->model_administrador->select_all_users();
+        $data['allGroups']= $this->model_administrador->select_groups();
 
         $this->load->view('templates/header', $data);
         $this->load->view('admin_usuaris', $data);
