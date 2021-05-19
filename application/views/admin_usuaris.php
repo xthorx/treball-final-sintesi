@@ -2,6 +2,15 @@
 <script src="<?php echo base_url("assets/js/jquery.dataTables.js")?>"></script>
 
 
+<?php if($this->session->flashdata('message') != NULL){ ?>
+    <div class="alert alert-warning alert-dismissible fade show mx-auto" role="alert" style="position:absolute; top: 10px; left:0; right:0; margin-left: auto; margin-right: auto; max-width: 500px;">
+        <?php echo $this->session->flashdata('message') ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php } ?>
+
 
 
 <h1 class="text-center"><?php echo $title; ?></h1>
@@ -18,6 +27,7 @@
                 <th>Nom</th>
                 <th>Cognoms</th>
                 <th>Tel·lèfon</th>
+                <th>Recursos</th>
                 <th>Accions</th>
             </tr>
         </thead>
@@ -32,10 +42,12 @@
                     <td id="fname<?php echo $user->id ?>"><?php echo $user->first_name ?></td>
                     <td id="lname<?php echo $user->id ?>"><?php echo $user->last_name ?></td>
                     <td id="phone<?php echo $user->id ?>"><?php echo $user->phone ?></td>
-                    <td>
+                    <td><?php echo $quantitatRecursos[$user->id][0]->recnum ?></td>
+                    <td >
                     <?php if($user->id != 1){ ?>
                         <span id="editarButton<?php echo $user->id ?>"><button class="btn btn-primary" type="button" id="editar<?php echo $user->id ?>" onclick="editarCasella(<?php echo $user->id ?>)"><i class="fas fa-edit"></i></button></span>
-                        <a href="<?php echo base_url("borrar_usuari/" . $user->id) ?>" class="btn btn-danger" type="button" id="borrar<?php echo $user->id ?>"><i class="fas fa-trash-alt"></i></a>
+                        <button type="button" onclick="borrarUsuari(<?php echo $user->id ?>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        <!-- <a href="<?php //echo base_url("borrar_usuari/" . $user->id) ?>" class="btn btn-danger" type="button" id="borrar<?php //echo $user->id ?>"><i class="fas fa-trash-alt"></i></a> -->
                         <a href="<?php echo base_url("contrasenya_admin/" . $user->id) ?>" class="btn btn-secondary" id="borrar<?php echo $user->id ?>"><i class="fas fa-key"></i></a>
                     <?php }else{ ?>
                         <a href="<?php echo base_url("perfil") ?>" class="btn btn-primary" id="borrar<?php echo $user->id ?>"><i class="fas fa-edit"></i></a>
@@ -55,6 +67,7 @@
                 <th>Nom</th>
                 <th>Cognoms</th>
                 <th>Tel·lèfon</th>
+                <th>Recursos</th>
                 <th>Accions</th>
             </tr>
         </tfoot>
@@ -93,11 +106,7 @@
                 <?php } ?>
             </select>`;
 
-
-
             document.getElementById("opcio" + groupID).selected= true;
-
-
 
             document.getElementById("act" + id).innerHTML= "<input type='text' name='inputact' id='inputact"+id+"' class='form-control' onfocus='activarFormulari("+id+")' value='"+ document.getElementById("act" + id).innerHTML +"'>";
             document.getElementById("fname" + id).innerHTML= "<input type='text' name='inputfname' id='inputfname"+id+"' class='form-control' onfocus='activarFormulari("+id+")' value='"+ document.getElementById("fname" + id).innerHTML +"'>";
@@ -105,28 +114,22 @@
             document.getElementById("phone" + id).innerHTML= "<input type='text' name='inputphone' id='inputphone"+id+"' class='form-control' onfocus='activarFormulari("+id+")' value='"+ document.getElementById("phone" + id).innerHTML +"'>";
 
             edicioCasella=id;
-
         }
 
     }
 
     function inputToText(id){
-
         // document.getElementById("user" + id).innerHTML=document.getElementById("inputuser" + id).value;
         document.getElementById("email" + id).innerHTML=document.getElementById("inputemail" + id).value;
         document.getElementById("desc" + id).innerHTML=document.getElementById("opcio" + groupID).innerHTML + '<span id="groupHidden'+id+'" hidden>'+groupID+'</span>';
         document.getElementById("act" + id).innerHTML=document.getElementById("inputact" + id).value;
         document.getElementById("fname" + id).innerHTML=document.getElementById("inputfname" + id).value;
         document.getElementById("lname" + id).innerHTML=document.getElementById("inputlname" + id).value;
-        document.getElementById("phone" + id).innerHTML=document.getElementById("inputphone" + id).value;
-
-         
+        document.getElementById("phone" + id).innerHTML=document.getElementById("inputphone" + id).value;   
     }
 
 
     function activarFormulari(id){
-
-
         // document.getElementById("inputuser" + id).value;
         document.getElementById("inputemail" + id).value;
         document.getElementById("inputdesc" + id).value;
@@ -135,21 +138,19 @@
         document.getElementById("inputlname" + id).value;
         document.getElementById("inputphone" + id).value;
 
-
-
         console.log("editarButton" + id);
         document.getElementById("editarButton" + id).innerHTML = "<button class='btn btn-success' name='submitNewEntry' type='submit' value='"+id+"'><i class='fas fa-save'></i></button>";
 
-
-
-        // document.getElementById("iniciForm").innerHTML = "<form method='POST' action=''>";
-        // document.getElementById("finalForm").innerHTML = "</form>";
-        
-
-
         edicioCasella=-1;
+    }
 
 
+    function borrarUsuari(id){
+
+        if (confirm('Are you sure you want to save this thing into the database?')){
+            window.location.href = "<?php echo base_url("borrar_usuari/") ?>"+ id;
+        }
+        
 
     }
 

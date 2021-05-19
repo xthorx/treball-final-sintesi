@@ -200,9 +200,50 @@ class model_principal  extends CI_Model
         $query = $this->db->query($sql);
 
         return $query->result()[0]->nom;
-
-
     }
+
+
+
+    // Classes
+    public function obtenir_totes_classes(){
+        $query = $this->db->get('classes');
+        return $query->result();
+    }
+
+    public function obtenir_info_classe($id){
+        $query = $this->db->get_where('classes', array('id' => $id));
+        return $query->result();
+    }
+
+    public function editar_classe($id,$classename){
+        $sql = "UPDATE classes SET nom='$classename' WHERE id='$id'";
+        $query = $this->db->query($sql);
+        return true;
+    }
+
+    public function insert_classe($nom){
+        $data = array(
+            'nom'=>$nom
+            );
+        $this->db->insert('classes',$data);
+        return true;
+    }
+
+    public function borrar_classe($id){
+        $sql = "DELETE FROM classes WHERE id='$id'";
+        $query = $this->db->query($sql);
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -107,14 +107,14 @@ class Login_controller  extends CI_Controller
 			{
 				//if the login is successful
 				//redirect them back to the home page
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
+				$this->session->set_flashdata('message', "Has iniciat la sessió correctament.");
 				return redirect(base_url());
 			}
 			else
 			{
 				// if the login was un-successful
 				// redirect them back to the login page
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
+				$this->session->set_flashdata('message', "Error de inici de sessió. " . $this->ion_auth->errors());
 				return redirect(base_url("login"));
 			}
 		}
@@ -162,32 +162,36 @@ class Login_controller  extends CI_Controller
 
         if ($this->form_validation->run() === TRUE){
 
-            $user = strtolower($this->input->post('user'));
-            $pass1 = $this->input->post('pass1');
-            $pass2 = $this->input->post('pass2');
+            $nom = $this->input->post('nom');
+            $cognoms = $this->input->post('cognoms');
+            $telf = $this->input->post('telf');
+
+            $username = strtolower($this->input->post('user'));
+            $password = $this->input->post('pass1');
             $email = strtolower($this->input->post('email'));
 
-            $nom = strtolower($this->input->post('nom'));
-            $cognoms = strtolower($this->input->post('cognoms'));
-            $telf = strtolower($this->input->post('telf'));
+            $additional_data = array(
+                'first_name' => $nom,
+                'last_name' => $cognoms,
+                'phone' => $telf
+            );
+        
+            
 
+            if($this->input->post('pass1')==$this->input->post('pass2')){
 
-            $additional_data = [
-				'first_name' => $nom,
-				'last_name' => $cognoms,
-				'phone' => $telf
-			];
-
-            if($pass1==$pass2){
-                if($this->ion_auth->register($user, $pass1, $email, $additional_data)){
-
-                    if ($this->ion_auth->login($user, $pass1)){
+                if($this->ion_auth->register($username, $password, $email, $additional_data, array('2'))){
+                    if ($this->ion_auth->login($username, $password)){
                         //if the login is successful
                         //redirect them back to the home page
-                        $this->session->set_flashdata('message', $this->ion_auth->messages());
+                        $this->session->set_flashdata('message', "Registre finalitzat correctament.");
                         return redirect(base_url());
                     }
+                }else{
+                    $this->session->set_flashdata('message', 'Error de registre.');
+                    return redirect(base_url());
                 }
+
             }else{
                 $this->session->set_flashdata('errorformulari', "contrasenyes_no_iguals");
                 return redirect(base_url("register"));

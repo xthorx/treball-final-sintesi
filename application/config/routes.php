@@ -44,12 +44,22 @@ $route['administracio_categories/editar/(:any)'] = 'controlador_principal/editar
 $route['administracio_categories/borrar/(:any)'] = 'controlador_principal/borrar_categoria/$1';
 
 
+$route['administracio_classes'] = 'controlador_principal/admin_classes';
+$route['administracio_classes/editar'] = 'controlador_principal/editar_classe_individual';
+$route['administracio_classes/crear'] = 'controlador_principal/crear_classe_individual';
+$route['administracio_classes/editar/(:any)'] = 'controlador_principal/editar_classe_individual/$1';
+$route['administracio_classes/borrar/(:any)'] = 'controlador_principal/borrar_classe/$1';
+
+
 $route['buscador'] = 'controlador_buscador/buscar_titol_desc';
 $route['pissarra'] = 'controlador_principal/pissarra';
 
 
 
 $route['admin/usuaris'] = 'controlador_administrador/usuaris_administracio';
+$route['admin/alumnes'] = 'controlador_administrador/alumnes_administracio';
+$route['admin/alumnes/(:any)'] = 'controlador_administrador/editar_alumne/$1';
+
 $route['perfil'] = 'controlador_administrador/editar_perfil';
 $route['contrasenya'] = 'controlador_administrador/canviar_contrasenya';
 $route['contrasenya_admin'] = 'controlador_administrador/canviar_contrasenya_admin';

@@ -730,14 +730,134 @@ class controlador_principal  extends CI_Controller
         }
     }
 
-    public function pissarra(){
-
-        
+    public function pissarra(){ $this->load->view('pissarra'); }
 
 
 
-        $this->load->view('pissarra');
 
+    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    // XXXXXXXXXXXX ADMINISTRACIO DE CLASSES XXXXXXXXXXXX
+    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+    public function admin_classes(){
+
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
+        }
+
+        $data['title'] = 'Administrador de classes';
+        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+        $data['classeList']= $this->model_principal->obtenir_totes_classes();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('administracio/classes', $data);
+        $this->load->view('templates/footer', $data);
+    }
+
+    public function editar_classe_individual($id=NULL){
+
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
+        }
+
+
+        if($id==NULL){
+            $this->form_validation->set_rules('classename', 'nom de la classe', 'required');
+            if ($this->form_validation->run() === TRUE){
+                $classeid = $this->input->post('classeid');
+                $classename = $this->input->post('classename');
+                if ($this->model_principal->editar_classe($classeid,$classename)){
+                    return redirect(base_url("administracio_classes"));
+                }
+                else{
+                    return redirect(base_url("administracio_classes"));
+                }
+            }
+            else{
+                $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
+                $this->load->view('templates/header', $data);
+                $this->load->view('administracio/editar_classe', $data);
+                $this->load->view('templates/footer', $data);
+            }
+        }else{
+            //HEADER LOGGEDIN VARIABLE
+            if($this->ion_auth->logged_in()){
+                $data['loggedin'] = true;
+                $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+            }else{
+                $data['loggedin'] = false;
+            }
+            $data['title'] = 'Editar classe';
+            $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+            $data['editarClasse']= $this->model_principal->obtenir_info_classe($id);
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('administracio/editar_classe', $data);
+            $this->load->view('templates/footer', $data);
+        }
+    }
+
+
+    public function crear_classe_individual(){
+
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
+        }
+
+
+        $this->form_validation->set_rules('classename', 'nom de la classe', 'required');
+        $data['title']= "Crear una classe";
+        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+
+        if ($this->form_validation->run() === TRUE){
+            $classename = $this->input->post('classename');
+            if ($this->model_principal->insert_classe($classename)){
+                return redirect(base_url("administracio_classes"));
+            }
+            else{
+                return redirect(base_url("administracio_classes"));
+            }
+        }
+        else{
+            $this->load->view('templates/header', $data);
+            $this->load->view('administracio/crear_classe', $data);
+            $this->load->view('templates/footer', $data);
+        }
+    }
+
+    public function borrar_classe($id=NULL){
+        if($id != NULL){
+            if ($this->model_principal->borrar_classe($id)){
+                return redirect(base_url("administracio_classes"));
+            }
+            else{
+                return redirect(base_url("administracio_classes"));
+            }
+        }
     }
 
 

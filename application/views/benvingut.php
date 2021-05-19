@@ -1,13 +1,12 @@
-<?php if($this->input->get('session')=="logged"){ ?>
-
-<div class='alert alert-warning alert-dismissible fade show' role='alert'>
-    Benvingut a la web, <strong><?php echo $this->session->user ?></strong>! Ja tens la sessió iniciada.
-    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-        <span aria-hidden='true'>&times;</span>
-    </button>
-</div>
-
+<?php if($this->session->flashdata('message') != NULL){ ?>
+    <div class="alert alert-warning alert-dismissible fade show mx-auto" role="alert" style="position:absolute; top: 10px; left:0; right:0; margin-left: auto; margin-right: auto; max-width: 500px;">
+        <?php echo $this->session->flashdata('message') ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 <?php } ?>
+
 
 <div class="container text-center">
     <h2><?php echo $title; ?></h2>
@@ -22,6 +21,7 @@
     <div class="mb-3">
         <a href="administracio_tags" class="btn btn-success">CRUD Tags</a>
         <a href="administracio_categories" class="btn btn-success">CRUD Categories</a>
+        <a href="administracio_classes" class="btn btn-success">CRUD Classes</a>
     </div>
 
     <!-- <div class="mb-3">

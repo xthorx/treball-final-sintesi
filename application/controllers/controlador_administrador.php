@@ -50,6 +50,11 @@ class controlador_administrador  extends CI_Controller
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
 
         $data['infoUsers']= $this->model_administrador->select_all_users();
+
+        foreach($data['infoUsers'] as $user){
+            $data['quantitatRecursos'][$user->id]= $this->model_administrador->get_recursos_amount($user->id);
+        }
+
         $data['allGroups']= $this->model_administrador->select_groups();
 
         $this->load->view('templates/header', $data);
@@ -204,12 +209,110 @@ class controlador_administrador  extends CI_Controller
 
     public function borrar_usuari($id=NULL){
 
+        // HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $data['loggedin'] = false;
+        }
 
+        if($id != 1){
+            if($this->model_administrador->get_recursos_amount($id)[0]->recnum==0){
 
+                $this->session->set_flashdata('message', "L'usuari " . $this->model_principal->autor_name($id)[0]->username . " ha sigut borrat correctament.");
+                $this->ion_auth->delete_user($id);
+                return redirect(base_url("admin/usuaris"));
+
+            }else{
+                $this->session->set_flashdata('message', "No pots borrar un usuari que tingui recursos actius dels quals sigui autor.");
+                return redirect(base_url("admin/usuaris"));
+            }
+        }else{
+            $this->session->set_flashdata('message', "T'he pillat! No pots borrar l'usuari administrador.");
+            return redirect(base_url("admin/usuaris"));
+        }
 
         
     }
 
+
+
+    public function alumnes_administracio(){
+
+        // HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $data['loggedin'] = false;
+        }
+
+
+        if ($this->input->server('REQUEST_METHOD') === 'POST'){
+
+
+            // editar_usuari($id, $email, $active, $fname, $lname, $phone)
+
+            $this->model_administrador->editar_usuari($this->input->post('submitNewEntry'), $this->input->post('inputemail'), 
+            $this->input->post('inputact'), $this->input->post('inputfname'), $this->input->post('inputlname'), 
+            $this->input->post('inputphone'), $this->input->post('inputdesc'));
+
+
+
+            return redirect(base_url("admin/alumnes"));
+        }
+
+
+
+        $data['title'] = "Administrador d'alumnes";
+        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+
+        $data['infoUsers']= $this->model_administrador->select_all_alumnes();
+
+        foreach($data['infoUsers'] as $user){
+            $data['classesAlumne'][$user->id]= $this->model_administrador->get_classes_from_alumne($user->id);
+        }
+
+        $data['allGroups']= $this->model_administrador->select_groups();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin_alumnes', $data);
+        $this->load->view('templates/footer', $data);
+
+        
+    }
+
+
+    public function editar_alumne($id= NULL){
+
+        // HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $data['loggedin'] = false;
+        }
+
+        $data['title'] = "Administrador d'alumnes";
+        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+
+
+        $data['totesClasses']= $this->model_principal->obtenir_totes_classes($id);
+        $data['classesAlumne']= $this->model_administrador->get_classes_from_alumne($id);
+        
+        
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('administracio/alumne_classes', $data);
+        $this->load->view('templates/footer', $data);
+
+        
+    }
+
+
+
+    
 
     
 
