@@ -415,7 +415,7 @@ class controlador_principal  extends CI_Controller
                 $priv = $this->input->post('privadesa');
 
 
-                if ($this->model_principal->editar_recurs($id,$titol,$desc,$cat,$tipus,$priv)){
+                if ($this->model_principal->editar_recurs($id,$titol,$desc,$cat,$priv)){
                     return redirect(base_url("recursos"));
                 }
                 else{

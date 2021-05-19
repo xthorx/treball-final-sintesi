@@ -11,13 +11,7 @@
 </head>
 <body>
 
-<?php
 
-  if(isset($this->session->user)){
-    $loggedHeader=true;
-  }
-
-?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
 
