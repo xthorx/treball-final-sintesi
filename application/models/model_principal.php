@@ -236,6 +236,12 @@ class model_principal  extends CI_Model
     }
 
 
+    public function info_usuari($id){
+        $sql = "SELECT * FROM users WHERE id='$id'";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
 
 
 

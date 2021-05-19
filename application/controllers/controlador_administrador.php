@@ -294,18 +294,63 @@ class controlador_administrador  extends CI_Controller
             $data['loggedin'] = false;
         }
 
-        $data['title'] = "Administrador d'alumnes";
-        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
-
-
-        $data['totesClasses']= $this->model_principal->obtenir_totes_classes($id);
-        $data['classesAlumne']= $this->model_administrador->get_classes_from_alumne($id);
         
-        
+        if ($this->input->server('REQUEST_METHOD') === 'POST'){
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('administracio/alumne_classes', $data);
-        $this->load->view('templates/footer', $data);
+
+            $totesClasses= $this->model_principal->obtenir_totes_classes($id);
+
+            if(!empty($this->input->post('check_list'))) {
+
+
+                foreach($totesClasses as $classeall){
+
+                    $trobat=0;
+
+                    foreach($this->input->post('check_list') as $classe) {
+
+
+                        if($classeall->id==$classe){
+                            $this->model_administrador->set_alumne_classe($id,$classe);
+
+                            $trobat++;
+                        }
+                        
+                    }
+
+                    if($trobat==0){
+                        $this->model_administrador->borrar_classe($id,$classeall->id);
+                    }
+
+
+                }
+
+
+            }else{
+                $this->model_administrador->borrar_totes_classes($id);
+            }
+
+
+            return redirect(base_url("admin/alumnes/" . $id));
+        }else{
+            $data['title'] = "Administrador d'alumnes";
+            $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+
+            $data['totesClasses']= $this->model_principal->obtenir_totes_classes();
+            $data['classesAlumne']= $this->model_administrador->get_classes_from_alumne($id);
+            $data['infoUsuari']= $this->model_principal->info_usuari($id);
+            
+            $this->load->view('templates/header', $data);
+            $this->load->view('administracio/alumne_classes', $data);
+            $this->load->view('templates/footer', $data);
+            
+
+
+
+
+        }
+
+        
 
         
     }

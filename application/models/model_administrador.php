@@ -80,6 +80,31 @@ class model_administrador  extends CI_Model
 
     }
 
+    public function set_alumne_classe($idalumne,$idclasse){
+        $sql = "SELECT count(id) as idcount  FROM alumnes_classes WHERE user_id = '$idalumne' AND classe_id = '$idclasse'";
+        $query = $this->db->query($sql);
+        $resultat= $query->result();
+
+        if($resultat[0]->idcount == 0){
+            $sql = "INSERT INTO alumnes_classes (user_id, classe_id) VALUES ($idalumne, $idclasse);";
+            $query = $this->db->query($sql);
+        }
+        return true;
+    }
+
+
+    public function borrar_totes_classes($idalumne){
+        $sql = "DELETE FROM alumnes_classes WHERE user_id = $idalumne;";
+        $query = $this->db->query($sql);
+        return true;
+    }
+
+    public function borrar_classe($idalumne, $idclasse){
+        $sql = "DELETE FROM alumnes_classes WHERE user_id='$idalumne' AND classe_id='$idclasse'";
+        $query = $this->db->query($sql);
+        return true;
+    }
+
 
     
 
