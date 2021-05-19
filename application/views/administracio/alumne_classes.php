@@ -18,11 +18,7 @@
                 if($trobat==0){ ?>
                     <label><input type="checkbox" name="check_list[]" value="<?php echo $classe->id; ?>"> <?php echo $classe->nom; ?></label><br>
                 <?php } ?>
-
                 
-
-                
-
             <?php } ?>
 
         </div><br>

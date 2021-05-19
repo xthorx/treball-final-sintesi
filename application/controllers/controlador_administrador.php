@@ -75,18 +75,34 @@ class controlador_administrador  extends CI_Controller
             $data['loggedin'] = false;
         }
 
+        $this->form_validation->set_rules('email', 'correu', 'required');
+        $this->form_validation->set_rules('nom', 'nom', 'required');
+        $this->form_validation->set_rules('cognoms', 'cognoms', 'required');
+        $this->form_validation->set_rules('telf', 'telf', 'required');
+               
+
+        if ($this->form_validation->run() == TRUE)
+        {
+
+            $this->model_administrador->editar_perfil($this->ion_auth->user()->row()->id, $this->input->post('email'),
+            $this->input->post('nom'), $this->input->post('cognoms'), $this->input->post('telf'));
+
+            return redirect(base_url("perfil"));
+
+
+        }else{
+            $data['title'] = 'Gestió del perfil';
+            $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+            $data['infoPerfil']= $this->model_administrador->select_user_info($this->ion_auth->user()->row()->id)[0];
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('perfil', $data);
+            $this->load->view('templates/footer', $data);
+
+        }
+
 
         
-
-
-        $data['title'] = 'Gestió del perfil';
-        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
-
-        $data['infoPerfil']= $this->model_administrador->select_user_info($this->ion_auth->user()->row()->id)[0];
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('perfil', $data);
-        $this->load->view('templates/footer', $data);
 
         
     }

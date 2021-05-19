@@ -106,7 +106,52 @@ class model_administrador  extends CI_Model
     }
 
 
-    
+    public function editar_perfil($id, $email, $fname, $lname, $phone){
+
+        $sql = "UPDATE users set email='$email', first_name='$fname', last_name='$lname', phone='$phone' WHERE id='$id';";
+        $query = $this->db->query($sql);
+        return true;
+
+    }
+
+
+
+
+    public function set_recurs_tag($idrecurs,$idtag){
+        echo $sql = "SELECT count(id) as idcount  FROM tags_recursos WHERE id_recurs = '$idrecurs' AND id_tag = '$idtag'";
+        $query = $this->db->query($sql);
+        $resultat= $query->result();
+
+        if($resultat[0]->idcount == 0){
+            $sql = "INSERT INTO tags_recursos (id_recurs, id_tag) VALUES ($idrecurs, $idtag);";
+            $query = $this->db->query($sql);
+        }
+        return true;
+    }
+
+
+    public function borrar_tots_tags($idrecurs){
+        echo $sql = "DELETE FROM tags_recursos WHERE id_recurs = $idrecurs;";
+        $query = $this->db->query($sql);
+        return true;
+    }
+
+    public function borrar_tag($idrecurs, $idtag){
+        echo $sql = "DELETE FROM tags_recursos WHERE id_recurs='$idrecurs' AND id_tag='$idtag'";
+        $query = $this->db->query($sql);
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     

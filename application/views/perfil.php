@@ -16,7 +16,7 @@
 
 <span class="text-danger"><?php echo validation_errors(); ?></span>
 
-<form action="<?php echo base_url('register')?>" method="POST" class="mx-auto text-center" style="max-width: 250px">
+<form action="<?php echo base_url('perfil')?>" method="POST" class="mx-auto text-center" style="max-width: 250px">
 
     <div class="border border-primary rounded text-center py-2 mb-3" style="width: 300px; margin-left: -25px">
         <input type="text" name="nom" style="max-width: 250px;" placeholder="Nom" class="form-control text-center mb-2 mx-auto" value='<?php echo $infoPerfil->first_name?>' required>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="border border-dark rounded text-center py-2 mb-3" style="width: 300px; margin-left: -25px">
-        <input type="text" name="user" style="max-width: 250px;" placeholder="Usuari" class="form-control text-center mb-2 mx-auto" value='<?php echo $infoPerfil->username?>' required>
+        <input type="text" style="max-width: 250px;" placeholder="Usuari" class="form-control text-center mb-2 mx-auto" value='<?php echo $infoPerfil->username?>' disabled>
 
         <input type="email" name="email" style="max-width: 250px;" placeholder="Correu electrònic" class="form-control text-center mx-auto" value='<?php echo $infoPerfil->email?>' required>
 

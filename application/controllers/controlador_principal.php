@@ -10,6 +10,7 @@ class controlador_principal  extends CI_Controller
         parent::__construct();
         $this->load->model('model_principal');
         $this->load->model('model_buscador');
+        $this->load->model('model_administrador');
         $this->load->helper('url_helper');
         $this->load->library('session');
         $this->load->library('form_validation');
@@ -85,8 +86,11 @@ class controlador_principal  extends CI_Controller
             $data['loggedin'] = false;
         }
 
-        $result= $this->model_principal->category_name($id);
-        $data['titleMain'] = 'Categoria: ' . $result[0]->nom;
+        $resultCategoriaName= $this->model_principal->category_name($id);
+        $data['titleMain'] = 'Categoria: ' . $resultCategoriaName[0]->nom;
+
+
+        $data['categoriaName']= $resultCategoriaName[0]->nom;
 
 
         $data['title'] = 'Benvingut a la pàgina principal';
@@ -95,10 +99,12 @@ class controlador_principal  extends CI_Controller
         $data['recursos_categoria']= $this->model_principal->get_recursos_from_categoria($id);
         
         foreach ($data['recursos_categoria'] as $rec){
-            $data['rec_categoria']= $this->model_principal->category_name($rec->categoria)[0]->nom;
-            $data['rec_autor']= $this->model_principal->autor_name($rec->autor)[0]->username;
+            // if($rec->privadesa != "public" && $rec->privadesa != "private"){
+            //     echo $data['rec_privadesa'][$rec->id]= $this->model_principal->recurs_privadesa_text($rec->privadesa)[0]->nom;
+            // }
+            
+            $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
         }
-
 
 
         $this->load->view('templates/header', $data);
@@ -342,6 +348,7 @@ class controlador_principal  extends CI_Controller
 		{
 
             $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
+            $data['classesList']= $this->model_principal->obtenir_totes_classes();
 
 			$this->load->view('templates/header', $data);
             $this->load->view('crear_recurs', $data);
@@ -366,17 +373,38 @@ class controlador_principal  extends CI_Controller
         $data['title'] = 'Editar recurs';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
 
-        $this->form_validation->set_rules('titol', 'titol', 'required');
-        $this->form_validation->set_rules('descripcio', 'descripcio', 'required');
-        $this->form_validation->set_rules('categoria', 'categoria', 'required');
-        $this->form_validation->set_rules('tipus_recurs', 'tipus de recurs', 'required');
+        $this->form_validation->set_rules('titol', 'descripcio', 'required');
+        $this->form_validation->set_rules('descripcio', 'categoria', 'required');
+        $this->form_validation->set_rules('categoria', 'tipus de recurs', 'required');
         $this->form_validation->set_rules('privadesa', 'privadesa', 'required');
 
         $data['tagslist']= $this->model_principal->obtenir_tots_tags();
 
         if($id==NULL){
+
             if ($this->form_validation->run() === TRUE)
-            {
+            {   
+                $totsTags= $this->model_principal->obtenir_tots_tags();
+
+                if(!empty($this->input->post('check_list'))) {
+
+                    foreach($totsTags as $tagall){
+                        $trobat=0;
+
+                        foreach($this->input->post('check_list') as $tag) {
+                            if($tagall->id==$tag){
+                                $this->model_administrador->set_recurs_tag($this->input->post('id'),$tag);
+                                $trobat++;
+                            }
+                        }
+
+                        if($trobat==0){
+                            $this->model_administrador->borrar_tag($this->input->post('id'),$tagall->id);
+                        }
+                    }
+                }else{
+                    $this->model_administrador->borrar_tots_tags($this->input->post('id'));
+                }
 
 
                 $id = $this->input->post('id');
@@ -403,7 +431,12 @@ class controlador_principal  extends CI_Controller
         }else{
             $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
             $data['recursInfo']= $this->model_principal->get_recurs_individual($id);
-            
+            $data['classesList']= $this->model_principal->obtenir_totes_classes();
+
+            $data['totsTags']= $this->model_principal->obtenir_tots_tags();
+            $data['tagsUsuari']= $this->model_buscador->tags_recurs($id);
+
+
 
             $this->load->view('templates/header', $data);
             $this->load->view('editar_recurs', $data);
@@ -423,14 +456,11 @@ class controlador_principal  extends CI_Controller
             }
         }
 
-    }    
-
+    }   
+    
 
 
     public function recurs_veure($id){
-
-        
-
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -447,7 +477,13 @@ class controlador_principal  extends CI_Controller
 
 
         if($id != NULL){
+
+
             $data['inforecurs']= $this->model_principal->get_recurs_individual($id)[0];
+
+            $this->recursPrivadesa_redirect($data['inforecurs']->privadesa,$data['inforecurs']->autor);
+
+
             $data['categoriarecurs']= $this->model_principal->get_categoria_recurs($id);
             $data['tagsrecurs']= $this->model_buscador->tags_recurs($id);
 
@@ -459,11 +495,50 @@ class controlador_principal  extends CI_Controller
         }else{
             return redirect(base_url());
         }
+    }
+
+
+    public function recursPrivadesa_redirect($privadesa,$autor){
+
+        // var_dump($this->ion_auth->in_group("admin"));
+
+        // die();
+
+        // Si no ets administrador
+        if(!$this->ion_auth->in_group("admin")){
+
+            if($privadesa=="public"){
+            }
+            else if($privadesa=="privat"){
+
+                if($autor != $this->ion_auth->user()->row()->id){
+
+                    $this->session->set_flashdata('message', "No tens permís per visualitzar aquest recurs.");
+                    return redirect(base_url("recursos"));
+
+                }else{
+                    
+                }
+                
+            }else{
+                $potVisualitzar= $this->model_principal->usuari_pot_visualitzar($this->ion_auth->user()->row()->id, $privadesa);
+                
+                if($potVisualitzar[0]->countid == 0){
+                    $this->session->set_flashdata('message', "No tens permís per visualitzar aquest recurs.");
+                    return redirect(base_url("recursos"));
+                }
+                
+            }
+
+        }
 
 
 
+    }
 
-    }  
+
+
+    
 
 
 

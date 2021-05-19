@@ -68,10 +68,13 @@
 
     <label for="privadesa">Privadesa del recurs:</label>
     <select name="privadesa" class="form-control" onchange="tipus_recurs_canviat()" style="max-width: 300px; margin: 0 auto;" id="tipus_recurs_selector">
-        <option value='infografia'>Public</option>
-        <option value='video_arxiu'>Privat</option>
-        <option value='video_youtube'>etc...</option>
-        <option value='pissarra'>acabar!</option>
+        <option value='public'>Public</option>
+        <option value='privat'>Privat</option>
+        <optgroup label="Classes d'alumnes">
+            <?php foreach($classesList as $classe){
+                echo "<option value='$classe->id'>$classe->nom</option>";
+            } ?>
+        </optgroup>
     </select><br>
 
 
@@ -106,7 +109,6 @@ function tipus_recurs_canviat(){
 }
 
 function guardarVideoiFrame(){
-    console.log("aaaa");
 
     var imgBase64= document.getElementById('framePissarra').contentWindow.document.getElementById('imatgeCanvas').src;
     document.cookie = "imageBase64Pissarra=" + imgBase64;

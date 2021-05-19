@@ -170,8 +170,8 @@ class model_principal  extends CI_Model
     }
 
 
-    public function editar_recurs($id,$titol,$desc,$categoria,$tipus_recurs,$privadesa){
-        $sql = "UPDATE recursos SET titol='$titol', descripcio='". htmlspecialchars(nl2br($desc), ENT_QUOTES) ."', categoria='$categoria', tipus_recurs='$tipus_recurs', privadesa='$privadesa' WHERE id='$id'";
+    public function editar_recurs($id,$titol,$desc,$categoria,$privadesa){
+        $sql = "UPDATE recursos SET titol='$titol', descripcio='". htmlspecialchars(nl2br($desc), ENT_QUOTES) ."', categoria='$categoria', privadesa='$privadesa' WHERE id='$id'";
         $query = $this->db->query($sql);
         return true;
     }
@@ -242,7 +242,21 @@ class model_principal  extends CI_Model
         return $query->result();
     }
 
+    public function usuari_pot_visualitzar($id_usuari, $privacitat){
+        $sql = "SELECT COUNT(id) as countid FROM alumnes_classes WHERE user_id='$id_usuari' AND classe_id='$privacitat'";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
 
+
+    public function recurs_privadesa_text($idclasse){
+        $sql = "SELECT nom FROM classes WHERE id='$idclasse'";
+        $query = $this->db->query($sql);
+
+        // echo $query->result();
+
+        return $query->result();
+    }
 
 
 

@@ -31,7 +31,7 @@ class model_buscador  extends CI_Model
 
     public function tags_recurs($idrecurs){
 
-        $sql = "SELECT tags.tag FROM `recursos` LEFT JOIN `tags_recursos` ON `recursos`.`id` = `tags_recursos`.`id_recurs` LEFT JOIN `tags` ON `tags_recursos`.`id_tag` = `tags`.`id` WHERE (recursos.id LIKE $idrecurs)";
+        $sql = "SELECT tags.id, tags.tag FROM `recursos` LEFT JOIN `tags_recursos` ON `recursos`.`id` = `tags_recursos`.`id_recurs` LEFT JOIN `tags` ON `tags_recursos`.`id_tag` = `tags`.`id` WHERE (recursos.id LIKE $idrecurs)";
         $query = $this->db->query($sql);
         return $query->result();
 
