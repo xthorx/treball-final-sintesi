@@ -1,0 +1,7 @@
+{
+  "name": "ionicProject1Artur",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

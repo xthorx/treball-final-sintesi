@@ -14,8 +14,7 @@ export class CocktailTabPage {
 
   constructor(private apiService: DrinkService) {
 
-    this.apiService.retrieveDrinksFromHttp("");
-    // this.apiService.retrieveDrinksFromHttp("?id=57");
+    this.apiService.retrieveDrinksFromHttp("57");
     this.apiService.drinks.subscribe(
       (originalDrinks: Drink[]) => {
         this.elements = originalDrinks;
@@ -23,5 +22,10 @@ export class CocktailTabPage {
       }
     );
   }
+
+
+  
+
+
 
 }

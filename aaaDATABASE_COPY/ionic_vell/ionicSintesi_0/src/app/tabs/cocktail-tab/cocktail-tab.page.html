@@ -12,10 +12,10 @@
         <ion-list>
             <ion-item *ngFor="let drink of elements">
 
-                <ion-card style="width: 100%;">
+                <ion-card>
                     <ion-card-header>
-                        <ion-card-subtitle>ID del recurs: {{ drink.id }}</ion-card-subtitle>
-                        <ion-card-title><a href="recurs/57">Titol: {{ drink.titol }}</a></ion-card-title>
+                        <IonCardSubtitle>ID del recurs: {{ drink.id }}</IonCardSubtitle>
+                        <ion-card-title>Titol: {{ drink.titol }}</ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
                         ID de l'autor: {{ drink.autor }}<br>

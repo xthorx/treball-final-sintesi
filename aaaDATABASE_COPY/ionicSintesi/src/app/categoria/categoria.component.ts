@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Drink } from '../../models/drink.model';
-import { DrinkService } from '../../services/drink.service';
-
+import { Drink } from '../models/drink.model';
+import { DrinkService } from '../services/drink.service';
 
 @Component({
-  selector: 'app-cocktail-tab',
-  templateUrl: './cocktail-tab.page.html',
-  styleUrls: ['./cocktail-tab.page.scss'],
+  selector: 'app-categoria',
+  templateUrl: './categoria.component.html',
+  styleUrls: ['./categoria.component.scss'],
 })
-export class CocktailTabPage {
+export class CategoriaComponent {
 
   public elements = [];
 

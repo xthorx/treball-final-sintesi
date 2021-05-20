@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$config['base_url'] = 'http://2.154.234.148/treball-final-sintesi/';
+$config['base_url'] = 'http://localhost/treball-final-sintesi/';
 
 /*
 |--------------------------------------------------------------------------

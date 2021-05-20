@@ -20,52 +20,68 @@ export class DrinkService {
     return this._drinks.asObservable();
   }
 
-  retrieveDrinksFromHttp(begudaParam) {
+  retrieveDrinksFromHttp(funcParam) {
 
     this._drinks.next([]);
 
-    this.http.get('http://localhost/treball-final-sintesi/api?id=' + begudaParam).subscribe(
+    this.http.get('http://localhost/treball-final-sintesi/api' + funcParam).subscribe(
+
       (response: any) => {
 
-        response= JSON.parse(response);
 
-        let drinks: Drink = new Drink();
-        drinks.id = response.id;
-        drinks.titol = response.titol;
-        drinks.autor = response.autor;
-        drinks.privadesa = response.privadesa;
+        if(funcParam == ""){
+          response= JSON.parse(response);
 
-        console.log(drinks.titol);
+          response.forEach(
+            (element: any) => {
+              let drinks: Drink = new Drink();
+              drinks.id = element.id;
+              drinks.titol = element.titol;
+              drinks.autor = element.autor;
+              drinks.privadesa = element.privadesa;
+
+              this.drinks.pipe(take(1)).subscribe(
+                (originalDrinks: Drink[]) => {
+                  this._drinks.next(originalDrinks.concat(drinks));
+                  // console.log(originalDrinks);
+
+                }
+              );
+            }
+          )
+        }else{
+
+          
+
+          console.log("amb parametre: " + funcParam);
+
+          response= JSON.parse(response);
+
+          let drinks: Drink = new Drink();
+          drinks.id = response.id;
+          drinks.titol = response.titol;
+          drinks.autor = response.autor;
+          drinks.privadesa = response.privadesa;
+  
+  
+  
+          this.drinks.pipe(take(1)).subscribe(
+            (originalDrinks: Drink[]) => {
+              this._drinks.next(originalDrinks.concat(drinks));
+              // console.log(originalDrinks);
+  
+            }
+          );
+
+        }
 
 
+        
 
-        this.drinks.pipe(take(1)).subscribe(
-          (originalDrinks: Drink[]) => {
-            this._drinks.next(originalDrinks.concat(drinks));
-            // console.log(originalDrinks);
-
-          }
-        );
+        
 
 
-        // response.drinks.forEach(
-        //   (element: any) => {
-        //     let drinks: Drink = new Drink();
-        //     drinks.titol = element.titol;
-        //     drinks.thumb = element.strDrinkThumb;
-        //     drinks.instructions = element.strInstructions;
-
-
-
-        //     this.drinks.pipe(take(1)).subscribe(
-        //       (originalDrinks: Drink[]) => {
-        //         this._drinks.next(originalDrinks.concat(drinks));
-        //         // console.log(originalDrinks);
-
-        //       }
-        //     );
-        //   }
-        // )
+        
       }
     );
   }

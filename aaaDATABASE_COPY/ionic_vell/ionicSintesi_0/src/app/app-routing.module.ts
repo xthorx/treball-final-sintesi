@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { CategoriaComponent } from './categoria/categoria.component';
-import { RecursComponent } from './recurs/recurs.component';
 
 const routes: Routes = [
   {
@@ -12,9 +10,7 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
-  },
-  { path: 'recurs/:id', component: RecursComponent },
-  { path: 'categoria/:id', component: CategoriaComponent }
+  }
 ];
 
 @NgModule({
