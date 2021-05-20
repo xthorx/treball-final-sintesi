@@ -27,7 +27,7 @@
         <a class="nav-link" href="<?php echo base_url("buscador")?>">Buscador</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)">Link 2</a>
+        <a class="nav-link" href="<?php echo base_url("recursos_mostrar")?>">Veure recursos</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">

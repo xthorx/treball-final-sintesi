@@ -17,65 +17,6 @@ class Login_controller  extends CI_Controller
         
     }
 
-    // public function loginNO(){
-        
-    //     if(isset($this->session->user)){
-    //         $data['loggedin'] = true;
-    //         return redirect(base_url("?session=logged"));
-    //     }
-        
-        
-    //     $this->load->helper('form');
-    //     $this->load->library('form_validation');
-
-    //     $data['titleMain'] = 'Gestor de notícies';
-    //     $data['title'] = 'Login';
-    //     $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
-    //     $data['missatge'] = '* Tots els camps son obligatoris';
-        
-    //     $this->form_validation->set_rules('user', 'usuari', 'required');
-    //     $this->form_validation->set_rules('pass', 'contrasenya', 'required');
-
-
-        
-    //     if ($this->form_validation->run() === FALSE) {
-    //         $this->load->view('templates/header', $data);
-    //         $this->load->view('login/login', $data);
-    //         $this->load->view('templates/footer', $data);
-    //     } else {
-            
-    //         $resultConsulta = $this->login_model->login_user();
-            
-
-
-    //         if(isset($resultConsulta['password'])){
-                
-    //             if(password_verify($this->input->post('pass'), $resultConsulta['password'])){
-
-    //                 $data['missatge'] = 'Contrasenya correcta, sessió iniciada correctament!';
-    //                 $this->session->set_userdata('user', $this->input->post('user'));
-    //                 return redirect('login');
-
-    //             }else{ $data['missatge'] = 'Contrasenya incorrecta. Torna a provar.'; }
-    //         }
-    //         else{
-    //             $data['missatge'] = 'Inici de sessió erroni. Torna a provar.';
-    //         }
-                
-                
-                
-    //         $data['login_info'] = $this->login_model->login_user();
-
-            
-    //         $this->load->view('templates/header', $data);
-    //         $this->load->view('login/login', $data);
-    //         $this->load->view('templates/footer', $data);
-
-            
-    //     }
-    // }
-
-
     public function login(){
 
         if($this->ion_auth->logged_in()){

@@ -1,4 +1,4 @@
-<!-- <h1 class="text-center mb-5"><u><?php echo $titleMain;?></u></h1> -->
+<h1 class="text-center mb-5"><u><?php echo $title;?></u></h1>
 
 <div class="container p-0 mb-2">
     <a href="<?php echo base_url('administracio_tags/crear/')?>" class="btn btn-primary">Crear tag</a>

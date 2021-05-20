@@ -21,6 +21,8 @@ class controlador_administrador  extends CI_Controller
 
     public function usuaris_administracio(){
 
+        $this->model_administrador->redirectPermisos_pagines("admin"); //professor, admin o usuari
+
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -67,6 +69,8 @@ class controlador_administrador  extends CI_Controller
 
     public function editar_perfil(){
 
+        $this->model_administrador->redirectPermisos_pagines("usuari"); //professor, admin o usuari
+
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -108,6 +112,8 @@ class controlador_administrador  extends CI_Controller
     }
 
     public function canviar_contrasenya(){
+
+        $this->model_administrador->redirectPermisos_pagines("usuari"); //professor, admin o usuari
         
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -173,6 +179,7 @@ class controlador_administrador  extends CI_Controller
 
     public function canviar_contrasenya_admin($id=NULL){
 
+        $this->model_administrador->redirectPermisos_pagines("admin"); //professor, admin o usuari
 
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -225,6 +232,8 @@ class controlador_administrador  extends CI_Controller
 
     public function borrar_usuari($id=NULL){
 
+        $this->model_administrador->redirectPermisos_pagines("admin"); //professor, admin o usuari
+
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -255,6 +264,8 @@ class controlador_administrador  extends CI_Controller
 
 
     public function alumnes_administracio(){
+
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
 
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -302,6 +313,8 @@ class controlador_administrador  extends CI_Controller
 
     public function editar_alumne($id= NULL){
 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -347,7 +360,7 @@ class controlador_administrador  extends CI_Controller
             }
 
 
-            return redirect(base_url("admin/alumnes/" . $id));
+            return redirect(base_url("admin/alumnes"));
         }else{
             $data['title'] = "Administrador d'alumnes";
             $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';

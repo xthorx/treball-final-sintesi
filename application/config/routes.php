@@ -24,6 +24,7 @@ $route['tancar_sessio'] = 'login_controller/tancar_sessio';
 $route['categoria/(:any)'] = 'controlador_principal/categoria/$1';
 $route['crear_recurs'] = 'controlador_principal/crear_recurs';
 $route['recursos'] = 'controlador_principal/veure_recursos';
+$route['recursos_mostrar'] = 'controlador_principal/recursos_mostrar_public';
 $route['recursos/editar/(:any)'] = 'controlador_principal/editar_recursos/$1';
 $route['recursos/editar'] = 'controlador_principal/editar_recursos';
 $route['recursos/borrar/(:any)'] = 'controlador_principal/borrar_recursos/$1';
@@ -72,7 +73,7 @@ $route['borrar_usuari/(:any)'] = 'controlador_administrador/borrar_usuari/$1';
 
 
 
-$route['api'] = 'news_api/index';
+$route['api'] = 'controlador_api/index';
 
 
 

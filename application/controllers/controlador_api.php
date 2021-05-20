@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class News_api extends JwtAPI_Controller {
+class controlador_api extends JwtAPI_Controller {
     public function __construct (){
         parent::__construct ();
-        $this->load->model("News_model");
+        $this->load->model("model_principal");
         $this->load->model("Tokens_m");
 
         $this->load->add_package_path(APPPATH.'third_party/ion_auth/');
@@ -19,17 +19,31 @@ class News_api extends JwtAPI_Controller {
         $this->init($config,300); // configuration + auth timeout
         // $this->init($config); // configuration + auth timeout is configured from JWT config file
 
+
+        $this->output->set_header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+        $this->output->set_header("Access-Control-Allow-Methods: GET, DELETE, OPTIONS");
+        $this->output->set_header("Access-Control-Allow-Origin: *");
     }
     
     //MOSTRAR LES NOTICIES, TOTES O LA QUE SELECCIONIS
     public function index_get(){
+
+
+        // GET request
+        // http://localhost/treball-final-sintesi/api
+        // http://localhost/treball-final-sintesi/api?id=57
+        // http://localhost/treball-final-sintesi/api?cat=1
+
 		
         $id= $this->get('id');
+        $cat= $this->get('cat');
 
-        if($id==NULL){
-            $this->response($this->News_model->get_news_byid(), API_Controller::HTTP_OK);
-        }else{
-            $this->response($this->News_model->get_news_byid($id), API_Controller::HTTP_OK);
+        if($id==NULL && $cat==NULL){
+            $this->response(json_encode($this->model_principal->get_tots_recursos()), API_Controller::HTTP_OK);
+        }else if($cat==NULL){
+            $this->response(json_encode($this->model_principal->get_recurs_individual($id)[0]), API_Controller::HTTP_OK);
+        }else if($id==NULL){
+            $this->response(json_encode($this->model_principal->get_recursos_from_categoria($cat)), API_Controller::HTTP_OK);
         }
 
     }

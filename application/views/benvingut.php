@@ -12,21 +12,66 @@
     <h2><?php echo $title; ?></h2>
     <p><?php echo $subtitle; ?></p>
     
-    <div class="mb-3">
-        <a href="perfil" class="btn btn-secondary">Editar perfil</a>
-        <a href="recursos" class="btn btn-primary">Veure recursos</a>
-        <a href="crear_recurs" class="btn btn-warning">Crear recurs</a>
-    </div>
-    
-    <div class="mb-3">
-        <a href="administracio_tags" class="btn btn-success">CRUD Tags</a>
-        <a href="administracio_categories" class="btn btn-success">CRUD Categories</a>
-        <a href="administracio_classes" class="btn btn-success">CRUD Classes</a>
-    </div>
 
-    <!-- <div class="mb-3">
-        <a href="grocerycrud_news/news_management/" class="btn btn-primary">Grocery Crud Editor (Nomes usuaris)</a>
-    </div> -->
+    <?php if($grup_usuari=="admin"){ ?>
+
+
+        <div class="mb-3">
+            <a href="admin/usuaris" class="btn btn-danger">Administracio usuaris</a>
+        </div>
+
+        <div class="mb-3">
+            <a href="recursos" class="btn btn-primary">Administracio recursos</a>
+            <a href="administracio_tags" class="btn btn-primary">Administracio tags</a>
+        </div>
+        <div class="mb-3">
+            <a href="administracio_categories" class="btn btn-primary">Administracio categories</a>
+            <a href="administracio_classes" class="btn btn-primary">Administracio classes</a>
+        </div>
+
+        <div class="mb-3">
+            <a href="admin/alumnes" class="btn btn-primary">Administracio alumnes</a>
+        </div>
+
+        <div class="mb-3">
+            <a href="perfil" class="btn btn-secondary">Perfil</a>
+            <a href="contrasenya" class="btn btn-dark">Canviar contrasenya</a>
+        </div>
+        
+    <?php }else if($grup_usuari=="professor"){ ?>
+
+        <div class="mb-3">
+            <a href="recursos" class="btn btn-primary">Administracio recursos</a>
+            <a href="administracio_tags" class="btn btn-primary">Administracio tags</a>
+        </div>
+        <div class="mb-3">
+            <a href="administracio_categories" class="btn btn-primary">Administracio categories</a>
+            <a href="administracio_classes" class="btn btn-primary">Administracio classes</a>
+        </div>
+
+        <div class="mb-3">
+            <a href="admin/alumnes" class="btn btn-primary">Administracio alumnes</a>
+        </div>
+
+        <div class="mb-3">
+            <a href="perfil" class="btn btn-secondary">Perfil</a>
+            <a href="contrasenya" class="btn btn-dark">Canviar contrasenya</a>
+        </div>
+
+    <?php }else if($grup_usuari=="alumne"){ ?>
+        <div class="mb-3">
+            <a href="perfil" class="btn btn-primary">Perfil</a>
+            <a href="contrasenya" class="btn btn-dark">Canviar contrasenya</a>
+        </div>
+    <?php }else{ ?>
+        <div class="mb-3">
+            <a href="login" class="btn btn-primary">Iniciar sessió</a>
+            <a href="register" class="btn btn-dark">Registre</a>
+        </div>
+    <?php } ?>
+
+
+
 
 </div>
 

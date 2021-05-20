@@ -144,7 +144,32 @@ class model_administrador  extends CI_Model
 
 
 
+    public function redirectPermisos_pagines($permis){
 
+        if($permis=="professor"){
+            if($this->ion_auth->in_group("professor") || $this->ion_auth->in_group("admin")){
+
+            }else{
+                $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+                return redirect(base_url(""));
+            }
+        }else if($permis=="admin"){
+            if($this->ion_auth->in_group("admin")){
+
+            }else{
+                $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+                return redirect(base_url(""));
+            }
+        }else if($permis=="usuari"){
+            if($this->ion_auth->logged_in()){
+
+            }else{
+                $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+                return redirect(base_url(""));
+            }
+        }
+
+    }
 
 
 

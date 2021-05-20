@@ -34,15 +34,12 @@ class controlador_principal  extends CI_Controller
         }else{
             $data['loggedin'] = false;
         }
-
-        $data['titleMain'] = 'Gestor de notícies';
         
         $result= $this->model_principal->get_categories(0);
 
         foreach ($result as $row){
             $this->dataTemp .= "<p class='my-0'>-><a href='categoria/".$row->id."'>" . $row->nom . "</a></p>";
             $this->subcategories_show($row->id, 25);
-            
         }
         
         
@@ -52,7 +49,17 @@ class controlador_principal  extends CI_Controller
 
         $data['categoriesList']= $this->dataTemp;
 
-
+        if($this->ion_auth->logged_in()){
+            if($this->ion_auth->in_group("admin")){
+                $data['grup_usuari']="admin";
+            }else if($this->ion_auth->in_group("professor")){
+                $data['grup_usuari']="professor";
+            }else if($this->ion_auth->in_group("alumne")){
+                $data['grup_usuari']="alumne";
+            }
+        }else{
+            $data['grup_usuari']="no";
+        }
         
 
 
@@ -116,6 +123,8 @@ class controlador_principal  extends CI_Controller
 
     public function veure_recursos(){
 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -126,7 +135,7 @@ class controlador_principal  extends CI_Controller
         }
 
 
-        $data['title'] = 'Benvingut a la pàgina principal';
+        $data['title'] = 'Administrador de recursos';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
 
         $data['recursos_categoria']= $this->model_principal->get_tots_recursos();
@@ -148,6 +157,8 @@ class controlador_principal  extends CI_Controller
 
 
     public function crear_recurs(){
+
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
 
 
         //HEADER LOGGEDIN VARIABLE
@@ -359,6 +370,8 @@ class controlador_principal  extends CI_Controller
 
     public function editar_recursos($id=NULL){
 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -447,6 +460,9 @@ class controlador_principal  extends CI_Controller
     }
 
     public function borrar_recursos($id){
+
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         if($id != NULL){
             if ($this->model_principal->borrar_recurs($id)){
                 return redirect(base_url("recursos"));
@@ -500,10 +516,6 @@ class controlador_principal  extends CI_Controller
 
     public function recursPrivadesa_redirect($privadesa,$autor){
 
-        // var_dump($this->ion_auth->in_group("admin"));
-
-        // die();
-
         // Si no ets administrador
         if(!$this->ion_auth->in_group("admin")){
 
@@ -550,6 +562,8 @@ class controlador_principal  extends CI_Controller
 
     public function admin_tags(){
 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -563,7 +577,7 @@ class controlador_principal  extends CI_Controller
             // $data['loggedin'] = false;
         }
 
-        $data['title'] = 'Crear un recurs nou';
+        $data['title'] = 'Administrador de tags';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
         $data['tagsList']= $this->model_principal->obtenir_tots_tags();
 
@@ -573,6 +587,8 @@ class controlador_principal  extends CI_Controller
     }
 
     public function editar_tag_individual($id=NULL){
+
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -626,6 +642,8 @@ class controlador_principal  extends CI_Controller
 
     public function crear_tag_individual(){
 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -660,6 +678,9 @@ class controlador_principal  extends CI_Controller
     }
 
     public function borrar_tag($id=NULL){
+
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         if($id != NULL){
             if ($this->model_principal->borrar_tag($id)){
                 return redirect(base_url("administracio_tags"));
@@ -678,6 +699,8 @@ class controlador_principal  extends CI_Controller
 
     public function admin_categories(){
 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -690,7 +713,7 @@ class controlador_principal  extends CI_Controller
             // $data['loggedin'] = false;
         }
 
-        $data['title'] = 'Crear un recurs nou';
+        $data['title'] = 'Administrador de categories';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
         $data['categoriaList']= $this->model_principal->obtenir_totes_categories();
 
@@ -700,6 +723,8 @@ class controlador_principal  extends CI_Controller
     }
 
     public function editar_categoria_individual($id=NULL){
+
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
 
         
         //HEADER LOGGEDIN VARIABLE
@@ -753,6 +778,8 @@ class controlador_principal  extends CI_Controller
 
     public function crear_categoria_individual(){
 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -787,6 +814,8 @@ class controlador_principal  extends CI_Controller
 
     public function borrar_categoria($id=NULL){
 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         //HEADER LOGGEDIN VARIABLE
         if(!$this->ion_auth->logged_in()){
             $this->session->set_flashdata('not_loggedin', "not_loggedin");
@@ -805,7 +834,10 @@ class controlador_principal  extends CI_Controller
         }
     }
 
-    public function pissarra(){ $this->load->view('pissarra'); }
+    public function pissarra(){ 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->load->view('pissarra'); 
+    }
 
 
 
@@ -815,6 +847,8 @@ class controlador_principal  extends CI_Controller
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     public function admin_classes(){
+
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -838,6 +872,8 @@ class controlador_principal  extends CI_Controller
     }
 
     public function editar_classe_individual($id=NULL){
+
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -891,6 +927,8 @@ class controlador_principal  extends CI_Controller
 
     public function crear_classe_individual(){
 
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -925,6 +963,9 @@ class controlador_principal  extends CI_Controller
     }
 
     public function borrar_classe($id=NULL){
+
+        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+
         if($id != NULL){
             if ($this->model_principal->borrar_classe($id)){
                 return redirect(base_url("administracio_classes"));
@@ -934,6 +975,41 @@ class controlador_principal  extends CI_Controller
             }
         }
     }
+
+
+
+    public function recursos_mostrar_public(){
+
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $data['loggedin'] = false;
+        }
+
+
+        $data['title'] = 'Llistat de tots els recursos';
+        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+
+        $data['totsRecursos']= $this->model_principal->get_tots_recursos();
+        
+
+        foreach ($data['totsRecursos'] as $rec){
+            $data['rec_categoria'][$rec->id]= $this->model_principal->category_name($rec->categoria)[0]->nom;
+            $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+        }
+
+
+
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('recursos_llistat_public', $data);
+        $this->load->view('templates/footer', $data);
+
+    }
+
+    
 
 
 
