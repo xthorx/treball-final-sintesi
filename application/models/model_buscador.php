@@ -21,7 +21,7 @@ class model_buscador  extends CI_Model
     }
 
     public function buscar_recurs_avancat($text,$tag){
-        $sql = "SELECT * FROM `recursos` INNER JOIN `tags_recursos` ON `recursos`.`id` = `tags_recursos`.`id_recurs`
+        $sql = "SELECT recursos.id, recursos.titol, recursos.tipus_recurs, tags.tag, recursos.categoria, recursos.autor FROM `recursos` INNER JOIN `tags_recursos` ON `recursos`.`id` = `tags_recursos`.`id_recurs`
         INNER JOIN `tags` ON `tags_recursos`.`id_tag` = `tags`.`id`
         WHERE id_tag LIKE $tag AND (titol LIKE '%{$text}%' OR descripcio LIKE '%{$text}%') GROUP BY recursos.id";
         $query = $this->db->query($sql);

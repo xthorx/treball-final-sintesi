@@ -259,7 +259,17 @@ class model_principal  extends CI_Model
     }
 
 
+    public function comptar_visites_recurs($id){
 
+        $sql = "UPDATE recursos SET visites_img = visites_img + 1 WHERE id ='$id'";
+        $query = $this->db->query($sql);
+
+        $sql = "SELECT visites_img FROM recursos WHERE id ='$id'";
+        $query = $this->db->query($sql);
+        return $query->result();
+        
+
+    }
 
 
 

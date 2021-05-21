@@ -20,7 +20,7 @@ export class RecursComponent implements OnInit {
 
       console.log(this.idRec);
 
-      this.apiService.retrieveDrinksFromHttp("?id=57");
+      this.apiService.retrieveDrinksFromHttp("?id=" + this.idRec);
       // this.apiService.retrieveDrinksFromHttp("?id=57");
       
       this.apiService.drinks.subscribe(

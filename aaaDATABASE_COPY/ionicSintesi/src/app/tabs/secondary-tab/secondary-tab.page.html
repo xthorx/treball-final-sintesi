@@ -1,16 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>secondary-tab</ion-title>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Secondary tab</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Aquest apartat és de prova per usar la navegació amb tabs.
-    </ion-card-content>
-  </ion-card>
+<ion-content padding>
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    (ionChange)="setFilteredItems()"
+  ></ion-searchbar>
+
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      {{ item.titol }}
+    </ion-item>
+  </ion-list>
 </ion-content>

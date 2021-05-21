@@ -4,7 +4,7 @@
 
     <h1 class="border bg-light p-3 rounded"><?php echo $inforecurs->titol; ?></h1>
 
-    <div class="border bg-light p-3 rounded"><?php echo $inforecurs->descripcio; ?></div>
+    <div class="border bg-light p-3 rounded"><?php echo htmlspecialchars_decode($inforecurs->descripcio); ?></div>
 
 
     <?php if($inforecurs->tipus_recurs=="infografia"){ ?>
@@ -80,8 +80,63 @@
 
     
 
+    <?php if($visitesrecurs != null){ ?>
+    <div class="border bg-light p-3 rounded mt-3">Visites al recurs: <?php echo $visitesrecurs ?></div>
+    <?php } ?>
+
 
     
+    <?php if($arxiusadjunts_permis=="si"){?>
+
+        <div class="border bg-light p-3 rounded mt-3">
+            <p>Arxius adjunts:</p>
+            <?php if($arxiusadjunts != null){foreach($arxiusadjunts as $arxiu){
+                echo "<a href='../../uploads/recurs_$inforecurs->id/fitxers/$arxiu' download>$arxiu</a>";?>
+                <button onclick="borrarArxiu('<?php echo $arxiu; ?>')" class="btn btn-danger btn-sm rounded-circle">x</button><br>
+            <?php }}else{echo "-Sense fitxers adjunts-";}?><br>
+            
+            <p class="mb-2">Penjar un nou fitxer:</p>
+            <form action="" method="post" enctype="multipart/form-data">
+                <input type="file" name="fitxerAdjuntAfegir">
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+
+
+        <script>
+            function borrarArxiu(arxiu){
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo base_url("recursos/mostrar/" . $inforecurs->id) ?>',
+                    data: { 
+                        'arxiuadjunt': arxiu
+                    },
+                    success: function(msg){
+                        location.reload();
+                    }
+                });
+            }
+            
+        </script>
+
+    <?php }else { ?>
+
+
+        <div class="border bg-light p-3 rounded mt-3">
+            <p>Arxius adjunts:</p>
+            <?php if($arxiusadjunts != null){foreach($arxiusadjunts as $arxiu){
+                echo "<a href='../../uploads/recurs_$inforecurs->id/fitxers/$arxiu' download>$arxiu</a><br>";?>
+            <?php }}else{echo "-Sense fitxers adjunts-";}?>
+        </div>
+
+
+    <?php }?>
+
+
+    
+
+
+
     <div class="border bg-light p-3 rounded mt-3">
         <p class="m-0 p-0 d-inline-block">Tags:</p>
         

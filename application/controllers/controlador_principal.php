@@ -95,12 +95,10 @@ class controlador_principal  extends CI_Controller
 
         $resultCategoriaName= $this->model_principal->category_name($id);
         $data['titleMain'] = 'Categoria: ' . $resultCategoriaName[0]->nom;
+        $data['title'] = 'Categoria: ' . $resultCategoriaName[0]->nom;
 
 
         $data['categoriaName']= $resultCategoriaName[0]->nom;
-
-
-        $data['title'] = 'Benvingut a la pàgina principal';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
 
         $data['recursos_categoria']= $this->model_principal->get_recursos_from_categoria($id);
@@ -198,7 +196,7 @@ class controlador_principal  extends CI_Controller
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
                     
-                    if (!is_dir('uploads/recurs_' . $last_inserted))
+                    if (!is_dir('./uploads/recurs_' . $last_inserted))
                     {
                         mkdir('./uploads/recurs_' . $last_inserted, 0777, true);
                         $dir_exist = false; // dir not exist
@@ -242,7 +240,7 @@ class controlador_principal  extends CI_Controller
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
                     
-                    if (!is_dir('uploads/recurs_' . $last_inserted))
+                    if (!is_dir('./uploads/recurs_' . $last_inserted))
                     {
                         mkdir('./uploads/recurs_' . $last_inserted, 0777, true);
                         $dir_exist = false; // dir not exist
@@ -298,7 +296,7 @@ class controlador_principal  extends CI_Controller
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
                     
-                    if (!is_dir('uploads/recurs_' . $last_inserted))
+                    if (!is_dir('./uploads/recurs_' . $last_inserted))
                     {
                         mkdir('./uploads/recurs_' . $last_inserted, 0777, true);
                         $dir_exist = false; // dir not exist
@@ -488,11 +486,13 @@ class controlador_principal  extends CI_Controller
             // die();
         }
 
-        $data['title'] = 'Editar recurs';
+        $data['title'] = 'Mostrar recurs';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
 
 
         if($id != NULL){
+
+            
 
 
             $data['inforecurs']= $this->model_principal->get_recurs_individual($id)[0];
@@ -500,8 +500,58 @@ class controlador_principal  extends CI_Controller
             $this->recursPrivadesa_redirect($data['inforecurs']->privadesa,$data['inforecurs']->autor);
 
 
+
+            if ($this->input->server('REQUEST_METHOD') === 'POST'){
+
+
+                if (!is_dir("./uploads/recurs_$id/fitxers"))
+                {
+                    mkdir("./uploads/recurs_$id/fitxers", 0777, true);
+                    $dir_exist = false; // dir not exist
+                }
+
+                if($this->input->post('arxiuadjunt') != null){
+                    echo $arxiuadjunt= $this->input->post('arxiuadjunt');
+                    unlink("./uploads/recurs_$id/fitxers/$arxiuadjunt");
+
+                }else{
+                    $config['upload_path'] = './uploads/recurs_' . $id . '/fitxers/';
+                    $config['allowed_types'] = '*';
+                    $this->load->library('upload', $config);
+            
+                    if (!$this->upload->do_upload('fitxerAdjuntAfegir')) {
+                        //no s'ha penjat
+                        $error = array('error' => $this->upload->display_errors());
+                        return redirect(base_url("recursos/mostrar/$id"));
+
+                    } else {
+                        //s'ha penjat bé!
+                        $data = array('image_metadata' => $this->upload->data());
+                        return redirect(base_url("recursos/mostrar/$id"));
+
+                    }
+                }
+            }
+
+
+
+            $data['visitesrecurs']= null;
+            if($data['inforecurs']->tipus_recurs=="infografia" || $data['inforecurs']->tipus_recurs=="pissarra"){
+                $data['visitesrecurs']= $this->model_principal->comptar_visites_recurs($id)[0]->visites_img;
+            }
+            
+            $this->load->helper('directory');
+            $data['arxiusadjunts'] = directory_map('./uploads/recurs_' . $id . '/fitxers');
+
+
             $data['categoriarecurs']= $this->model_principal->get_categoria_recurs($id);
             $data['tagsrecurs']= $this->model_buscador->tags_recurs($id);
+
+            if(!$this->ion_auth->in_group("admin") && !$this->ion_auth->in_group("professor")){
+                $data['arxiusadjunts_permis']= "no";
+            }else{
+                $data['arxiusadjunts_permis']= "si";
+            }
 
 
             $this->load->view('templates/header', $data);
@@ -514,10 +564,12 @@ class controlador_principal  extends CI_Controller
     }
 
 
+
+
     public function recursPrivadesa_redirect($privadesa,$autor){
 
         // Si no ets administrador
-        if(!$this->ion_auth->in_group("admin")){
+        if(!$this->ion_auth->in_group("admin") && !$this->ion_auth->in_group("professor")){
 
             if($privadesa=="public"){
             }
@@ -914,7 +966,7 @@ class controlador_principal  extends CI_Controller
             }else{
                 $data['loggedin'] = false;
             }
-            $data['title'] = 'Editar classe';
+            $data['title'] = 'Administrador de classes';
             $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
             $data['editarClasse']= $this->model_principal->obtenir_info_classe($id);
 

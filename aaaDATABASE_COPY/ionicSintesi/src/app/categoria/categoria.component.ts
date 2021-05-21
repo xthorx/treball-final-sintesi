@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Drink } from '../models/drink.model';
 import { DrinkService } from '../services/drink.service';
 
@@ -10,17 +11,29 @@ import { DrinkService } from '../services/drink.service';
 export class CategoriaComponent {
 
   public elements = [];
+  public idRec="";
+  
 
-  constructor(private apiService: DrinkService) {
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.idRec= params.get("id");
 
-    this.apiService.retrieveDrinksFromHttp("");
-    // this.apiService.retrieveDrinksFromHttp("?id=57");
-    this.apiService.drinks.subscribe(
-      (originalDrinks: Drink[]) => {
-        this.elements = originalDrinks;
-        
-      }
-    );
+      console.log(this.idRec);
+
+      // this.apiService.retrieveDrinksFromHttp("?id=" + this.idRec);
+      this.apiService.retrieveDrinksFromHttp("");
+      
+      this.apiService.drinks.subscribe(
+        (originalDrinks: Drink[]) => {
+          this.elements = originalDrinks;
+          console.log(this.elements);
+        }
+      );
+      
+    });
+  }
+
+  constructor(private route: ActivatedRoute, private apiService: DrinkService) {
   }
 
 }

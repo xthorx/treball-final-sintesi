@@ -67,7 +67,7 @@
 
 
     <label for="privadesa">Privadesa del recurs:</label>
-    <select name="privadesa" class="form-control" onchange="tipus_recurs_canviat()" style="max-width: 300px; margin: 0 auto;" id="tipus_recurs_selector">
+    <select name="privadesa" class="form-control" style="max-width: 300px; margin: 0 auto;" id="tipus_recurs_selector">
         <option value='public'>Public</option>
         <option value='privat'>Privat</option>
         <optgroup label="Classes d'alumnes">
