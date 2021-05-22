@@ -15,7 +15,7 @@
                 <ion-card style="width: 100%;">
                     <ion-card-header>
                         <ion-card-subtitle>ID del recurs: {{ drink.id }}</ion-card-subtitle>
-                        <ion-card-title><a href="recurs/{{ drink.id }}">Titol: {{ drink.titol }}</a></ion-card-title>
+                        <ion-card-title><a (click)="getResource(drink.id)">Titol: {{ drink.titol }}</a></ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
                         ID de l'autor: {{ drink.autor }}<br>

@@ -3,6 +3,7 @@ export class Drink {
     private _titol: string;
     private _autor: string;
     private _privadesa: string;
+    private _categoria: string;
 
     constructor() {
     }
@@ -19,6 +20,9 @@ export class Drink {
     get privadesa(): string {
         return this._privadesa;
     }
+    get categoria(): string {
+        return this._categoria;
+    }
 
 
     set id(id: number) {
@@ -32,5 +36,8 @@ export class Drink {
     }
     set privadesa(privadesa: string) {
         this._privadesa = privadesa;
+    }
+    set categoria(categoria: string) {
+        this._categoria = categoria;
     }
 }

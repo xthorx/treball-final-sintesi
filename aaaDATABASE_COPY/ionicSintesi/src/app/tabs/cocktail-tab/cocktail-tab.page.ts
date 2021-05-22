@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Drink } from '../../models/drink.model';
 import { DrinkService } from '../../services/drink.service';
 
@@ -12,9 +13,9 @@ export class CocktailTabPage {
 
   public elements = [];
 
-  constructor(private apiService: DrinkService) {
+  constructor(private apiService: DrinkService, private router: Router) {
 
-    this.apiService.retrieveDrinksFromHttp("");
+    this.apiService.retrieveDrinksFromHttpALL();
     // this.apiService.retrieveDrinksFromHttp("?id=57");
     this.apiService.drinks.subscribe(
       (originalDrinks: Drink[]) => {
@@ -22,6 +23,17 @@ export class CocktailTabPage {
         
       }
     );
+    
   }
+
+
+  getResource(id){
+
+    this.apiService.retrieveDrinksFromHttpUNIQUE("?id=" + id);
+    this.router.navigate(["recurs", id]);
+
+  }
+
+
 
 }

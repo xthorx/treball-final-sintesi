@@ -25,6 +25,10 @@ const routes: Routes = [
       {
         path: 'secondary',
         loadChildren: () => import('./secondary-tab/secondary-tab.module').then( m => m.SecondaryTabPageModule)
+      },
+      {
+        path: 'categories',
+        loadChildren: () => import('./categories-tab/categories-tab.module').then( m => m.CategoriesTabPageModule)
       }
     ]
   },

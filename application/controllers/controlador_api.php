@@ -37,8 +37,10 @@ class controlador_api extends JwtAPI_Controller {
 		
         $id= $this->get('id');
         $cat= $this->get('cat');
-
-        if($id==NULL && $cat==NULL){
+		
+		if($this->get('categories') != NULL){
+			$this->response(json_encode($this->model_principal->obtenir_totes_categories()), API_Controller::HTTP_OK);
+		}else if($id==NULL && $cat==NULL){
             $this->response(json_encode($this->model_principal->get_tots_recursos()), API_Controller::HTTP_OK);
         }else if($cat==NULL){
             $this->response(json_encode($this->model_principal->get_recurs_individual($id)[0]), API_Controller::HTTP_OK);
@@ -46,7 +48,7 @@ class controlador_api extends JwtAPI_Controller {
             $this->response(json_encode($this->model_principal->get_recursos_from_categoria($cat)), API_Controller::HTTP_OK);
         }
 		
-		obtenir_totes_categories
+		
 
     }
 

@@ -11,7 +11,7 @@ export class DataService {
 
   constructor(private apiService: DrinkService) {
 
-    this.apiService.retrieveDrinksFromHttp("");
+    this.apiService.retrieveDrinksFromHttpALL();
     this.apiService.drinks.subscribe(
       (originalDrinks: Drink[]) => {
         this.items = originalDrinks;

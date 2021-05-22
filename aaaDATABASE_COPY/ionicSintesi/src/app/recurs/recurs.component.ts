@@ -10,28 +10,39 @@ import { DrinkService } from '../services/drink.service';
 })
 export class RecursComponent implements OnInit {
 
-  public elements = [];
+  public element: Drink= new Drink();
   public idRec="";
   
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.idRec= params.get("id");
+    // this.route.paramMap.subscribe(params => {
+    //   this.idRec= params.get("id");
 
-      console.log(this.idRec);
+    //   // console.log(this.idRec);
 
-      this.apiService.retrieveDrinksFromHttp("?id=" + this.idRec);
-      // this.apiService.retrieveDrinksFromHttp("?id=57");
+    //   this.apiService.retrieveDrinksFromHttp("?id=" + this.idRec);
+    //   // this.apiService.retrieveDrinksFromHttp("?id=57");
       
-      this.apiService.drinks.subscribe(
-        (originalDrinks: Drink[]) => {
-          this.elements = originalDrinks;
-          // console.log(this.elements);
-        }
-      );
       
-    });
+      
+    // });
+    
+    this.apiService.drink.subscribe(
+      
+      (originalDrinks: Drink) => {
+        
+        console.log(originalDrinks);
+        this.element.id = originalDrinks[0].id;
+        console.log(originalDrinks);
+        // console.log(this.element);
+
+      }
+    );
+
   }
+
+
+
 
   constructor(private route: ActivatedRoute, private apiService: DrinkService) {
   }
