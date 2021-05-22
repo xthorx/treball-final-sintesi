@@ -45,6 +45,8 @@ class controlador_api extends JwtAPI_Controller {
         }else if($id==NULL){
             $this->response(json_encode($this->model_principal->get_recursos_from_categoria($cat)), API_Controller::HTTP_OK);
         }
+		
+		obtenir_totes_categories
 
     }
 
