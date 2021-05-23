@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Categoria } from '../../models/categoria.model';
+import { Categoria } from 'src/app/models/categoria.model';
 import { Drink } from '../../models/drink.model';
 import { DrinkService } from '../../services/drink.service';
 
@@ -39,6 +39,14 @@ export class CategoriesTabPage {
 
     
     
+  }
+
+
+  getResource(id){
+
+    this.apiService.retrieveDrinksFromHttpUNIQUE("?id=" + id);
+    this.router.navigate(["recurs", id]);
+
   }
 
 
