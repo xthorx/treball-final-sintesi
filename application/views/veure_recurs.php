@@ -4,6 +4,7 @@
 
     <h1 class="border bg-light p-3 rounded"><?php echo $inforecurs->titol; ?></h1>
 
+
     <div class="border bg-light p-3 rounded"><?php echo htmlspecialchars_decode($inforecurs->descripcio); ?></div>
 
 

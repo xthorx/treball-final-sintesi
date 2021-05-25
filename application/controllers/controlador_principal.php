@@ -1,6 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class controlador_principal  extends CI_Controller
+
+require_once(dirname(__FILE__) . "/controlador_redirectpermisos.php");
+
+class controlador_principal  extends controlador_redirectpermisos
 {
 
     public $dataTemp= "";
@@ -121,7 +124,7 @@ class controlador_principal  extends CI_Controller
 
     public function veure_recursos(){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
 
         //HEADER LOGGEDIN VARIABLE
@@ -156,7 +159,7 @@ class controlador_principal  extends CI_Controller
 
     public function crear_recurs(){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
 
         //HEADER LOGGEDIN VARIABLE
@@ -368,7 +371,7 @@ class controlador_principal  extends CI_Controller
 
     public function editar_recursos($id=NULL){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -459,7 +462,7 @@ class controlador_principal  extends CI_Controller
 
     public function borrar_recursos($id){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         if($id != NULL){
             if ($this->model_principal->borrar_recurs($id)){
@@ -475,6 +478,7 @@ class controlador_principal  extends CI_Controller
 
 
     public function recurs_veure($id){
+
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
@@ -614,7 +618,7 @@ class controlador_principal  extends CI_Controller
 
     public function admin_tags(){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -640,7 +644,7 @@ class controlador_principal  extends CI_Controller
 
     public function editar_tag_individual($id=NULL){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -694,7 +698,7 @@ class controlador_principal  extends CI_Controller
 
     public function crear_tag_individual(){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -731,7 +735,7 @@ class controlador_principal  extends CI_Controller
 
     public function borrar_tag($id=NULL){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         if($id != NULL){
             if ($this->model_principal->borrar_tag($id)){
@@ -751,7 +755,7 @@ class controlador_principal  extends CI_Controller
 
     public function admin_categories(){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -776,7 +780,7 @@ class controlador_principal  extends CI_Controller
 
     public function editar_categoria_individual($id=NULL){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         
         //HEADER LOGGEDIN VARIABLE
@@ -830,7 +834,7 @@ class controlador_principal  extends CI_Controller
 
     public function crear_categoria_individual(){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -866,7 +870,7 @@ class controlador_principal  extends CI_Controller
 
     public function borrar_categoria($id=NULL){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if(!$this->ion_auth->logged_in()){
@@ -887,7 +891,7 @@ class controlador_principal  extends CI_Controller
     }
 
     public function pissarra(){ 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
         $this->load->view('pissarra'); 
     }
 
@@ -900,7 +904,7 @@ class controlador_principal  extends CI_Controller
 
     public function admin_classes(){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -925,7 +929,7 @@ class controlador_principal  extends CI_Controller
 
     public function editar_classe_individual($id=NULL){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -979,7 +983,7 @@ class controlador_principal  extends CI_Controller
 
     public function crear_classe_individual(){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         //HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -1016,7 +1020,7 @@ class controlador_principal  extends CI_Controller
 
     public function borrar_classe($id=NULL){
 
-        $this->model_administrador->redirectPermisos_pagines("professor"); //professor, admin o usuari
+        $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
         if($id != NULL){
             if ($this->model_principal->borrar_classe($id)){
