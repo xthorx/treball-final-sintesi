@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
+require_once(dirname(__FILE__) . "/controlador_redirectpermisos.php");
+
 class controlador_fitxers  extends controlador_redirectpermisos
 {
 
@@ -19,7 +21,7 @@ class controlador_fitxers  extends controlador_redirectpermisos
         
     }
 
-    public function descarregar_fitxer($ruta,$nomfitxer){
+    public function descarregar_fitxer_adjunt($ruta,$nomfitxer){
 
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -32,8 +34,8 @@ class controlador_fitxers  extends controlador_redirectpermisos
             die();
         }
 
+        $image_path=file_get_contents('../../uploads/recurs_'.$ruta.'/fitxers/'. $nomfitxer);
 
-        $image_path=file_get_contents('../../'.$ruta.'/'. $nomfitxer);
         header("Expires: 0");
         header('Pragma: public');
         header("Cache-Control: no-cache private", false);
@@ -50,7 +52,7 @@ class controlador_fitxers  extends controlador_redirectpermisos
     }
 
 
-    public function mostrar_video_fitxer(){
+    public function mostrar_video_fitxer($ruta,$nomfitxer){
 
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -63,14 +65,14 @@ class controlador_fitxers  extends controlador_redirectpermisos
             die();
         }
 
-        $video_path=file_get_contents('../../aafitxers/video_arxiu.mp4');
+        $video_path=file_get_contents('../../uploads/recurs_'.$ruta.'/'. $nomfitxer);
         header('Content-type: video/mp4');
         echo $video_path;
         die();
     }
 
 
-    public function mostrar_imatge_fitxer(){
+    public function mostrar_imatge_fitxer($ruta,$nomfitxer){
 
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
@@ -83,12 +85,18 @@ class controlador_fitxers  extends controlador_redirectpermisos
             die();
         }
 
-        $image_path=file_get_contents('../../aafitxers/infografia.jpg');
+        $image_path=file_get_contents('../../uploads/recurs_'.$ruta.'/'. $nomfitxer);
         header('Content-type:image/png');
         echo $image_path;
         die();
     }
 
+
+
+
+    public function test(){
+        $this->load->view('test');
+    }
     
 
 

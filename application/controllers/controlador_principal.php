@@ -96,28 +96,34 @@ class controlador_principal  extends controlador_redirectpermisos
             $data['loggedin'] = false;
         }
 
-        $resultCategoriaName= $this->model_principal->category_name($id);
-        $data['titleMain'] = 'Categoria: ' . $resultCategoriaName[0]->nom;
-        $data['title'] = 'Categoria: ' . $resultCategoriaName[0]->nom;
-
-
-        $data['categoriaName']= $resultCategoriaName[0]->nom;
-        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
-
-        $data['recursos_categoria']= $this->model_principal->get_recursos_from_categoria($id);
-        
-        foreach ($data['recursos_categoria'] as $rec){
-            // if($rec->privadesa != "public" && $rec->privadesa != "private"){
-            //     echo $data['rec_privadesa'][$rec->id]= $this->model_principal->recurs_privadesa_text($rec->privadesa)[0]->nom;
-            // }
+        if($id != null && is_numeric($id)){
             
-            $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+            $resultCategoriaName= $this->model_principal->category_name($id);
+            $data['titleMain'] = 'Categoria: ' . $resultCategoriaName[0]->nom;
+            $data['title'] = 'Categoria: ' . $resultCategoriaName[0]->nom;
+
+
+            $data['categoriaName']= $resultCategoriaName[0]->nom;
+            $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+
+            $data['recursos_categoria']= $this->model_principal->get_recursos_from_categoria($id);
+            
+            foreach ($data['recursos_categoria'] as $rec){
+                // if($rec->privadesa != "public" && $rec->privadesa != "private"){
+                //     echo $data['rec_privadesa'][$rec->id]= $this->model_principal->recurs_privadesa_text($rec->privadesa)[0]->nom;
+                // }
+                
+                $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+            }
+
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('categoria', $data);
+            $this->load->view('templates/footer', $data);
+
+        }else{
+            return redirect(base_url());
         }
-
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('categoria', $data);
-        $this->load->view('templates/footer', $data);
 
     }
 
@@ -394,7 +400,7 @@ class controlador_principal  extends controlador_redirectpermisos
 
         $data['tagslist']= $this->model_principal->obtenir_tots_tags();
 
-        if($id==NULL){
+        if($id==NULL && is_numeric($id)){
 
             if ($this->form_validation->run() === TRUE)
             {   
@@ -464,7 +470,7 @@ class controlador_principal  extends controlador_redirectpermisos
 
         $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
 
-        if($id != NULL){
+        if($id != NULL && is_numeric($id)){
             if ($this->model_principal->borrar_recurs($id)){
                 return redirect(base_url("recursos"));
             }
@@ -493,30 +499,23 @@ class controlador_principal  extends controlador_redirectpermisos
         $data['title'] = 'Mostrar recurs';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
 
+        
 
-        if($id != NULL){
-
-            
-
+        if($id != NULL && is_numeric($id)){
 
             $data['inforecurs']= $this->model_principal->get_recurs_individual($id)[0];
-
-            $this->recursPrivadesa_redirect($data['inforecurs']->privadesa,$data['inforecurs']->autor);
-
-
+            $this->redirectPermisos_pagines_ncontroller($data['inforecurs']->privadesa,$data['inforecurs']->autor);
 
             if ($this->input->server('REQUEST_METHOD') === 'POST'){
 
-
-                if (!is_dir("./uploads/recurs_$id/fitxers"))
-                {
+                if (!is_dir("./uploads/recurs_$id/fitxers")){
                     mkdir("./uploads/recurs_$id/fitxers", 0777, true);
                     $dir_exist = false; // dir not exist
                 }
-
-                if($this->input->post('arxiuadjunt') != null){
-                    echo $arxiuadjunt= $this->input->post('arxiuadjunt');
-                    unlink("./uploads/recurs_$id/fitxers/$arxiuadjunt");
+                if($this->input->post('arxiuadjuntBorrar') != null){
+                    echo $arxiuadjuntBorrar= $this->input->post('arxiuadjuntBorrar');
+                    unlink("./uploads/recurs_$id/fitxers/$arxiuadjuntBorrar");
+                    return redirect(base_url("recursos/mostrar/$id"));
 
                 }else{
                     $config['upload_path'] = './uploads/recurs_' . $id . '/fitxers/';
@@ -535,32 +534,35 @@ class controlador_principal  extends controlador_redirectpermisos
 
                     }
                 }
-            }
-
-
-
-            $data['visitesrecurs']= null;
-            if($data['inforecurs']->tipus_recurs=="infografia" || $data['inforecurs']->tipus_recurs=="pissarra"){
-                $data['visitesrecurs']= $this->model_principal->comptar_visites_recurs($id)[0]->visites_img;
-            }
-            
-            $this->load->helper('directory');
-            $data['arxiusadjunts'] = directory_map('./uploads/recurs_' . $id . '/fitxers');
-
-
-            $data['categoriarecurs']= $this->model_principal->get_categoria_recurs($id);
-            $data['tagsrecurs']= $this->model_buscador->tags_recurs($id);
-
-            if(!$this->ion_auth->in_group("admin") && !$this->ion_auth->in_group("professor")){
-                $data['arxiusadjunts_permis']= "no";
             }else{
-                $data['arxiusadjunts_permis']= "si";
+
+                if($data['inforecurs']->tipus_recurs=="infografia" || $data['inforecurs']->tipus_recurs=="pissarra"){
+                    $data['visitesrecurs']= $this->model_principal->comptar_visites_recurs($id)[0]->visites_img;
+                }else{
+                    $data['visitesrecurs']= null;
+                }
+                
+                $this->load->helper('directory');
+                $data['arxiusadjunts'] = directory_map('./uploads/recurs_' . $id . '/fitxers');
+
+                $data['categoriarecurs']= $this->model_principal->get_categoria_recurs($id);
+                $data['tagsrecurs']= $this->model_buscador->tags_recurs($id);
+
+                if(!$this->ion_auth->in_group("admin") && !$this->ion_auth->in_group("professor")){
+                    $data['arxiusadjunts_permis']= "no";
+                }else{
+                    $data['arxiusadjunts_permis']= "si";
+                }
+
+
+                
+                $this->load->view('templates/header', $data);
+                $this->load->view('veure_recurs', $data);
+                $this->load->view('templates/footer', $data);
+
             }
 
-
-            $this->load->view('templates/header', $data);
-            $this->load->view('veure_recurs', $data);
-            $this->load->view('templates/footer', $data);
+            
 
         }else{
             return redirect(base_url());
@@ -570,39 +572,39 @@ class controlador_principal  extends controlador_redirectpermisos
 
 
 
-    public function recursPrivadesa_redirect($privadesa,$autor){
+    // public function recursPrivadesa_redirect($privadesa,$autor){
 
-        // Si no ets administrador
-        if(!$this->ion_auth->in_group("admin") && !$this->ion_auth->in_group("professor")){
+    //     // Si no ets administrador
+    //     if(!$this->ion_auth->in_group("admin") && !$this->ion_auth->in_group("professor")){
 
-            if($privadesa=="public"){
-            }
-            else if($privadesa=="privat"){
+    //         if($privadesa=="public"){
+    //         }
+    //         else if($privadesa=="privat"){
 
-                if($autor != $this->ion_auth->user()->row()->id){
+    //             if($autor != $this->ion_auth->user()->row()->id){
 
-                    $this->session->set_flashdata('message', "No tens permís per visualitzar aquest recurs.");
-                    return redirect(base_url("recursos"));
+    //                 $this->session->set_flashdata('message', "No tens permís per visualitzar aquest recurs.");
+    //                 return redirect(base_url("recursos"));
 
-                }else{
+    //             }else{
                     
-                }
+    //             }
                 
-            }else{
-                $potVisualitzar= $this->model_principal->usuari_pot_visualitzar($this->ion_auth->user()->row()->id, $privadesa);
+    //         }else{
+    //             $potVisualitzar= $this->model_principal->usuari_pot_visualitzar($this->ion_auth->user()->row()->id, $privadesa);
                 
-                if($potVisualitzar[0]->countid == 0){
-                    $this->session->set_flashdata('message', "No tens permís per visualitzar aquest recurs.");
-                    return redirect(base_url("recursos"));
-                }
+    //             if($potVisualitzar[0]->countid == 0){
+    //                 $this->session->set_flashdata('message', "No tens permís per visualitzar aquest recurs.");
+    //                 return redirect(base_url("recursos"));
+    //             }
                 
-            }
+    //         }
 
-        }
+    //     }
 
 
 
-    }
+    // }
 
 
 

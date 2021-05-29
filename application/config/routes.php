@@ -51,10 +51,11 @@ $route['borrar_usuari/(:any)'] = 'controlador_administrador/borrar_usuari/$1';
 
 $route['api'] = 'controlador_api/index';
 
-$route['fitxers_descarregar/(:any)/(:any)'] = 'controlador_fitxers/descarregar_fitxer/$1/$2';
+$route['fitxers_descarregar/(:any)/(:any)'] = 'controlador_fitxers/descarregar_fitxer_adjunt/$1/$2';
 $route['video_mostrar/(:any)/(:any)'] = 'controlador_fitxers/mostrar_video_fitxer/$1/$2';
 $route['imatge_mostrar/(:any)/(:any)'] = 'controlador_fitxers/mostrar_imatge_fitxer/$1/$2';
 
+$route['test'] = 'controlador_fitxers/test';
 
 
 

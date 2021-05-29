@@ -8,17 +8,13 @@
     <div class="border bg-light p-3 rounded"><?php echo htmlspecialchars_decode($inforecurs->descripcio); ?></div>
 
 
-    <?php if($inforecurs->tipus_recurs=="infografia"){ ?>
+    <?php if($inforecurs->tipus_recurs=="infografia" || $inforecurs->tipus_recurs=="pissarra"){ ?>
 
-        <img src="<?php echo base_url("uploads/recurs_" . $inforecurs->id . "/" . $inforecurs->arxiu_name) ?>" class="img-fluid mt-2" alt="Infografia">
+        <img src="<?php echo base_url("imatge_mostrar/" . $inforecurs->id . "/" . $inforecurs->arxiu_name) ?>" class="img-fluid mt-2" alt="Infografia">
 
     <?php }else if($inforecurs->tipus_recurs=="video_arxiu"){ ?>
 
-        <video src="<?php echo base_url("uploads/recurs_" . $inforecurs->id . "/" . $inforecurs->arxiu_name) ?>" class="img-fluid mt-2" controls></video>
-
-    <?php }else if($inforecurs->tipus_recurs=="pissarra"){ ?>
-
-        <img src="<?php echo base_url("uploads/recurs_" . $inforecurs->id . "/" . $inforecurs->arxiu_name) ?>" class="img-fluid mt-2" alt="Infografia">
+        <video src="<?php echo base_url("video_mostrar/" . $inforecurs->id . "/" . $inforecurs->arxiu_name) ?>" class="img-fluid mt-2" controls></video>
 
     <?php }else if($inforecurs->tipus_recurs=="video_youtube"){ ?>
 
@@ -92,7 +88,7 @@
         <div class="border bg-light p-3 rounded mt-3">
             <p>Arxius adjunts:</p>
             <?php if($arxiusadjunts != null){foreach($arxiusadjunts as $arxiu){
-                echo "<a href='../../uploads/recurs_$inforecurs->id/fitxers/$arxiu' download>$arxiu</a>";?>
+                echo "<a href='" . base_url('fitxers_descarregar/' . $inforecurs->id .'/'. $arxiu) . "' download>$arxiu</a>";?>
                 <button onclick="borrarArxiu('<?php echo $arxiu; ?>')" class="btn btn-danger btn-sm rounded-circle">x</button><br>
             <?php }}else{echo "-Sense fitxers adjunts-";}?><br>
             
@@ -110,7 +106,7 @@
                     type: 'POST',
                     url: '<?php echo base_url("recursos/mostrar/" . $inforecurs->id) ?>',
                     data: { 
-                        'arxiuadjunt': arxiu
+                        'arxiuadjuntBorrar': arxiu
                     },
                     success: function(msg){
                         location.reload();
@@ -126,7 +122,7 @@
         <div class="border bg-light p-3 rounded mt-3">
             <p>Arxius adjunts:</p>
             <?php if($arxiusadjunts != null){foreach($arxiusadjunts as $arxiu){
-                echo "<a href='../../uploads/recurs_$inforecurs->id/fitxers/$arxiu' download>$arxiu</a><br>";?>
+                echo "<a href='" . base_url('fitxers_descarregar/' . $inforecurs->id .'/'. $arxiu) . "' download>$arxiu</a><br>";?>
             <?php }}else{echo "-Sense fitxers adjunts-";}?>
         </div>
 
