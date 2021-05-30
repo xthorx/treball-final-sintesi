@@ -1,6 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class controlador_buscador  extends CI_Controller
+
+require_once(dirname(__FILE__) . "/controlador_redirectpermisos.php");
+
+class controlador_buscador  extends controlador_redirectpermisos
 {
 
     public function __construct()
@@ -96,12 +99,13 @@ class controlador_buscador  extends CI_Controller
                 
             }
 
-
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('buscador', $data);
             $this->load->view('templates/footer', $data);
         }
         else{
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('buscador', $data);
             $this->load->view('templates/footer', $data);

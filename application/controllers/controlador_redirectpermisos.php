@@ -19,6 +19,24 @@ class controlador_redirectpermisos  extends CI_Controller
         
     }
 
+    public function check_user_type(){
+        if($this->ion_auth->logged_in()){
+            if($this->ion_auth->in_group("admin")){
+                $user_type="admin";
+            }else if($this->ion_auth->in_group("professor")){
+                $user_type="professor";
+            }else if($this->ion_auth->in_group("alumne")){
+                $user_type="alumne";
+            }else{
+                $user_type="no";
+            }
+        }else{
+            $user_type="no";
+        }
+
+        return $user_type;
+    }
+
     public function redirectPermisos_pagines_ncontroller($permis){
 
         if($permis=="professor"){

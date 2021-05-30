@@ -62,6 +62,7 @@ class controlador_administrador  extends controlador_redirectpermisos
 
         $data['allGroups']= $this->model_administrador->select_groups();
 
+        $data['grup_usuari']= $this->check_user_type();
         $this->load->view('templates/header', $data);
         $this->load->view('admin_usuaris', $data);
         $this->load->view('templates/footer', $data);
@@ -102,6 +103,8 @@ class controlador_administrador  extends controlador_redirectpermisos
             $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
             $data['infoPerfil']= $this->model_administrador->select_user_info($this->ion_auth->user()->row()->id)[0];
 
+
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('perfil', $data);
             $this->load->view('templates/footer', $data);
@@ -136,6 +139,8 @@ class controlador_administrador  extends controlador_redirectpermisos
 
         if ($this->form_validation->run() == FALSE)
         {
+
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('contrasenya', $data);
             $this->load->view('templates/footer', $data);
@@ -202,6 +207,7 @@ class controlador_administrador  extends controlador_redirectpermisos
         {
             $data['usuariContra']= $this->model_principal->autor_name($id)[0]->username;
 
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/nova_contrasenya_admin', $data);
             $this->load->view('templates/footer', $data);
@@ -306,6 +312,7 @@ class controlador_administrador  extends controlador_redirectpermisos
 
         $data['allGroups']= $this->model_administrador->select_groups();
 
+        $data['grup_usuari']= $this->check_user_type();
         $this->load->view('templates/header', $data);
         $this->load->view('admin_alumnes', $data);
         $this->load->view('templates/footer', $data);
@@ -372,6 +379,7 @@ class controlador_administrador  extends controlador_redirectpermisos
             $data['classesAlumne']= $this->model_administrador->get_classes_from_alumne($id);
             $data['infoUsuari']= $this->model_principal->info_usuari($id);
             
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/alumne_classes', $data);
             $this->load->view('templates/footer', $data);

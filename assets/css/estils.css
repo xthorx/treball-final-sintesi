@@ -1,0 +1,21 @@
+ul.list-unstyled.components li a span {
+    transition: all 0.3s ease;
+}
+.collapseMenuButton {
+    transform: rotate(0deg);
+ }
+.collapseMenuButton.collapsed .fa-chevron-up {
+    transform: rotate(180deg);
+}
+
+::placeholder {
+  color: gray!important;
+  opacity: 1;
+}
+
+input.form-control{
+	
+	border: 1px solid #ced4da;
+	
+}
+

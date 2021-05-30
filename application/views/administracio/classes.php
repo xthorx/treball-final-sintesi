@@ -5,7 +5,7 @@
 </div>
 
 <?php foreach($classeList as $classe){ ?>
-    <div class="bg-light p-3 mb-2 container">
+    <div class="bg-light border p-3 mb-2 container">
 
         <div class="row text-center">
 

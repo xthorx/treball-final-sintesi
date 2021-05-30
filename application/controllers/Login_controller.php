@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Login_controller  extends CI_Controller
+require_once(dirname(__FILE__) . "/controlador_redirectpermisos.php");
+
+class Login_controller  extends controlador_redirectpermisos
 {
 
     public function __construct()
@@ -61,6 +63,7 @@ class Login_controller  extends CI_Controller
 		}
 		else
 		{
+            $data['grup_usuari']= $this->check_user_type();
 			$this->load->view('templates/header', $data);
             $this->load->view('login/login', $data);
             $this->load->view('templates/footer', $data);
@@ -144,6 +147,7 @@ class Login_controller  extends CI_Controller
 
 			
 		}else{
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('login/register', $data);
             $this->load->view('templates/footer', $data);

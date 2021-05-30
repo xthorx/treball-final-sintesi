@@ -52,20 +52,8 @@ class controlador_principal  extends controlador_redirectpermisos
 
         $data['categoriesList']= $this->dataTemp;
 
-        if($this->ion_auth->logged_in()){
-            if($this->ion_auth->in_group("admin")){
-                $data['grup_usuari']="admin";
-            }else if($this->ion_auth->in_group("professor")){
-                $data['grup_usuari']="professor";
-            }else if($this->ion_auth->in_group("alumne")){
-                $data['grup_usuari']="alumne";
-            }
-        }else{
-            $data['grup_usuari']="no";
-        }
-        
 
-
+        $data['grup_usuari']= $this->check_user_type();
         $this->load->view('templates/header', $data);
         $this->load->view('benvingut', $data);
         $this->load->view('templates/footer', $data);
@@ -116,7 +104,7 @@ class controlador_principal  extends controlador_redirectpermisos
                 $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
             }
 
-
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('categoria', $data);
             $this->load->view('templates/footer', $data);
@@ -155,7 +143,7 @@ class controlador_principal  extends controlador_redirectpermisos
 
 
 
-
+        $data['grup_usuari']= $this->check_user_type();
         $this->load->view('templates/header', $data);
         $this->load->view('recursos_llistat', $data);
         $this->load->view('templates/footer', $data);
@@ -368,6 +356,7 @@ class controlador_principal  extends controlador_redirectpermisos
             $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
             $data['classesList']= $this->model_principal->obtenir_totes_classes();
 
+            $data['grup_usuari']= $this->check_user_type();
 			$this->load->view('templates/header', $data);
             $this->load->view('crear_recurs', $data);
             $this->load->view('templates/footer', $data);
@@ -457,7 +446,7 @@ class controlador_principal  extends controlador_redirectpermisos
             $data['tagsUsuari']= $this->model_buscador->tags_recurs($id);
 
 
-
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('editar_recurs', $data);
             $this->load->view('templates/footer', $data);
@@ -555,7 +544,7 @@ class controlador_principal  extends controlador_redirectpermisos
                 }
 
 
-                
+                $data['grup_usuari']= $this->check_user_type();
                 $this->load->view('templates/header', $data);
                 $this->load->view('veure_recurs', $data);
                 $this->load->view('templates/footer', $data);
@@ -639,6 +628,7 @@ class controlador_principal  extends controlador_redirectpermisos
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
         $data['tagsList']= $this->model_principal->obtenir_tots_tags();
 
+        $data['grup_usuari']= $this->check_user_type();
         $this->load->view('templates/header', $data);
         $this->load->view('administracio/tags', $data);
         $this->load->view('templates/footer', $data);
@@ -675,6 +665,8 @@ class controlador_principal  extends controlador_redirectpermisos
             }
             else{
                 $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
+
+                $data['grup_usuari']= $this->check_user_type();
                 $this->load->view('templates/header', $data);
                 $this->load->view('administracio/editar_tag', $data);
                 $this->load->view('templates/footer', $data);
@@ -691,6 +683,7 @@ class controlador_principal  extends controlador_redirectpermisos
             $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
             $data['editarTag']= $this->model_principal->obtenir_info_tag($id);
 
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/editar_tag', $data);
             $this->load->view('templates/footer', $data);
@@ -729,6 +722,8 @@ class controlador_principal  extends controlador_redirectpermisos
             }
         }
         else{
+
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/crear_tag', $data);
             $this->load->view('templates/footer', $data);
@@ -775,6 +770,8 @@ class controlador_principal  extends controlador_redirectpermisos
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
         $data['categoriaList']= $this->model_principal->obtenir_totes_categories();
 
+
+        $data['grup_usuari']= $this->check_user_type();
         $this->load->view('templates/header', $data);
         $this->load->view('administracio/categories', $data);
         $this->load->view('templates/footer', $data);
@@ -827,6 +824,8 @@ class controlador_principal  extends controlador_redirectpermisos
             $data['editarCategoria']= $this->model_principal->obtenir_info_categoria($id);
             $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
 
+
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/editar_categoria', $data);
             $this->load->view('templates/footer', $data);
@@ -864,6 +863,8 @@ class controlador_principal  extends controlador_redirectpermisos
             }
         }
         else{
+
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/crear_categoria', $data);
             $this->load->view('templates/footer', $data);
@@ -924,6 +925,8 @@ class controlador_principal  extends controlador_redirectpermisos
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
         $data['classeList']= $this->model_principal->obtenir_totes_classes();
 
+
+        $data['grup_usuari']= $this->check_user_type();
         $this->load->view('templates/header', $data);
         $this->load->view('administracio/classes', $data);
         $this->load->view('templates/footer', $data);
@@ -960,6 +963,8 @@ class controlador_principal  extends controlador_redirectpermisos
             }
             else{
                 $data['categoriesList']= $this->model_principal->obtenir_totes_categories();
+
+                $data['grup_usuari']= $this->check_user_type();
                 $this->load->view('templates/header', $data);
                 $this->load->view('administracio/editar_classe', $data);
                 $this->load->view('templates/footer', $data);
@@ -976,6 +981,7 @@ class controlador_principal  extends controlador_redirectpermisos
             $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
             $data['editarClasse']= $this->model_principal->obtenir_info_classe($id);
 
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/editar_classe', $data);
             $this->load->view('templates/footer', $data);
@@ -1014,6 +1020,8 @@ class controlador_principal  extends controlador_redirectpermisos
             }
         }
         else{
+
+            $data['grup_usuari']= $this->check_user_type();
             $this->load->view('templates/header', $data);
             $this->load->view('administracio/crear_classe', $data);
             $this->load->view('templates/footer', $data);
@@ -1060,7 +1068,7 @@ class controlador_principal  extends controlador_redirectpermisos
 
 
 
-
+        $data['grup_usuari']= $this->check_user_type();
         $this->load->view('templates/header', $data);
         $this->load->view('recursos_llistat_public', $data);
         $this->load->view('templates/footer', $data);

@@ -17,10 +17,10 @@
 
 <form action="<?php echo base_url('contrasenya')?>" method="POST" class="mx-auto text-center mt-4" style="max-width: 250px">
 
-    <input type="text" name="contra_vella" style="max-width: 250px;" placeholder="Contrasenya vella" class="form-control text-center mb-4 " required>
+    <input type="text" name="contra_vella" style="max-width: 250px;" placeholder="Contrasenya vella" class="form-control text-center mb-4" required>
     
-    <input type="text" name="contra_nova1" style="max-width: 250px;" placeholder="Contrasenya nova" class="form-control text-center mb-2 " required>
-    <input type="text" name="contra_nova2" style="max-width: 250px;" placeholder="Repeteix la nova contrasenya" class="form-control text-center " required>
+    <input type="text" name="contra_nova1" style="max-width: 250px;" placeholder="Contrasenya nova" class="form-control text-center mb-2" required>
+    <input type="text" name="contra_nova2" style="max-width: 250px;" placeholder="Repeteix la nova contrasenya" class="form-control text-center" required>
 
         
     <input type="submit" name="submit" value="Guardar canvis" class="btn btn-primary mt-4">     
