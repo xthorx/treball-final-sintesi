@@ -46,8 +46,8 @@ class controlador_principal  extends controlador_redirectpermisos
         }
         
         
-        $data['title'] = 'Benvingut a la pàgina principal';
-        $data['subtitle'] = 'Escull on vols anar...';
+        $data['title'] = 'Accedeix als recursos de les teves assignatures';
+        $data['subtitle'] = 'Et presentem DWTube, on podràs accedir des del teu compte per poder veure<br>tots els continguts de les teves assignatures i realitzar les activitats<br>proposades pel professorat.';
         $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
 
         $data['categoriesList']= $this->dataTemp;
@@ -389,18 +389,16 @@ class controlador_principal  extends controlador_redirectpermisos
 
         $data['tagslist']= $this->model_principal->obtenir_tots_tags();
 
-        if($id==NULL && is_numeric($id)){
+        if($id==NULL){
 
-            if ($this->form_validation->run() === TRUE)
-            {   
-                $totsTags= $this->model_principal->obtenir_tots_tags();
+            if ($this->form_validation->run() === TRUE){
 
-                if(!empty($this->input->post('check_list'))) {
+                if(!empty($this->input->post('check_list'))){
 
-                    foreach($totsTags as $tagall){
+                    foreach($data['tagslist'] as $tagall){
                         $trobat=0;
 
-                        foreach($this->input->post('check_list') as $tag) {
+                        foreach($this->input->post('check_list') as $tag){
                             if($tagall->id==$tag){
                                 $this->model_administrador->set_recurs_tag($this->input->post('id'),$tag);
                                 $trobat++;
@@ -478,6 +476,7 @@ class controlador_principal  extends controlador_redirectpermisos
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+            
         }else{
             $data['loggedin'] = false;
             // $this->session->set_flashdata('not_loggedin', "not_loggedin");
@@ -493,7 +492,24 @@ class controlador_principal  extends controlador_redirectpermisos
         if($id != NULL && is_numeric($id)){
 
             $data['inforecurs']= $this->model_principal->get_recurs_individual($id)[0];
-            $this->redirectPermisos_pagines_ncontroller($data['inforecurs']->privadesa,$data['inforecurs']->autor);
+
+            
+
+            if($data['inforecurs']->privadesa=="public"){
+                //pot entrar tothom
+            }else if($data['inforecurs']->privadesa=="privat"){
+                $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
+            }else if(is_numeric($data['inforecurs']->privadesa)){
+                if($data['loggedin'] == true){
+                    $this->redirectPermisos_recursos_grups($data['inforecurs']->privadesa, $this->ion_auth->user()->row()->id); //privadesa,user_id
+                }else{
+                    $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+                    return redirect(base_url(""));
+                }
+                
+            }
+
+
 
             if ($this->input->server('REQUEST_METHOD') === 'POST'){
 

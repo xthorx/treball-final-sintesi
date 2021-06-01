@@ -8,6 +8,7 @@ class controlador_redirectpermisos  extends CI_Controller
         parent::__construct();
         $this->load->model('model_buscador');
         $this->load->model('model_principal');
+        $this->load->model('model_administrador');
 
         $this->load->helper('url_helper');
         $this->load->library('session');
@@ -61,7 +62,34 @@ class controlador_redirectpermisos  extends CI_Controller
                 return redirect(base_url(""));
             }
         }
+    }
 
+
+
+
+    public function redirectPermisos_recursos_grups($privadesaRecurs, $IDUser){
+
+        // echo "privadesaRecurs: $privadesaRecurs <br>";
+        // echo "IDUser: $IDUser <br><br>";
+        // die();
+
+        if($this->ion_auth->in_group("professor") || $this->ion_auth->in_group("admin")){
+        }else if($this->ion_auth->in_group("alumne")){
+            $classesAlumne= $this->model_administrador->get_classes_from_alumne($IDUser);
+            $trobat= 0;
+            foreach($classesAlumne as $classe){
+                if($privadesaRecurs == $classe->id){
+                    $trobat= 1;
+                }
+            }
+            if($trobat==0){
+                $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+                return redirect(base_url(""));
+            }
+        }else{
+            $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+            return redirect(base_url(""));
+        }
     }
 
     

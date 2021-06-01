@@ -23,15 +23,31 @@ class controlador_fitxers  extends controlador_redirectpermisos
 
     public function descarregar_fitxer_adjunt($ruta,$nomfitxer){
 
+
+        $infoRecursIndividual= $this->model_principal->get_recurs_individual($ruta)[0];
+        if($infoRecursIndividual->privadesa=="public"){
+            //pot entrar tothom
+        }else if($infoRecursIndividual->privadesa=="privat"){
+            $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
+        }else if(is_numeric($infoRecursIndividual->privadesa)){
+            if($this->ion_auth->logged_in()){
+                $this->redirectPermisos_recursos_grups($infoRecursIndividual->privadesa, $this->ion_auth->user()->row()->id); //privadesa,user_id
+            }else{
+                $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+                return redirect(base_url(""));
+            }
+            
+        }
+
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
-            // $data['loggedin'] = false;
-            $this->session->set_flashdata('not_loggedin', "not_loggedin");
-            return redirect(base_url("login"));
-            die();
+            $data['loggedin'] = false;
+            // $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            // return redirect(base_url("login"));
+            // die();
         }
 
         $image_path=file_get_contents('../../uploads/recurs_'.$ruta.'/fitxers/'. $nomfitxer);
@@ -54,15 +70,30 @@ class controlador_fitxers  extends controlador_redirectpermisos
 
     public function mostrar_video_fitxer($ruta,$nomfitxer){
 
+        $infoRecursIndividual= $this->model_principal->get_recurs_individual($ruta)[0];
+        if($infoRecursIndividual->privadesa=="public"){
+            //pot entrar tothom
+        }else if($infoRecursIndividual->privadesa=="privat"){
+            $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
+        }else if(is_numeric($infoRecursIndividual->privadesa)){
+            if($this->ion_auth->logged_in()){
+                $this->redirectPermisos_recursos_grups($infoRecursIndividual->privadesa, $this->ion_auth->user()->row()->id); //privadesa,user_id
+            }else{
+                $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+                return redirect(base_url(""));
+            }
+            
+        }
+
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
-            // $data['loggedin'] = false;
-            $this->session->set_flashdata('not_loggedin', "not_loggedin");
-            return redirect(base_url("login"));
-            die();
+            $data['loggedin'] = false;
+            // $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            // return redirect(base_url("login"));
+            // die();
         }
 
         $video_path=file_get_contents('../../uploads/recurs_'.$ruta.'/'. $nomfitxer);
@@ -74,15 +105,32 @@ class controlador_fitxers  extends controlador_redirectpermisos
 
     public function mostrar_imatge_fitxer($ruta,$nomfitxer){
 
+        
+
+        $infoRecursIndividual= $this->model_principal->get_recurs_individual($ruta)[0];
+        if($infoRecursIndividual->privadesa=="public"){
+            //pot entrar tothom
+        }else if($infoRecursIndividual->privadesa=="privat"){
+            $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
+        }else if(is_numeric($infoRecursIndividual->privadesa)){
+            if($this->ion_auth->logged_in()){
+                $this->redirectPermisos_recursos_grups($infoRecursIndividual->privadesa, $this->ion_auth->user()->row()->id); //privadesa,user_id
+            }else{
+                $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+                return redirect(base_url(""));
+            }
+            
+        }
+
         // HEADER LOGGEDIN VARIABLE
         if($this->ion_auth->logged_in()){
             $data['loggedin'] = true;
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
-            // $data['loggedin'] = false;
-            $this->session->set_flashdata('not_loggedin', "not_loggedin");
-            return redirect(base_url("login"));
-            die();
+            $data['loggedin'] = false;
+            // $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            // return redirect(base_url("login"));
+            // die();
         }
 
         $image_path=file_get_contents('../../uploads/recurs_'.$ruta.'/'. $nomfitxer);

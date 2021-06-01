@@ -13,7 +13,7 @@
             <input type="text" name="busqueda" placeholder="Text per buscar" class="form-control text-center d-inline-block col-10" required>
             
 
-            <button type="submit" class="btn btn-primary col-2 mb-3 form-control">
+            <button type="submit" class="btn btn-primary col-2 mb-3">
                 <i class="fas fa-search"></i>
             </button>
 
@@ -41,7 +41,7 @@
         </select>
 
 
-        <button type="submit" class="btn btn-primary form-control my-3">
+        <button type="submit" class="btn btn-primary my-3">
             <i class="fas fa-search"></i> Buscar
         </button>
 
@@ -55,7 +55,7 @@
 <?php if (isset($missatge)){echo $missatge;} ?>
 <?php if (isset($messageion)){echo "<div class='text-danger'>$messageion</div>";} ?>
 
-</div>
+
 
 
 <?php if(!$this->input->get('buscador_avancat')){if(isset($tagsFiltre)){ ?>
@@ -77,7 +77,7 @@
                     ?>
             </select>
 
-            <button type="submit" class="btn btn-primary form-control w-auto float-right">
+            <button type="submit" class="btn btn-primary w-auto float-right">
                 <i class="fas fa-search"></i> Filtrar
             </button>
         </form>
@@ -106,7 +106,7 @@
     }
     foreach($resultatBusqueda as $recurs){ ?>
 
-    <div class="bg-light p-3 mb-2 container">
+    <div class="bg-light p-3 mb-2 container border">
         <div class="row text-center">
             <div class="col-1"><p class="m-0 p-0">ID: <?php echo $recurs->id?></p></div>
             <div class="col-3"><p class="m-0 p-0">Titol: <a href="recursos/mostrar/<?php echo $recurs->id?>"><b><?php echo $recurs->titol?></b></a></p></div>
@@ -126,8 +126,7 @@ if(isset($no_resultat)){
     echo "<div class='bg-light p-3 mb-2 container text-center'>No s'ha trobat cap resultat a la teva busqueda.</div>";
 }
 foreach($resultatBusquedaTags as $recurs){ ?>
-<div class="bg-light p-3 mb-2 container">
-<div class="bg-light p-3 mb-2 container">
+<div class="bg-light p-3 mb-2 container border">
         <div class="row text-center">
             <div class="col-1"><p class="m-0 p-0">ID: <?php echo $recurs->id?></p></div>
             <div class="col-3"><p class="m-0 p-0">Titol: <a href="recursos/mostrar/<?php echo $recurs->id?>"><b><?php echo $recurs->titol?></b></a></p></div>
@@ -136,6 +135,7 @@ foreach($resultatBusquedaTags as $recurs){ ?>
             <div class="col-2"><p class="m-0 p-0">Tipus: <b><?php echo $recurs->tipus_recurs?></b></p></div>
             <div class="col-2"><p class="m-0 p-0">Tag/s: <b><?php echo $recurs->tag ?></b></p></div>
         </div>
-    </div>
 </div>
 <?php }} ?>
+
+</div>
