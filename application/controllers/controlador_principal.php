@@ -193,15 +193,15 @@ class controlador_principal  extends controlador_redirectpermisos
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
                     
-                    if (!is_dir('./uploads/recurs_' . $last_inserted))
+                    if (!is_dir('../../uploads/recurs_' . $last_inserted))
                     {
-                        mkdir('./uploads/recurs_' . $last_inserted, 0777, true);
+                        mkdir('../../uploads/recurs_' . $last_inserted, 0777, true);
                         $dir_exist = false; // dir not exist
                     }
 
 
                     $config = array(
-                        'upload_path' => './uploads/recurs_' . $last_inserted,
+                        'upload_path' => '../../uploads/recurs_' . $last_inserted,
                         'allowed_types' => 'gif|jpg|png|jpeg|pdf',
                         'file_name' => 'infografia'
                     );
@@ -237,15 +237,15 @@ class controlador_principal  extends controlador_redirectpermisos
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
                     
-                    if (!is_dir('./uploads/recurs_' . $last_inserted))
+                    if (!is_dir('../../uploads/recurs_' . $last_inserted))
                     {
-                        mkdir('./uploads/recurs_' . $last_inserted, 0777, true);
+                        mkdir('../../uploads/recurs_' . $last_inserted, 0777, true);
                         $dir_exist = false; // dir not exist
                     }
 
 
                     $config = array(
-                        'upload_path' => './uploads/recurs_' . $last_inserted,
+                        'upload_path' => '../../uploads/recurs_' . $last_inserted,
                         'allowed_types' => 'mp4',
                         'file_name' => 'video_arxiu'
                     );
@@ -293,14 +293,14 @@ class controlador_principal  extends controlador_redirectpermisos
 
                 if ($last_inserted= $this->model_principal->insert_recurs($titol,$desc,$cat,$tipus,$priv)[0]->id_inserted){
                     
-                    if (!is_dir('./uploads/recurs_' . $last_inserted))
+                    if (!is_dir('../../uploads/recurs_' . $last_inserted))
                     {
-                        mkdir('./uploads/recurs_' . $last_inserted, 0777, true);
+                        mkdir('../../uploads/recurs_' . $last_inserted, 0777, true);
                         $dir_exist = false; // dir not exist
                     }
 
 
-                    file_put_contents('./uploads/recurs_' . $last_inserted . '/pissarra.png', file_get_contents($this->input->post('pissarra')));
+                    file_put_contents('../../uploads/recurs_' . $last_inserted . '/pissarra.png', file_get_contents($this->input->post('pissarra')));
 
                     $this->model_principal->set_filename_recurs($last_inserted,"pissarra.png");
 
@@ -311,7 +311,7 @@ class controlador_principal  extends controlador_redirectpermisos
                     }
 
                     // $config = array(
-                    //     'upload_path' => './uploads/recurs_' . $last_inserted,
+                    //     'upload_path' => '../../uploads/recurs_' . $last_inserted,
                     //     // 'allowed_types' => 'png',
                     //     'file_name' => 'pissarra'
                     // );
@@ -459,6 +459,7 @@ class controlador_principal  extends controlador_redirectpermisos
 
         if($id != NULL && is_numeric($id)){
             if ($this->model_principal->borrar_recurs($id)){
+                die();
                 return redirect(base_url("recursos"));
             }
             else{
@@ -523,7 +524,7 @@ class controlador_principal  extends controlador_redirectpermisos
                     return redirect(base_url("recursos/mostrar/$id"));
 
                 }else{
-                    $config['upload_path'] = './uploads/recurs_' . $id . '/fitxers/';
+                    $config['upload_path'] = '../../uploads/recurs_' . $id . '/fitxers/';
                     $config['allowed_types'] = '*';
                     $this->load->library('upload', $config);
             
@@ -548,7 +549,7 @@ class controlador_principal  extends controlador_redirectpermisos
                 }
                 
                 $this->load->helper('directory');
-                $data['arxiusadjunts'] = directory_map('./uploads/recurs_' . $id . '/fitxers');
+                $data['arxiusadjunts'] = directory_map('../../uploads/recurs_' . $id . '/fitxers');
 
                 $data['categoriarecurs']= $this->model_principal->get_categoria_recurs($id);
                 $data['tagsrecurs']= $this->model_buscador->tags_recurs($id);

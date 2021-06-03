@@ -103,12 +103,16 @@ function borrarRecurs(id){
     var myobj = document.getElementById("recurs" + id);
     myobj.remove();
 
-    $.ajax({
-        type:"POST",
-        url:"<?php echo base_url("/recursos/borrar/")?>" + id,
-        success:function(response){
-            // console.log("borrat");
-    }})
+
+    $.post( "<?php echo base_url("/recursos/borrar/")?>" + id, function( data ) {
+    });
+    
+    // $.ajax({
+    //     type:"POST",
+    //     url:"<?php echo base_url("/recursos/borrar/")?>" + id,
+    //     success:function(response){
+    //         // console.log("borrat");
+    // }})
 }
 
 

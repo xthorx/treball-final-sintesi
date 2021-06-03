@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+
+  mysql:
+    image: imatge_db
+    container_name: docker-compose-mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - mysqlvolume:/var/lib/mysql
+    
+  web:
+    image: imatge_web
+    container_name: docker-compose-php
+    ports:
+      - "80:80"
+    #volumes:
+    #  - mysqlvolume:/var/lib/mysql
+    links:
+      - mysql
+    volumes:
+      - uploadsvolume:/var/uploads
+
+volumes:
+  mysqlvolume:
+  uploadsvolume:
+            

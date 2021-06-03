@@ -1,0 +1,6 @@
+cd bases-dades
+docker build -t imatge_db .
+cd ../php-apache
+docker build -t imatge_web .
+cd ..
+docker-compose up -d

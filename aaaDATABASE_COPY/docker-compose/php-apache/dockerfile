@@ -1,0 +1,6 @@
+FROM php:7.4-apache
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2enmod rewrite
+COPY web /var/www/html
+COPY uploads /var/uploads
+RUN chmod -R 777 /var/uploads
+EXPOSE 80

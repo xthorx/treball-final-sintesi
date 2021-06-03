@@ -154,10 +154,13 @@ class model_principal  extends CI_Model
         $sql = "DELETE FROM tags_recursos WHERE id_recurs='$id'";
         $query = $this->db->query($sql);
 
-        delete_files('./uploads/recurs_' . $id);
-
-        rmdir('./uploads/recurs_' . $id . '/fitxers');
-        rmdir('./uploads/recurs_' . $id);
+        if(delete_files('../../uploads/recurs_' . $id)){
+        }
+        if(rmdir('../../uploads/recurs_' . $id . '/fitxers')){
+        }
+        if(rmdir('../../uploads/recurs_' . $id)){
+        }
+        
         
 
         return true;

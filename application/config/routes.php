@@ -55,7 +55,6 @@ $route['fitxers_descarregar/(:any)/(:any)'] = 'controlador_fitxers/descarregar_f
 $route['video_mostrar/(:any)/(:any)'] = 'controlador_fitxers/mostrar_video_fitxer/$1/$2';
 $route['imatge_mostrar/(:any)/(:any)'] = 'controlador_fitxers/mostrar_imatge_fitxer/$1/$2';
 
-$route['test'] = 'controlador_fitxers/test';
 
 
 
