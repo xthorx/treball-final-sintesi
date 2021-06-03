@@ -514,23 +514,26 @@ class controlador_principal  extends controlador_redirectpermisos
 
             if ($this->input->server('REQUEST_METHOD') === 'POST'){
 
-                if (!is_dir("./uploads/recurs_$id/fitxers")){
-                    mkdir("./uploads/recurs_$id/fitxers", 0777, true);
+                if (!is_dir("../../uploads/recurs_$id/fitxers")){
+                    mkdir("../../uploads/recurs_$id/fitxers", 0777, true);
                     $dir_exist = false; // dir not exist
                 }
                 if($this->input->post('arxiuadjuntBorrar') != null){
                     echo $arxiuadjuntBorrar= $this->input->post('arxiuadjuntBorrar');
-                    unlink("./uploads/recurs_$id/fitxers/$arxiuadjuntBorrar");
+                    unlink("../../uploads/recurs_$id/fitxers/$arxiuadjuntBorrar");
                     return redirect(base_url("recursos/mostrar/$id"));
 
                 }else{
                     $config['upload_path'] = '../../uploads/recurs_' . $id . '/fitxers/';
                     $config['allowed_types'] = '*';
+                    $config['max_size'] = 1000000;
                     $this->load->library('upload', $config);
             
                     if (!$this->upload->do_upload('fitxerAdjuntAfegir')) {
                         //no s'ha penjat
                         $error = array('error' => $this->upload->display_errors());
+
+                        die();
                         return redirect(base_url("recursos/mostrar/$id"));
 
                     } else {
