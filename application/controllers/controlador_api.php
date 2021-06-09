@@ -165,5 +165,6 @@ class controlador_api extends JwtAPI_Controller {
 
         $this->response(null, API_Controller::HTTP_OK); // OK (200) being the HTTP response code
     }
+    
 
 }

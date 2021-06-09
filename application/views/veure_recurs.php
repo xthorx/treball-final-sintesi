@@ -2,7 +2,7 @@
 
     <p class="border p-3 d-inline-block">Categoria: <a href="<?php echo base_url("categoria/" . $inforecurs->categoria); ?>"><?php echo $categoriarecurs; ?></a></p>
 
-    <h1 class="border bg-light p-3 rounded"><?php echo $inforecurs->titol; ?></h1>
+    <h1 class="border bg-light p-3 rounded"><i id="recursFavorit" class="far fa-star text-secondary"></i><i class="fas fa-star text-warning"></i> <?php echo $inforecurs->titol; ?></h1>
 
 
     <div class="border bg-light p-3 rounded"><?php echo htmlspecialchars_decode($inforecurs->descripcio); ?></div>

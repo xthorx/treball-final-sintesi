@@ -156,7 +156,7 @@ $config['recheck_timer']              = 0;                   /* The number of se
  |
  | Please customize
  */
-$config['session_hash'] = '6583d6c4f205998ecacc9f51b68a2a2e44ea0006';
+$config['session_hash'] = '6583d6c4f2referf51b68a2a34345a0006';
 
 /*
  | -------------------------------------------------------------------------

@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class News_api extends JwtAPI_Controller {
     public function __construct (){
         parent::__construct ();
-        // $this->load->model("News_model");
+        $this->load->model("model_principal");
         $this->load->model("Tokens_m");
 
         $this->load->add_package_path(APPPATH.'third_party/ion_auth/');
@@ -21,28 +21,41 @@ class News_api extends JwtAPI_Controller {
 
 
 
-        $this->output->set_header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        $this->output->set_header("Access-Control-Allow-Methods: GET, DELETE, OPTIONS");
+        $this->output->set_header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        $this->output->set_header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
         $this->output->set_header("Access-Control-Allow-Origin: *");
 
     }
     
     //MOSTRAR LES NOTICIES, TOTES O LA QUE SELECCIONIS
-    public function index_get2(){
+    public function index_get(){
 		
-        $id= $this->get('id');
+        if ($this->auth_request()) {
 
-        if($id==NULL){
-            $this->response('test', API_Controller::HTTP_OK);
-        }else{
-            $this->response('test', API_Controller::HTTP_OK);
+            $jwt = $this->renewJWT();
+
+            $token=explode(" ",$this->head ("Authorization"));
+            $token_data = JWT::decode($token[1],$this->config->item('jwt_key'),array('HS256')); 
+
+
+            $messagePost = [
+                'status' => API_Controller::HTTP_OK,
+                'token' => $jwt,
+                'recursos' => json_encode($this->model_principal->get_tots_recursos())
+            ];
+
+            $this->set_response($messagePost, API_Controller::HTTP_OK);
+
         }
-
+        
+        else {
+            $this->set_response("Error en l'autenticació amb el token: " . $this->error_message, $this->auth_code);
+        }
+        
     }
 
     //CREAR UNA NOTICIA NOVA
     public function index_post(){
-
 
         if($this->post('title')!=NULL){
 
@@ -147,8 +160,8 @@ class News_api extends JwtAPI_Controller {
 
 
     public function index_options() {
-        $this->output->set_header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        $this->output->set_header("Access-Control-Allow-Methods: GET, DELETE, OPTIONS");
+        $this->output->set_header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        $this->output->set_header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
         $this->output->set_header("Access-Control-Allow-Origin: *");
 
         $this->response(null, API_Controller::HTTP_OK); // OK (200) being the HTTP response code
