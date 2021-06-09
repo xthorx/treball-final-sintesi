@@ -50,6 +50,7 @@ $route['contrasenya_admin/(:any)'] = 'controlador_administrador/canviar_contrase
 $route['borrar_usuari/(:any)'] = 'controlador_administrador/borrar_usuari/$1';
 
 $route['api'] = 'controlador_api/index';
+$route['api2'] = 'news_api/index';
 
 $route['fitxers_descarregar/(:any)/(:any)'] = 'controlador_fitxers/descarregar_fitxer_adjunt/$1/$2';
 $route['video_mostrar/(:any)/(:any)'] = 'controlador_fitxers/mostrar_video_fitxer/$1/$2';
