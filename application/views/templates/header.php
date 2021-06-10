@@ -87,6 +87,9 @@
                   <span class="fa fa-chevron-up mr-3"></span> Opcions d'usuari
                </a>
                <div id="collapse3" class="collapse" aria-labelledby="headingTwo">
+                  <a class="btn btn-link px-0 text-left" href="<?php echo base_url("recursos/preferits")?>">
+                     <span class="fa fa-book mr-3 pl-4"></span> Recursos preferits
+                  </a>
                   <a class="btn btn-link px-0 text-left" href="<?php echo base_url("perfil")?>">
                      <span class="fa fa-user mr-3 pl-4"></span> Editar perfil
                   </a>

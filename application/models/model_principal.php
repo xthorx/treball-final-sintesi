@@ -146,12 +146,16 @@ class model_principal  extends CI_Model
 
 
     public function borrar_recurs($id){
+
         $this->load->helper("file");
 
         $sql = "DELETE FROM recursos WHERE id='$id'";
         $query = $this->db->query($sql);
 
         $sql = "DELETE FROM tags_recursos WHERE id_recurs='$id'";
+        $query = $this->db->query($sql);
+
+        $sql = "DELETE FROM recursospreferits_usuaris WHERE recurs_id='$id'";
         $query = $this->db->query($sql);
 
         if(delete_files('../../uploads/recurs_' . $id)){
@@ -274,6 +278,38 @@ class model_principal  extends CI_Model
 
     }
 
+
+    
+    public function comprovar_preferits($userid){
+        $sql = "SELECT recursos.id, recursos.titol, recursos.tipus_recurs, recursos.categoria, recursos.autor, recursos.privadesa, tags.tag FROM `recursos` INNER JOIN `recursospreferits_usuaris` ON `recursos`.`id` = `recursospreferits_usuaris`.`recurs_id` INNER JOIN `tags_recursos` ON `recursos`.`id` = `tags_recursos`.`id_recurs` INNER JOIN `tags` ON `tags_recursos`.`id_tag` = `tags`.`id` WHERE `recursospreferits_usuaris`.`user_id`=$userid GROUP BY recursos.id";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    public function check_preferit($userid,$recursid){
+        $sql = "SELECT * FROM recursospreferits_usuaris WHERE user_id='$userid' AND recurs_id=$recursid";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    public function afegir_preferits($userid,$recursid){
+
+        $sql = "SELECT * FROM recursospreferits_usuaris WHERE user_id='$userid' AND recurs_id=$recursid";
+        $query = $this->db->query($sql);
+        
+        if($query->result()[0]==null){
+            $sql = "INSERT INTO recursospreferits_usuaris (user_id, recurs_id) VALUES ($userid, $recursid);";
+            $query = $this->db->query($sql);
+            return true;
+        }
+        
+    }
+
+    public function borrar_preferits($userid,$recursid){
+        $sql = "DELETE FROM recursospreferits_usuaris WHERE user_id='$userid' AND recurs_id=$recursid";
+        $query = $this->db->query($sql);
+        return true;
+    }
 
 
 

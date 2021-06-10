@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inicia la sessió</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="container">
+
+    <p class="mb-2 mt-3">Escriu el teu usuari i contrasenya per iniciar sesisó:</p>
+
+    <input [(ngModel)]="username" class="form-control mb-2" placeholder="Usuari">
+    <input [(ngModel)]="password" class="form-control mb-2" placeholder="Contrasenya">
+
+    <button class="btn btn-primary" (click)="loginFunction()">Iniciar sessió</button>
+
+  </div>
+
+
+
+</ion-content>

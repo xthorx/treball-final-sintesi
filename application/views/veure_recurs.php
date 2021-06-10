@@ -2,7 +2,13 @@
 
     <p class="border p-3 d-inline-block">Categoria: <a href="<?php echo base_url("categoria/" . $inforecurs->categoria); ?>"><?php echo $categoriarecurs; ?></a></p>
 
-    <h1 class="border bg-light p-3 rounded"><i id="recursFavorit" class="far fa-star text-secondary"></i><i class="fas fa-star text-warning"></i> <?php echo $inforecurs->titol; ?></h1>
+    <h1 class="border bg-light p-3 rounded">
+    <?php if($loggedin==true){
+        if($recursPreferit != "preferit"){  ?>
+            <i id="recursFavorit" class="far fa-star text-secondary" onclick="favoritsFuncio(<?php echo $inforecurs->id ?>)" style="cursor:pointer;"></i>
+        <?php }else{ ?>
+            <i id="recursFavorit" class="fas fa-star text-warning" onclick="treureFavoritsFuncio(<?php echo $inforecurs->id ?>)" style="cursor:pointer;"></i><?php }} ?>
+     <?php echo $inforecurs->titol; ?></h1>
 
 
     <div class="border bg-light p-3 rounded"><?php echo htmlspecialchars_decode($inforecurs->descripcio); ?></div>
@@ -113,7 +119,6 @@
                     }
                 });
             }
-            
         </script>
 
     <?php }else { ?>
@@ -130,6 +135,34 @@
     <?php }?>
 
 
+
+    <?php if($loggedin==true){?>
+    <script>   
+      
+        function favoritsFuncio(idRecurs){
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url("recursos/recursos_preferits?recurs=");?>' + idRecurs + '&accio=afegir_preferit',
+                success: function(msg){
+                    document.getElementById("recursFavorit").className = "fas fa-star text-warning";
+                    document.getElementById("recursFavorit").setAttribute("onclick","treureFavoritsFuncio("+idRecurs+")");
+                }
+            });
+        }
+
+        function treureFavoritsFuncio(idRecurs){
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url("recursos/recursos_preferits?recurs=");?>' + idRecurs + '&accio=treure_preferit',
+                success: function(msg){
+                    document.getElementById("recursFavorit").className = "far fa-star text-secondary";
+                    document.getElementById("recursFavorit").setAttribute("onclick","favoritsFuncio("+idRecurs+")");
+                }
+            });
+        }
+
+    </script>
+    <?php } ?>
     
 
 

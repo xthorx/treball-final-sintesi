@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class News_api extends JwtAPI_Controller {
+class Jwt_api extends JwtAPI_Controller {
     public function __construct (){
         parent::__construct ();
         $this->load->model("model_principal");
@@ -38,10 +38,11 @@ class News_api extends JwtAPI_Controller {
             $token_data = JWT::decode($token[1],$this->config->item('jwt_key'),array('HS256')); 
 
 
+
             $messagePost = [
                 'status' => API_Controller::HTTP_OK,
                 'token' => $jwt,
-                'recursos' => json_encode($this->model_principal->get_tots_recursos())
+                'recursos' => json_encode($this->model_principal->comprovar_preferits($token_data->usr))
             ];
 
             $this->set_response($messagePost, API_Controller::HTTP_OK);

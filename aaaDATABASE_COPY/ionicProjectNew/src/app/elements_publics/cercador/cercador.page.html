@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Veure tots els recursos</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+
+
+    <div class="container">
+
+        <p class="m-0 mt-3">Introdueix la teva cerca:</p>
+        <input [(ngModel)]="motCerca" class="form-control mb-2">
+
+        <ion-list>
+            <div *ngFor="let recurs of elements" style="margin: 0; padding: 0;">
+
+                <ion-item *ngIf="recurs.titol.toLowerCase().includes(motCerca.toLowerCase())">
+                    <ion-card style="width: 100%;">
+                        <ion-card-header>
+                            <ion-card-subtitle>ID del recurs: {{ recurs.id }}</ion-card-subtitle>
+                            <ion-card-title><a (click)="getResource(recurs.id)" style="cursor: pointer;">Titol:
+                                    {{recurs.titol }}</a></ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            ID de l'autor: {{ recurs.autor }}<br>
+                            Privadesa: {{ recurs.privadesa }}
+                        </ion-card-content>
+                    </ion-card>
+                </ion-item>
+
+            </div>
+        </ion-list>
+    </div>
+
+
+
+
+
+</ion-content>

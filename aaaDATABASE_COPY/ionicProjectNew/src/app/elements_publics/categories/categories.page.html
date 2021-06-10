@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Categories</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+    <ion-item>
+        <ion-label>Seleccionar categoria</ion-label>
+        <ion-select [(ngModel)]="categoriaselected" value="brown" okText="Seleccionar" cancelText="Cancelar">
+            <ion-select-option value="{{ cat.id }}" *ngFor="let cat of categories">{{ cat.nom }}</ion-select-option>
+        </ion-select>
+    </ion-item>
+
+
+
+
+    <!-- <ion-item>
+      <ion-label>Quantity</ion-label>
+      <ion-select [(ngModel)]="qty">
+          <ion-option value="1" selected="true">1</ion-option>
+          <ion-option value="2">2</ion-option>
+          <ion-option value="3">3</ion-option>
+      </ion-select>
+  </ion-item> -->
+
+
+
+    <div id="container" *ngFor="let drink of elements">
+        <ion-card style="width: 100%;" *ngIf="drink.categoria == categoriaselected">
+            <ion-card-header>
+                <ion-card-subtitle>ID del recurs: {{ drink.id }}</ion-card-subtitle>
+                <ion-card-title><a (click)="getResource(drink.id)">Titol: {{ drink.titol }}</a></ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                ID de l'autor: {{ drink.autor }}<br>
+                Privadesa: {{ drink.privadesa }}
+            </ion-card-content>
+        </ion-card>
+    </div>
+
+
+
+
+
+</ion-content>

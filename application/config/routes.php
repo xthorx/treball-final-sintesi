@@ -17,6 +17,8 @@ $route['recursos/editar/(:any)'] = 'controlador_principal/editar_recursos/$1';
 $route['recursos/editar'] = 'controlador_principal/editar_recursos';
 $route['recursos/borrar/(:any)'] = 'controlador_principal/borrar_recursos/$1';
 $route['recursos/mostrar/(:any)'] = 'controlador_principal/recurs_veure/$1';
+$route['recursos/recursos_preferits'] = 'controlador_principal/recursos_preferits_controlador';
+$route['recursos/preferits'] = 'controlador_principal/recursos_preferits_llistar';
 
 $route['administracio_tags'] = 'controlador_principal/admin_tags';
 $route['administracio_tags/editar'] = 'controlador_principal/editar_tag_individual';
@@ -50,7 +52,7 @@ $route['contrasenya_admin/(:any)'] = 'controlador_administrador/canviar_contrase
 $route['borrar_usuari/(:any)'] = 'controlador_administrador/borrar_usuari/$1';
 
 $route['api'] = 'controlador_api/index';
-$route['api2'] = 'news_api/index';
+$route['api2'] = 'jwt_api/index';
 
 $route['fitxers_descarregar/(:any)/(:any)'] = 'controlador_fitxers/descarregar_fitxer_adjunt/$1/$2';
 $route['video_mostrar/(:any)/(:any)'] = 'controlador_fitxers/mostrar_video_fitxer/$1/$2';

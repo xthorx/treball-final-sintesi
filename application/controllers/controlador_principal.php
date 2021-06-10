@@ -563,6 +563,15 @@ class controlador_principal  extends controlador_redirectpermisos
                     $data['arxiusadjunts_permis']= "si";
                 }
 
+                if($data['loggedin']==true){
+                    
+                    if(isset($this->model_principal->check_preferit($this->ion_auth->user()->row()->id,$data['inforecurs']->id)[0]->id)){
+                        $data['recursPreferit']= "preferit";
+                    }else{
+                        $data['recursPreferit']= "no";
+                    }
+                }
+                
 
                 $data['grup_usuari']= $this->check_user_type();
                 $this->load->view('templates/header', $data);
@@ -580,40 +589,86 @@ class controlador_principal  extends controlador_redirectpermisos
 
 
 
+    public function recursos_preferits_controlador(){
 
-    // public function recursPrivadesa_redirect($privadesa,$autor){
+        $data['inforecurs']= $this->model_principal->get_recurs_individual($this->input->get('recurs'))[0];
 
-    //     // Si no ets administrador
-    //     if(!$this->ion_auth->in_group("admin") && !$this->ion_auth->in_group("professor")){
-
-    //         if($privadesa=="public"){
-    //         }
-    //         else if($privadesa=="privat"){
-
-    //             if($autor != $this->ion_auth->user()->row()->id){
-
-    //                 $this->session->set_flashdata('message', "No tens permís per visualitzar aquest recurs.");
-    //                 return redirect(base_url("recursos"));
-
-    //             }else{
-                    
-    //             }
-                
-    //         }else{
-    //             $potVisualitzar= $this->model_principal->usuari_pot_visualitzar($this->ion_auth->user()->row()->id, $privadesa);
-                
-    //             if($potVisualitzar[0]->countid == 0){
-    //                 $this->session->set_flashdata('message', "No tens permís per visualitzar aquest recurs.");
-    //                 return redirect(base_url("recursos"));
-    //             }
-                
-    //         }
-
-    //     }
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+            
+        }else{
+            $data['loggedin'] = false;
+            // $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            // return redirect(base_url("login"));
+            // die();
+        }
 
 
+        if($data['inforecurs']->privadesa=="public"){
+            //pot entrar tothom
+        }else if($data['inforecurs']->privadesa=="privat"){
+            $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
+        }else if(is_numeric($data['inforecurs']->privadesa)){
+            if($data['loggedin'] == true){
+                $this->redirectPermisos_recursos_grups($data['inforecurs']->privadesa, $this->ion_auth->user()->row()->id); //privadesa,user_id
+            }else{
+                $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
+                return redirect(base_url(""));
+            }
+            
+        }
 
-    // }
+
+        $recursid= $this->input->get('recurs');
+        $userid= $this->ion_auth->user()->row()->id;
+
+        if($this->input->get('accio') == "afegir_preferit"){
+            $this->model_principal->afegir_preferits($userid,$recursid);
+        }else if($this->input->get('accio') == "treure_preferit"){
+            $this->model_principal->borrar_preferits($userid,$recursid);
+        }
+
+
+    }
+
+
+    public function recursos_preferits_llistar(){
+
+        $this->redirectPermisos_pagines_ncontroller("usuari"); //professor, admin o usuari
+
+        //HEADER LOGGEDIN VARIABLE
+        if($this->ion_auth->logged_in()){
+            $data['loggedin'] = true;
+            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
+        }else{
+            $this->session->set_flashdata('not_loggedin', "not_loggedin");
+            return redirect(base_url("login"));
+            die();
+
+            // $data['loggedin'] = false;
+        }
+
+
+        $data['title'] = 'Llistat dels teus recursos preferits';
+        $data['autor'] = '&copy;2021. Artur Boladeres Fabregat';
+
+        $data['totsRecursos']= $this->model_principal->comprovar_preferits($this->ion_auth->user()->row()->id);
+        
+
+        foreach ($data['totsRecursos'] as $rec){
+            $data['rec_categoria'][$rec->id]= $this->model_principal->category_name($rec->categoria)[0]->nom;
+            $data['rec_autor'][$rec->id]= $this->model_principal->autor_name($rec->autor)[0]->username;
+        }
+
+
+
+        $data['grup_usuari']= $this->check_user_type();
+        $this->load->view('templates/header', $data);
+        $this->load->view('recursos_llistat_public', $data);
+        $this->load->view('templates/footer', $data);
+    }
 
 
 
@@ -1094,6 +1149,9 @@ class controlador_principal  extends controlador_redirectpermisos
         $this->load->view('templates/footer', $data);
 
     }
+
+
+    
 
     
 
