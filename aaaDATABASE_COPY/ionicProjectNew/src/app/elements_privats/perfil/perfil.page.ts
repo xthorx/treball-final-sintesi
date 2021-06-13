@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Perfil } from '../../models/perfil.model';
 import { RecursService } from '../../services/recurs.service';
 
 @Component({
@@ -12,18 +13,32 @@ export class PerfilPage {
   public elements = [];
 
 
+
   constructor(private apiService: RecursService, private router: Router, private route: ActivatedRoute) {
+    
     this.apiService.infoPerfil();
     this.apiService.recursos.subscribe(
-      (RecursosOriginals: any) => {
+      (RecursosOriginals: any[]) => {
         this.elements = RecursosOriginals;
-
         console.log(this.elements);
         
       }
     );
 
   }
+
+  // constructor(private apiService: RecursService, private router: Router, private route: ActivatedRoute) {
+  //   this.apiService.infoPerfil();
+  //   this.apiService.perfil.subscribe(
+  //     (PerfilOriginal: Perfil) => {
+
+  //       this.elements= PerfilOriginal;
+  //       console.log(PerfilOriginal);
+        
+  //     }
+  //   );
+
+  // }
 
 
 

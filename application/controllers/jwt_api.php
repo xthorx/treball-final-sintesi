@@ -33,7 +33,7 @@ class Jwt_api extends JwtAPI_Controller {
         if ($this->auth_request()) {
 
 
-            if($this->input->post('perfil') != null){
+            if($this->input->get('perfil') != null){
                 $jwt = $this->renewJWT();
                 $token=explode(" ",$this->head ("Authorization"));
                 $token_data = JWT::decode($token[1],$this->config->item('jwt_key'),array('HS256')); 

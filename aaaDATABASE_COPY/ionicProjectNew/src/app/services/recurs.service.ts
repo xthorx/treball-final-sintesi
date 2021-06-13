@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { Recurs } from '../models/recurs.model';
+import { Perfil } from '../models/perfil.model';
 import { Categoria } from '../models/categoria.model';
 import { hostViewClassName } from '@angular/compiler';
 
@@ -17,6 +18,7 @@ export class RecursService {
   private _recursos: BehaviorSubject<Recurs[]> = new BehaviorSubject<Recurs[]>([]);
   private _categories: BehaviorSubject<Categoria[]> = new BehaviorSubject<Categoria[]>([]);
   private _recurs: BehaviorSubject<Recurs> = new BehaviorSubject<Recurs>(new Recurs);
+  private _perfil: BehaviorSubject<Perfil> = new BehaviorSubject<Perfil>(new Perfil);
 
   public multipleTimesError= "si";
 
@@ -33,6 +35,10 @@ export class RecursService {
 
   get recurs(): Observable<Recurs> {
     return this._recurs.asObservable();
+  }
+
+  get perfil(): Observable<Perfil> {
+    return this._perfil.asObservable();
   }
 
 
@@ -327,7 +333,7 @@ export class RecursService {
     this.http.get('http://localhost/treball-final-sintesi/api2?perfil=1', options).subscribe(
       (response: any) => {
 
-        console.log(JSON.parse(response));
+        localStorage.setItem('tokenUser', response.body.token);
 
         let usuariInfoResponse = JSON.parse(response.body.infousuari);
 
@@ -336,14 +342,14 @@ export class RecursService {
 
             console.log(element);
 
-            // let recursos: Recurs = new Recurs();
+            let recursos: Recurs = new Recurs();
 
-            // recursos.id = element.id;
-            // recursos.titol = element.titol;
+            recursos.id = element.id;
+            recursos.titol = element.titol;
           }
         )
 
-        localStorage.setItem('tokenUser', response.body.token);
+        // localStorage.setItem('tokenUser', response.body.token);
         
       }
     );

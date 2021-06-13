@@ -35,7 +35,8 @@ const routes: Routes = [
     path: 'recursos-preferits',
     loadChildren: () => import('./elements_privats/recursos-preferits/recursos-preferits.module').then( m => m.RecursosPreferitsPageModule)
   },
-  { path: 'logout', component: LogoutComponent },  {
+  { path: 'logout', component: LogoutComponent },
+  {
     path: 'perfil',
     loadChildren: () => import('./elements_privats/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
