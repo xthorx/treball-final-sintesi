@@ -40,6 +40,12 @@ class controlador_api extends JwtAPI_Controller {
 		
 		if($this->get('categories') != NULL){
 			$this->response(json_encode($this->model_principal->obtenir_totes_categories()), API_Controller::HTTP_OK);
+		}else if($this->get('autor') != NULL){ 
+			$this->response(json_encode($this->model_principal->autor_name($this->get('autor'))), API_Controller::HTTP_OK);
+		}else if($this->get('categoria_name') != NULL){ 
+			$this->response(json_encode($this->model_principal->category_name($this->get('categoria_name'))), API_Controller::HTTP_OK);
+		}else if($this->get('privadesa') != NULL){ 
+			$this->response(json_encode($this->model_principal->obtenir_info_classe($this->get('privadesa'))), API_Controller::HTTP_OK);
 		}else if($id==NULL && $cat==NULL){
             $this->response(json_encode($this->model_principal->get_tots_recursos()), API_Controller::HTTP_OK);
         }else if($cat==NULL){
@@ -165,6 +171,8 @@ class controlador_api extends JwtAPI_Controller {
 
         $this->response(null, API_Controller::HTTP_OK); // OK (200) being the HTTP response code
     }
+
+
     
 
 }

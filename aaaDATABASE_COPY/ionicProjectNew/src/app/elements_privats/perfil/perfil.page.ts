@@ -1,33 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Recurs } from '../../models/recurs.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecursService } from '../../services/recurs.service';
 
-
 @Component({
-  selector: 'app-recursos-preferits',
-  templateUrl: './recursos-preferits.page.html',
-  styleUrls: ['./recursos-preferits.page.scss'],
+  selector: 'app-perfil',
+  templateUrl: './perfil.page.html',
+  styleUrls: ['./perfil.page.scss'],
 })
-export class RecursosPreferitsPage implements OnInit{
+export class PerfilPage {
 
   public elements = [];
 
 
-  ngOnInit() {
-    this.route.params.subscribe(
-      (params: Params) => {
-        this.apiService.recursosPreferits();
-      }
-    );
-  }
-
-
   constructor(private apiService: RecursService, private router: Router, private route: ActivatedRoute) {
-    // this.apiService.recursosPreferits();
+    this.apiService.infoPerfil();
     this.apiService.recursos.subscribe(
-      (RecursosOriginals: Recurs[]) => {
+      (RecursosOriginals: any) => {
         this.elements = RecursosOriginals;
+
+        console.log(this.elements);
         
       }
     );

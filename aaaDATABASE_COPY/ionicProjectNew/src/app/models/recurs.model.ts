@@ -4,6 +4,8 @@ export class Recurs {
     private _autor: string;
     private _privadesa: string;
     private _categoria: string;
+    private _categoria_id: string;
+    private _tipus: string;
 
     constructor() {
     }
@@ -23,6 +25,12 @@ export class Recurs {
     get categoria(): string {
         return this._categoria;
     }
+    get categoria_id(): string {
+        return this._categoria_id;
+    }
+    get tipus(): string {
+        return this._tipus;
+    }
 
 
     set id(id: number) {
@@ -39,5 +47,11 @@ export class Recurs {
     }
     set categoria(categoria: string) {
         this._categoria = categoria;
+    }
+    set categoria_id(categoria_id: string) {
+        this._categoria_id = categoria_id;
+    }
+    set tipus(tipus: string) {
+        this._tipus = tipus;
     }
 }

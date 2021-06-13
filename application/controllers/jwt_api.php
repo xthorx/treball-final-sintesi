@@ -32,20 +32,31 @@ class Jwt_api extends JwtAPI_Controller {
 		
         if ($this->auth_request()) {
 
-            $jwt = $this->renewJWT();
 
-            $token=explode(" ",$this->head ("Authorization"));
-            $token_data = JWT::decode($token[1],$this->config->item('jwt_key'),array('HS256')); 
+            if($this->input->post('perfil') != null){
+                $jwt = $this->renewJWT();
+                $token=explode(" ",$this->head ("Authorization"));
+                $token_data = JWT::decode($token[1],$this->config->item('jwt_key'),array('HS256')); 
+                $messagePost = [
+                    'status' => API_Controller::HTTP_OK,
+                    'token' => $jwt,
+                    'infousuari' => json_encode($this->model_principal->info_usuari($token_data->usr))
+                ];
+                $this->set_response($messagePost, API_Controller::HTTP_OK);
+            }
+            else{
+                $jwt = $this->renewJWT();
+                $token=explode(" ",$this->head ("Authorization"));
+                $token_data = JWT::decode($token[1],$this->config->item('jwt_key'),array('HS256')); 
+                $messagePost = [
+                    'status' => API_Controller::HTTP_OK,
+                    'token' => $jwt,
+                    'recursos' => json_encode($this->model_principal->comprovar_preferits($token_data->usr))
+                ];
+                $this->set_response($messagePost, API_Controller::HTTP_OK);
+            }
 
-
-
-            $messagePost = [
-                'status' => API_Controller::HTTP_OK,
-                'token' => $jwt,
-                'recursos' => json_encode($this->model_principal->comprovar_preferits($token_data->usr))
-            ];
-
-            $this->set_response($messagePost, API_Controller::HTTP_OK);
+            
 
         }
         

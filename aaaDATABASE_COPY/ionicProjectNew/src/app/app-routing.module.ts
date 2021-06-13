@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RecursComponent } from './elements_publics/recurs/recurs.component';
+import { LogoutComponent } from './elements_publics/logout/logout.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
     loadChildren: () => import('./elements_publics/categories/categories.module').then( m => m.CategoriesPageModule)
   },
   { path: 'recurs/:id', component: RecursComponent },
+  { path: 'recurs/:id/:w', component: RecursComponent },
   {
     path: 'login',
     loadChildren: () => import('./elements_publics/login/login.module').then( m => m.LoginPageModule)
@@ -32,7 +34,12 @@ const routes: Routes = [
   {
     path: 'recursos-preferits',
     loadChildren: () => import('./elements_privats/recursos-preferits/recursos-preferits.module').then( m => m.RecursosPreferitsPageModule)
-  }
+  },
+  { path: 'logout', component: LogoutComponent },  {
+    path: 'perfil',
+    loadChildren: () => import('./elements_privats/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+
   
   
   

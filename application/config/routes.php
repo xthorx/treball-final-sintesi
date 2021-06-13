@@ -52,6 +52,7 @@ $route['contrasenya_admin/(:any)'] = 'controlador_administrador/canviar_contrase
 $route['borrar_usuari/(:any)'] = 'controlador_administrador/borrar_usuari/$1';
 
 $route['api'] = 'controlador_api/index';
+$route['api/autor'] = 'controlador_api/autorrecurs';
 $route['api2'] = 'jwt_api/index';
 
 $route['fitxers_descarregar/(:any)/(:any)'] = 'controlador_fitxers/descarregar_fitxer_adjunt/$1/$2';

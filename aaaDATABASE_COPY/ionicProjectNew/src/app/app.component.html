@@ -46,16 +46,23 @@
           <ion-menu-toggle auto-hide="false">
             <ion-list-header>Part privada</ion-list-header>
 
+            
             <ion-item routerDirection="root" [routerLink]="['login']" lines="none" detail="false"
-              routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="'folder-outline'" [md]="'folder-sharp'"></ion-icon>
+              routerLinkActive="selected" *ngIf="loggedInLocalstorage=='no'">
+              <ion-icon slot="start" [ios]="'person-circle-outline'" [md]="'person-circle-sharp'"></ion-icon>
               <ion-label>Login</ion-label>
             </ion-item>
 
             <ion-item routerDirection="root" [routerLink]="['recursos-preferits']" lines="none" detail="false"
-              routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="'folder-outline'" [md]="'folder-sharp'"></ion-icon>
+              routerLinkActive="selected" *ngIf="loggedInLocalstorage=='si'">
+              <ion-icon slot="start" [ios]="'star-outline'" [md]="'star-sharp'"></ion-icon>
               <ion-label>Recursos preferits</ion-label>
+            </ion-item>
+
+            <ion-item routerDirection="root" [routerLink]="['logout']" lines="none" detail="false"
+              routerLinkActive="selected" *ngIf="loggedInLocalstorage=='si'">
+              <ion-icon slot="start" [ios]="'log-out-outline'" [md]="'log-out-sharp'"></ion-icon>
+              <ion-label>Tancar sessió</ion-label>
             </ion-item>
 
           </ion-menu-toggle>

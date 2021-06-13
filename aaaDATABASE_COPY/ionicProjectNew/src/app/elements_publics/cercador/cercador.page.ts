@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Recurs } from "../../models/recurs.model";
 import { RecursService } from "../../services/recurs.service";
 
@@ -8,14 +8,24 @@ import { RecursService } from "../../services/recurs.service";
   templateUrl: './cercador.page.html',
   styleUrls: ['./cercador.page.scss'],
 })
-export class CercadorPage{
+export class CercadorPage implements OnInit{
 
   public elements = [];
   public motCerca = "";
 
-  constructor(private apiService: RecursService, private router: Router) {
 
-    this.apiService.retrieveRecursosFromHttpALL();
+
+  ngOnInit() {
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.apiService.retrieveRecursosFromHttpALL();
+      }
+    );
+  }
+
+  constructor(private apiService: RecursService, private router: Router, private route: ActivatedRoute) {
+
+    // this.apiService.retrieveRecursosFromHttpALL();
     this.apiService.recursos.subscribe(
       (RecursosOriginals: Recurs[]) => {
         this.elements = RecursosOriginals;
@@ -29,7 +39,7 @@ export class CercadorPage{
   getResource(id){
 
     this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + id);
-    this.router.navigate(["recurs", id]);
+    this.router.navigate(["recurs", id, "cercador"]);
 
   }
 

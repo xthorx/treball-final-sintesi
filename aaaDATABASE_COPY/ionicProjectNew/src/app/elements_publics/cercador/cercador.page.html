@@ -12,7 +12,7 @@
 
 
 
-    <div class="container">
+    <!-- <div class="container">
 
         <p class="m-0 mt-3">Introdueix la teva cerca:</p>
         <input [(ngModel)]="motCerca" class="form-control mb-2">
@@ -21,23 +21,55 @@
             <div *ngFor="let recurs of elements" style="margin: 0; padding: 0;">
 
                 <ion-item *ngIf="recurs.titol.toLowerCase().includes(motCerca.toLowerCase())">
-                    <ion-card style="width: 100%;">
+
+                    <ion-card style="width: 100%;" button (click)="getResource(recurs.id)">
                         <ion-card-header>
-                            <ion-card-subtitle>ID del recurs: {{ recurs.id }}</ion-card-subtitle>
-                            <ion-card-title><a (click)="getResource(recurs.id)" style="cursor: pointer;">Titol:
-                                    {{recurs.titol }}</a></ion-card-title>
+                            <ion-card-subtitle><ion-icon name="person"></ion-icon> {{ recurs.autor }}<div class="d-inline-block float-right badge badge-primary">ID: {{ recurs.id }}</div></ion-card-subtitle>
+                            <ion-card-title>{{ recurs.titol }}</ion-card-title>
                         </ion-card-header>
                         <ion-card-content>
-                            ID de l'autor: {{ recurs.autor }}<br>
-                            Privadesa: {{ recurs.privadesa }}
+                            <p><ion-icon name="document-lock"></ion-icon> Privadesa: {{ recurs.privadesa }}</p>
+                            <p><ion-icon name="podium"></ion-icon> Tipus: {{ recurs.tipus }}</p>
+                            <p><ion-icon name="file-tray-stacked"></ion-icon> Categoria: {{ recurs.categoria }}</p>
+                        </ion-card-content>
+                    </ion-card>
+                    
+                </ion-item>
+
+            </div>
+        </ion-list>
+    </div> -->
+
+
+
+    <div class="container">
+
+        <p class="m-0 mt-3">Introdueix la teva cerca:</p>
+        <input [(ngModel)]="motCerca" class="form-control mb-2">
+
+    </div>
+
+        <ion-list>
+            <div *ngFor="let recurs of elements" style="margin: 0; padding: 0;">
+
+                <ion-item *ngIf="recurs.titol.toLowerCase().includes(motCerca.toLowerCase())">
+                    <ion-card style="width: 100%;" button (click)="getResource(recurs.id)">
+                        <ion-card-header>
+                            <ion-card-subtitle><ion-icon name="person"></ion-icon> {{ recurs.autor }}<div class="d-inline-block float-right badge badge-primary">ID: {{ recurs.id }}</div></ion-card-subtitle>
+                            <ion-card-title>{{ recurs.titol }}</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <p><ion-icon name="document-lock"></ion-icon> Privadesa: {{ recurs.privadesa }}</p>
+                            <p><ion-icon name="podium"></ion-icon> Tipus: {{ recurs.tipus }}</p>
+                            <p><ion-icon name="file-tray-stacked"></ion-icon> Categoria: {{ recurs.categoria }}</p>
                         </ion-card-content>
                     </ion-card>
                 </ion-item>
 
             </div>
         </ion-list>
-    </div>
-
+    
+    
 
 
 

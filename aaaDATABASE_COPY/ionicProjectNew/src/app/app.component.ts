@@ -13,5 +13,16 @@ export class AppComponent {
     { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
   ];
-  constructor() {}
+
+  public loggedInLocalstorage= "no";
+
+
+
+  constructor() {
+
+    if(localStorage.getItem('tokenUser') != null){
+      this.loggedInLocalstorage= "si";
+    }
+
+  }
 }

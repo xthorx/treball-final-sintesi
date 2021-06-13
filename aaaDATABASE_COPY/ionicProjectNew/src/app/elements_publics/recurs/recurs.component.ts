@@ -13,10 +13,24 @@ export class RecursComponent implements OnInit {
 
   public element: Recurs = new Recurs();
   public idRec = "";
+  public pagAnterior = "";
 
   ngOnInit() {
+
+
+    // this.route.queryParams
+    //   .subscribe(params => {
+    //     console.log(params); // { orderby: "price" }
+    //     this.orderby = params.orderby;
+    //     console.log(this.orderby); // price
+    //   }
+    // );
+
+
+
     this.route.paramMap.subscribe(params => {
       this.idRec = params.get("id");
+      this.pagAnterior = params.get("w");
 
       this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + this.idRec);
 
@@ -31,6 +45,13 @@ export class RecursComponent implements OnInit {
     );
   }
   constructor(private route: ActivatedRoute, private apiService: RecursService, private router: Router) {
+  }
+
+
+  returnBackRecurs(w){
+
+    this.router.navigate([w]);
+
   }
 
 
