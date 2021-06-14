@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { RecursComponent } from './elements_publics/recurs/recurs.component';
 import { LogoutComponent } from './elements_publics/logout/logout.component';
 
 const routes: Routes = [
@@ -25,8 +24,14 @@ const routes: Routes = [
     path: 'categories',
     loadChildren: () => import('./elements_publics/categories/categories.module').then( m => m.CategoriesPageModule)
   },
-  { path: 'recurs/:id', component: RecursComponent },
-  { path: 'recurs/:id/:w', component: RecursComponent },
+  {
+    path: 'recurs/:id',
+    loadChildren: () => import('./elements_publics/recurs/recurs.module').then( m => m.RecursPageModule)
+  },
+  {
+    path: 'recurs/:id/:w',
+    loadChildren: () => import('./elements_publics/recurs/recurs.module').then( m => m.RecursPageModule)
+  },
   {
     path: 'login',
     loadChildren: () => import('./elements_publics/login/login.module').then( m => m.LoginPageModule)
@@ -40,6 +45,8 @@ const routes: Routes = [
     path: 'perfil',
     loadChildren: () => import('./elements_privats/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
+  
+
 
   
   

@@ -1,11 +1,13 @@
 export class Recurs {
     private _id: number;
     private _titol: string;
+    private _descripcio: string;
     private _autor: string;
     private _privadesa: string;
     private _categoria: string;
     private _categoria_id: string;
     private _tipus: string;
+    private _arxiu_name: string;
 
     constructor() {
     }
@@ -15,6 +17,9 @@ export class Recurs {
     }
     get titol(): string {
         return this._titol;
+    }
+    get descripcio(): string {
+        return this._descripcio;
     }
     get autor(): string {
         return this._autor;
@@ -31,6 +36,9 @@ export class Recurs {
     get tipus(): string {
         return this._tipus;
     }
+    get arxiu_name(): string {
+        return this._arxiu_name;
+    }
 
 
     set id(id: number) {
@@ -38,6 +46,9 @@ export class Recurs {
     }
     set titol(titol: string) {
         this._titol = titol;
+    }
+    set descripcio(descripcio: string) {
+        this._descripcio = descripcio;
     }
     set autor(autor: string) {
         this._autor = autor;
@@ -53,5 +64,8 @@ export class Recurs {
     }
     set tipus(tipus: string) {
         this._tipus = tipus;
+    }
+    set arxiu_name(arxiu_name: string) {
+        this._arxiu_name = arxiu_name;
     }
 }

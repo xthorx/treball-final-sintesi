@@ -5,7 +5,7 @@
 $config['jwt_key'] = 'l6ucUSL2dubJ2jDBgtm7y1WjalpuKoTPOkIAyFaFSlQTDsP8nnS18Dgpu';
 
 $config['jwt_autorenew'] = TRUE;
-$config['jwt_timeout'] = 300;
+$config['jwt_timeout'] = 1200;
 
 $config['jwt_table'] = 'tokens';
                       

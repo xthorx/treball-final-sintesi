@@ -142,11 +142,6 @@ class controlador_fitxers  extends controlador_redirectpermisos
 
 
 
-    public function test(){
-        $this->load->view('test');
-    }
-    
-
 
 
 }

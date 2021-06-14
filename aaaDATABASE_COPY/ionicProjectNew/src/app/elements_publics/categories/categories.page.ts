@@ -50,7 +50,7 @@ export class CategoriesPage implements OnInit{
 
   getResource(id){
 
-    this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + id);
+    // this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + id);
     this.router.navigate(["recurs", id, "categories"]);
 
   }

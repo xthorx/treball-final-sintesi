@@ -38,7 +38,7 @@ export class RecursosPage implements OnInit{
 
   getResource(id){
 
-    this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + id);
+    // this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + id);
     this.router.navigate(["recurs", id, "recursos"]);
 
   }

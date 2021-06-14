@@ -312,6 +312,14 @@ class model_principal  extends CI_Model
     }
 
 
+    public function user_group_check($userid){
+        $sql = "SELECT name FROM groups WHERE id=(SELECT group_id FROM users_groups WHERE user_id='$userid')";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+
+
 
 
 

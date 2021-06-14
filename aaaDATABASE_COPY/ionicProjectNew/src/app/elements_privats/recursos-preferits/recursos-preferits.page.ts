@@ -15,6 +15,12 @@ export class RecursosPreferitsPage implements OnInit{
 
 
   ngOnInit() {
+
+    if(localStorage.getItem('tokenUser') == null){
+      // this.router.navigate(["login"]);
+      window.location.href = "login";
+    }
+
     this.route.params.subscribe(
       (params: Params) => {
         this.apiService.recursosPreferits();
@@ -38,7 +44,7 @@ export class RecursosPreferitsPage implements OnInit{
 
   getResource(id){
 
-    this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + id);
+    // this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + id);
     this.router.navigate(["recurs", id, "recursos-preferits"]);
 
   }

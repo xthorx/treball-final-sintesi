@@ -204,15 +204,47 @@ export class RecursService {
 
   retrieveRecursosFromHttpUNIQUE(funcParam: String) {
 
-    this.http.get('http://localhost/treball-final-sintesi/api' + funcParam).subscribe(
+    let options;
+
+    if(localStorage.getItem('tokenUser') != null){
+      options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('tokenUser')
+        }),
+        observe: 'response' as 'response'
+      };
+    }else{
+      options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        }),
+        observe: 'response' as 'response'
+      };
+    }
+
+    
+
+    console.log(options);
+
+    this.http.get('http://localhost/treball-final-sintesi/api' + funcParam, options).subscribe(
 
       (response: any) => {
 
-        response = JSON.parse(response);
+        
+
+        if(response.body.token != null){
+          localStorage.setItem('tokenUser', response.body.token);
+        }
+
+        response = JSON.parse(response.body.inforecurs);
+
+        console.log(response);
 
         let recurs: Recurs = new Recurs();
         recurs.id = response.id;
         recurs.titol = response.titol;
+        recurs.descripcio = response.descripcio;
 
         this.http.get('http://localhost/treball-final-sintesi/api?autor=' + response.autor).subscribe(
           (response: any) => {
@@ -243,7 +275,9 @@ export class RecursService {
           });
 
         recurs.tipus = response.tipus_recurs;
+        recurs.arxiu_name = response.arxiu_name;
 
+        
         this._recursos.pipe(take(1)).subscribe(
           (recursosOriginals: Recurs[]) => {
             this._recursos.next(recursosOriginals.concat(recurs));
@@ -251,12 +285,19 @@ export class RecursService {
           }
         );
 
+        
+
 
         this._recurs.next(recurs);
 
-        console.log(recurs);
 
-
+      }, (error) => {
+        console.log("ERROR: " + error.status);
+        // if(error.status==0){
+        //   localStorage.clear();
+        //   window.location.href = "login";
+        // }
+        
       }
     );
   }
@@ -345,9 +386,18 @@ export class RecursService {
             );
           }
         )
+        
+        if(response.body.token != null){
+          localStorage.setItem('tokenUser', response.body.token);
 
-        localStorage.setItem('tokenUser', response.body.token);
+          console.log("hola");
+        }
+        
 
+      }, (error) => {
+        // console.log("ERROR: " + error.status);
+        localStorage.clear();
+        window.location.href = "login";
       }
     );
 
@@ -406,8 +456,36 @@ export class RecursService {
       }, (error) => {
         // console.log("ERROR: " + error.status);
         localStorage.clear();
+        window.location.href = "login";
       }
     );
+  }
+
+
+
+  actualitzarPerfil($id,$usuari,$nom,$cognom,$correu){
+
+    // const params = new URLSearchParams();
+    // params.set('cmd', 'cmd');
+
+    // // let options = {
+    // //   params: params,
+    // //   observe: 'response' as 'response'
+    // // };
+
+
+    // let body = new FormData();
+    // body.append('cmd', 'emailId');
+    // body.append('password', 'xyz');
+
+    // this.http.post('http://localhost/treball-final-sintesi/api', body).subscribe(
+    //   (response: any) => {
+    //     console.log(response);
+    //   }
+    // );
+
+
+
   }
 
 

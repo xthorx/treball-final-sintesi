@@ -19,7 +19,8 @@ export class PerfilPage {
 
 
     if(localStorage.getItem('tokenUser') == null){
-      this.router.navigate(["login"]);
+      // this.router.navigate(["login"]);
+      window.location.href = "login";
     }
 
 
@@ -37,7 +38,8 @@ export class PerfilPage {
 
 
   logForm(){
-    console.log("form sent");
+    this.apiService.actualitzarPerfil(this.element[0].id, this.element[0].usuari, this.element[0].nom, this.element[0].cognom, this.element[0].correu);
+    
   }
 
 }

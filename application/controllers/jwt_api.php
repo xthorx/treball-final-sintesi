@@ -20,7 +20,6 @@ class Jwt_api extends JwtAPI_Controller {
         // $this->init($config); // configuration + auth timeout is configured from JWT config file
 
 
-
         $this->output->set_header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
         $this->output->set_header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
         $this->output->set_header("Access-Control-Allow-Origin: *");
@@ -69,105 +68,15 @@ class Jwt_api extends JwtAPI_Controller {
     //CREAR UNA NOTICIA NOVA
     public function index_post(){
 
-        if($this->post('title')!=NULL){
-
-            // CREAR NOTICIA
-            // PARÀMETRES NECESSARIS DEL POST EN CAS DE VOLER CREAR UNA NOTICIA: title, text
-            // AMB UN HEADER AMB: Authorization: Bearer XX-TOKEN-XX  
-
-            $title = $this->post('title');
-            $text = $this->post('text');
-
-            if ($this->auth_request()) {
-
-                $jwt = $this->renewJWT();
-
-                if (true){
-                    $this->set_response("Noticia afegida correctament.", API_Controller::HTTP_CREATED);
-                }
-                
-                else {
-                    $this->set_response("Error en publicar la noticia.", API_Controller::HTTP_BAD_REQUEST);
-                }
-
-            }
-            
-            else {
-                $this->set_response("Error en l'autenticació amb el token: " . $this->error_message, $this->auth_code);
-            }
-
-
-        }else{
-
-            // LOGIN NOMÉS (per obtenir la token)
-            // PARÀMETRES NECESSARIS DEL POST EN CAS DE VOLER DEMANAR EL TOKEN: username, password
-
-            $user = $this->post('username'); //administrator
-            $pass = $this->post('password'); //password
-            
-            $this->login($user, $pass);
-        }
+        $user = $this->post('username'); //administrator
+        $pass = $this->post('password'); //password
+        
+        $this->login($user, $pass);
 
         
     }
 
-    public function index_delete(){
-
-        // BORRAR NOTICIA
-        // PARÀMETRES NECESSARIS DEL DELETE EN CAS DE VOLER BORRAR UNA NOTICIA: id
-        // AMB UN HEADER AMB: Authorization: Bearer XX-TOKEN-XX
-        
-
-        if ($this->auth_request()) {
-
-            $jwt = $this->renewJWT();
-
-            $id= $this->delete('id');
-
-            if(true){
-
-                $this->set_response("Noticia borrada correctament.", API_Controller::HTTP_OK);
-
-            }
-
-        }
-        
-        else {
-            $this->set_response("Error en l'autenticació amb el token: " . $this->error_message, $this->auth_code);
-        }
-
-    }
-
-    public function index_put(){
-
-        // ACTUALITZAR NOTICIA
-        // PARÀMETRES NECESSARIS DEL PUT EN CAS DE VOLER CREAR UNA NOTICIA: id, title, text
-        // AMB UN HEADER AMB: Authorization: Bearer XX-TOKEN-XX  
-
-        $id = $this->put('id');
-        $title = $this->put('title');
-        $text = $this->put('text');
-
-        if ($this->auth_request()) {
-
-            $jwt = $this->renewJWT();
-
-            if (true){
-                $this->set_response("Noticia actualitzada correctament.", API_Controller::HTTP_CREATED);
-            }
-            
-            else {
-                $this->set_response("Error en actualitzar la noticia.", API_Controller::HTTP_BAD_REQUEST);
-            }
-
-        }
-        
-        else {
-            $this->set_response("Error en l'autenticació amb el token: " . $this->error_message, $this->auth_code);
-        }
-
-        
-    }
+    
 
 
 

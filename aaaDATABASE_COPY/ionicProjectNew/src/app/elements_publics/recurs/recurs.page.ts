@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recurs } from '../../models/recurs.model';
 import { RecursService } from '../../services/recurs.service';
 
 @Component({
   selector: 'app-recurs',
-  templateUrl: './recurs.component.html',
-  styleUrls: ['./recurs.component.scss'],
+  templateUrl: './recurs.page.html',
+  styleUrls: ['./recurs.page.scss'],
 })
-export class RecursComponent implements OnInit {
+export class RecursPage implements OnInit {
 
   public element: Recurs = new Recurs();
   public idRec = "";
   public pagAnterior = "";
+
+  public tokenUsable= "";
 
   ngOnInit() {
 
@@ -34,6 +35,8 @@ export class RecursComponent implements OnInit {
       (recursosOriginals: Recurs) => {
         console.log(recursosOriginals);
         this.element = recursosOriginals;
+
+        this.tokenUsable= localStorage.getItem('tokenUser');
       }
     );
   }
@@ -47,6 +50,4 @@ export class RecursComponent implements OnInit {
 
   }
 
-
-  
 }

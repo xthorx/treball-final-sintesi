@@ -21,7 +21,6 @@ export class LoginPage {
   loginFunction(){
 
     this.apiService.loginPostJWT(this.username,this.password);
-    // this.router.navigate(["perfil"]);
     
     // this.apiService.loginPostJWT(this.username,this.password).subscribe(
     //   (response: any) => {

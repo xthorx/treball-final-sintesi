@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { RecursComponent } from './recurs.component';
+import { RecursPage } from './recurs.page';
 
-describe('RecursComponent', () => {
-  let component: RecursComponent;
-  let fixture: ComponentFixture<RecursComponent>;
+describe('RecursPage', () => {
+  let component: RecursPage;
+  let fixture: ComponentFixture<RecursPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RecursComponent ],
+      declarations: [ RecursPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RecursComponent);
+    fixture = TestBed.createComponent(RecursPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

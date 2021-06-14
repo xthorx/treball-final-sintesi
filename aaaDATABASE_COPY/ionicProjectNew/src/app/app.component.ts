@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Perfil } from './models/perfil.model';
+import { RecursService } from './services/recurs.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -17,8 +19,7 @@ export class AppComponent {
   public loggedInLocalstorage= "no";
 
 
-
-  constructor() {
+  constructor(private apiService: RecursService) {
 
     if(localStorage.getItem('tokenUser') != null){
       this.loggedInLocalstorage= "si";
