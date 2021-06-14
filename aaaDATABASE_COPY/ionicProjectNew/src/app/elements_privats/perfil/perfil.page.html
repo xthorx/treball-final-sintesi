@@ -1,17 +1,42 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Perfil</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="container" *ngIf="element.length > 0">
 
-  <div *ngIf="elements.length > 0">
-    referf
-    {{elements[0].id}}
+    <form (ngSubmit)="logForm()">
+      <ion-item>
+        <ion-label>ID:</ion-label>
+        <ion-input type="text" [(ngModel)]="element[0].id" name="id" disabled></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Usuari:</ion-label>
+        <ion-input type="text" [(ngModel)]="element[0].usuari" name="usuari"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Nom:</ion-label>
+        <ion-input type="text" [(ngModel)]="element[0].nom" name="nom"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Cognom:</ion-label>
+        <ion-input type="text" [(ngModel)]="element[0].cognom" name="cognom"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Correu:</ion-label>
+        <ion-input type="text" [(ngModel)]="element[0].correu" name="correu"></ion-input>
+      </ion-item>
+
+      <button ion-button type="submit" block class="btn btn-primary ml-3 mt-3">Actualitzar dades</button>
+
+
+    </form>
+
   </div>
 
 

@@ -17,20 +17,13 @@ export class RecursComponent implements OnInit {
 
   ngOnInit() {
 
-
-    // this.route.queryParams
-    //   .subscribe(params => {
-    //     console.log(params); // { orderby: "price" }
-    //     this.orderby = params.orderby;
-    //     console.log(this.orderby); // price
-    //   }
-    // );
-
-
-
     this.route.paramMap.subscribe(params => {
       this.idRec = params.get("id");
-      this.pagAnterior = params.get("w");
+
+      if(params.get("w") != null){
+        this.pagAnterior = params.get("w");
+      }else{ this.pagAnterior= "recursos";}
+      
 
       this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + this.idRec);
 

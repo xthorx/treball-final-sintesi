@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Perfil } from '../../models/perfil.model';
 import { RecursService } from '../../services/recurs.service';
 
@@ -10,43 +10,34 @@ import { RecursService } from '../../services/recurs.service';
 })
 export class PerfilPage {
 
-  public elements = [];
+
+  public element= [];
 
 
+  
+  constructor(private apiService: RecursService, private router: Router) {
 
-  constructor(private apiService: RecursService, private router: Router, private route: ActivatedRoute) {
-    
+
+    if(localStorage.getItem('tokenUser') == null){
+      this.router.navigate(["login"]);
+    }
+
+
     this.apiService.infoPerfil();
-    this.apiService.recursos.subscribe(
-      (RecursosOriginals: any[]) => {
-        this.elements = RecursosOriginals;
-        console.log(this.elements);
-        
+    this.apiService.perfil.subscribe(
+      (perfilOriginal: Perfil[]) => {
+        this.element= perfilOriginal;
+        console.log(perfilOriginal);
       }
     );
 
+    
+    
   }
 
-  // constructor(private apiService: RecursService, private router: Router, private route: ActivatedRoute) {
-  //   this.apiService.infoPerfil();
-  //   this.apiService.perfil.subscribe(
-  //     (PerfilOriginal: Perfil) => {
 
-  //       this.elements= PerfilOriginal;
-  //       console.log(PerfilOriginal);
-        
-  //     }
-  //   );
-
-  // }
-
-
-
-  getResource(id){
-
-    this.apiService.retrieveRecursosFromHttpUNIQUE("?id=" + id);
-    this.router.navigate(["recurs", id, "recursos-preferits"]);
-
+  logForm(){
+    console.log("form sent");
   }
 
 }

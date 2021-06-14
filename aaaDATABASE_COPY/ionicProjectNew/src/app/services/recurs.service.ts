@@ -16,17 +16,24 @@ export class RecursService {
 
   //1) El BehaviourSubject és una classe que pot ser OBSERVABLE
   private _recursos: BehaviorSubject<Recurs[]> = new BehaviorSubject<Recurs[]>([]);
+  private _perfil: BehaviorSubject<Perfil[]> = new BehaviorSubject<Perfil[]>([]);
+
   private _categories: BehaviorSubject<Categoria[]> = new BehaviorSubject<Categoria[]>([]);
   private _recurs: BehaviorSubject<Recurs> = new BehaviorSubject<Recurs>(new Recurs);
-  private _perfil: BehaviorSubject<Perfil> = new BehaviorSubject<Perfil>(new Perfil);
 
-  public multipleTimesError= "si";
+  // private _perfil: BehaviorSubject<Perfil> = new BehaviorSubject<Perfil>(new Perfil);
+
+  public multipleTimesError = "si";
 
   //2) Necessitm el servei HttpClient per tal de poder fer la crida al Servei Web
   constructor(private http: HttpClient) { }
 
   get recursos(): Observable<Recurs[]> {
     return this._recursos.asObservable();
+  }
+
+  get perfil(): Observable<Perfil[]> {
+    return this._perfil.asObservable();
   }
 
   get categories(): Observable<Categoria[]> {
@@ -37,12 +44,12 @@ export class RecursService {
     return this._recurs.asObservable();
   }
 
-  get perfil(): Observable<Perfil> {
-    return this._perfil.asObservable();
-  }
+  // get perfil(): Observable<Perfil> {
+  //   return this._perfil.asObservable();
+  // }
 
 
-  
+
 
 
   retrieveRecursosFromHttpALL() {
@@ -52,7 +59,7 @@ export class RecursService {
     this.http.get('http://localhost/treball-final-sintesi/api').subscribe(
 
       (response: any) => {
-        
+
 
         response = JSON.parse(response);
 
@@ -61,34 +68,40 @@ export class RecursService {
         response.forEach(
           (element: any) => {
             let recursos: Recurs = new Recurs();
-            
+
             recursos.id = element.id;
             recursos.titol = element.titol;
 
             this.http.get('http://localhost/treball-final-sintesi/api?autor=' + element.autor).subscribe(
-              (response: any) => {JSON.parse(response).forEach(
+              (response: any) => {
+                JSON.parse(response).forEach(
                   (element_autor: any) => {
                     recursos.autor = element_autor.username;
-            })});
-            
-            
+                  })
+              });
 
-            if(!isNaN(element.privadesa)){
+
+
+            if (!isNaN(element.privadesa)) {
               this.http.get('http://localhost/treball-final-sintesi/api?privadesa=' + element.privadesa).subscribe(
-                (response: any) => {JSON.parse(response).forEach(
+                (response: any) => {
+                  JSON.parse(response).forEach(
                     (privadesa_rec: any) => {
                       recursos.privadesa = privadesa_rec.nom;
-              })});
-            }else{
+                    })
+                });
+            } else {
               recursos.privadesa = element.privadesa;
             }
 
             recursos.categoria_id = element.categoria;
             this.http.get('http://localhost/treball-final-sintesi/api?categoria_name=' + element.autor).subscribe(
-              (response: any) => {JSON.parse(response).forEach(
+              (response: any) => {
+                JSON.parse(response).forEach(
                   (categoria_rec: any) => {
                     recursos.categoria = categoria_rec.nom;
-            })});
+                  })
+              });
 
             recursos.tipus = element.tipus_recurs;
 
@@ -127,7 +140,7 @@ export class RecursService {
 
       (response: any) => {
 
-        
+
 
         response = JSON.parse(response);
 
@@ -191,37 +204,57 @@ export class RecursService {
 
   retrieveRecursosFromHttpUNIQUE(funcParam: String) {
 
-    this._recursos.next([]);
-
     this.http.get('http://localhost/treball-final-sintesi/api' + funcParam).subscribe(
 
       (response: any) => {
 
-        console.log("amb parametre: " + funcParam);
-
         response = JSON.parse(response);
-
-        console.log("response id : " + response.id);
 
         let recurs: Recurs = new Recurs();
         recurs.id = response.id;
         recurs.titol = response.titol;
-        recurs.autor = response.autor;
-        recurs.privadesa = response.privadesa;
-        recurs.categoria = response.categoria;
+
+        this.http.get('http://localhost/treball-final-sintesi/api?autor=' + response.autor).subscribe(
+          (response: any) => {
+            JSON.parse(response).forEach(
+              (element_autor: any) => {
+                recurs.autor = element_autor.username;
+              })
+          });
+
+        if (!isNaN(response.privadesa)) {
+          this.http.get('http://localhost/treball-final-sintesi/api?privadesa=' + response.privadesa).subscribe(
+            (response: any) => {
+              JSON.parse(response).forEach(
+                (privadesa_rec: any) => {
+                  recurs.privadesa = privadesa_rec.nom;
+                })
+            });
+        } else {
+          recurs.privadesa = response.privadesa;
+        }
+
+        this.http.get('http://localhost/treball-final-sintesi/api?categoria_name=' + response.autor).subscribe(
+          (response: any) => {
+            JSON.parse(response).forEach(
+              (categoria_rec: any) => {
+                recurs.categoria = categoria_rec.nom;
+              })
+          });
+
+        recurs.tipus = response.tipus_recurs;
+
+        this._recursos.pipe(take(1)).subscribe(
+          (recursosOriginals: Recurs[]) => {
+            this._recursos.next(recursosOriginals.concat(recurs));
+            // console.log(recursosOriginals);
+          }
+        );
 
 
         this._recurs.next(recurs);
 
         console.log(recurs);
-
-
-        this.recursos.pipe(take(1)).subscribe(
-          (recursosOriginals: Recurs[]) => {
-            this._recursos.next([recurs]);
-
-          }
-        );
 
 
       }
@@ -234,12 +267,14 @@ export class RecursService {
   loginPostJWT(user_username: String, user_pass: String) {
 
     this.http.post<any>('http://localhost/treball-final-sintesi/api2', { username: user_username, password: user_pass }).subscribe(data => {
-        console.log("login: " + data.token);
+      console.log("login: " + data.token);
 
-        localStorage.setItem('tokenUser', data.token);
+      localStorage.setItem('tokenUser', data.token);
+
+      window.location.href = "perfil";
 
 
-        return data;
+      return data;
 
 
     })
@@ -247,7 +282,7 @@ export class RecursService {
   }
 
 
-  recursosPreferits(){
+  recursosPreferits() {
 
     this._recursos.next([]);
 
@@ -273,26 +308,32 @@ export class RecursService {
             recursos.titol = element.titol;
 
             this.http.get('http://localhost/treball-final-sintesi/api?autor=' + element.autor).subscribe(
-              (response: any) => {JSON.parse(response).forEach(
+              (response: any) => {
+                JSON.parse(response).forEach(
                   (element_autor: any) => {
                     recursos.autor = element_autor.username;
-            })});
+                  })
+              });
 
-            if(!isNaN(element.privadesa)){
+            if (!isNaN(element.privadesa)) {
               this.http.get('http://localhost/treball-final-sintesi/api?privadesa=' + element.privadesa).subscribe(
-                (response: any) => {JSON.parse(response).forEach(
+                (response: any) => {
+                  JSON.parse(response).forEach(
                     (privadesa_rec: any) => {
                       recursos.privadesa = privadesa_rec.nom;
-              })});
-            }else{
+                    })
+                });
+            } else {
               recursos.privadesa = element.privadesa;
             }
 
             this.http.get('http://localhost/treball-final-sintesi/api?categoria_name=' + element.autor).subscribe(
-              (response: any) => {JSON.parse(response).forEach(
+              (response: any) => {
+                JSON.parse(response).forEach(
                   (categoria_rec: any) => {
                     recursos.categoria = categoria_rec.nom;
-            })});
+                  })
+              });
 
             recursos.tipus = element.tipus_recurs;
 
@@ -306,7 +347,7 @@ export class RecursService {
         )
 
         localStorage.setItem('tokenUser', response.body.token);
-        
+
       }
     );
 
@@ -318,9 +359,14 @@ export class RecursService {
 
 
 
-  infoPerfil(){
 
-    this._recursos.next([]);
+
+
+
+
+  infoPerfil() {
+
+    this._perfil.next([]);
 
     let options = {
       headers: new HttpHeaders({
@@ -331,37 +377,43 @@ export class RecursService {
     };
 
     this.http.get('http://localhost/treball-final-sintesi/api2?perfil=1', options).subscribe(
+
       (response: any) => {
 
         localStorage.setItem('tokenUser', response.body.token);
 
-        let usuariInfoResponse = JSON.parse(response.body.infousuari);
+        response = JSON.parse(response.body.infousuari)[0];
 
-        usuariInfoResponse.forEach(
-          (element: any) => {
+        let perfil: Perfil = new Perfil();
+        perfil.id = response.id;
+        perfil.usuari = response.username;
+        perfil.nom = response.first_name;
+        perfil.cognom = response.last_name;
+        perfil.correu = response.email;
+        perfil.telefon = response.phone;
 
-            console.log(element);
+        console.log(perfil);
 
-            let recursos: Recurs = new Recurs();
 
-            recursos.id = element.id;
-            recursos.titol = element.titol;
+        this.perfil.pipe(take(1)).subscribe(
+          (originalDrinks: Perfil[]) => {
+            this._perfil.next(originalDrinks.concat(perfil));
+
           }
-        )
+        );
 
-        // localStorage.setItem('tokenUser', response.body.token);
-        
+
+      }, (error) => {
+        // console.log("ERROR: " + error.status);
+        localStorage.clear();
       }
     );
-
-
-
   }
 
 
 
 
-  
+
 
 
 

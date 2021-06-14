@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { RecursService } from '../../services/recurs.service';
 
 
@@ -15,11 +16,12 @@ export class LoginPage {
   public username= "";
   public password= "";
 
-  constructor(private apiService: RecursService) {}
+  constructor(private apiService: RecursService, private router: Router) {}
 
   loginFunction(){
 
     this.apiService.loginPostJWT(this.username,this.password);
+    // this.router.navigate(["perfil"]);
     
     // this.apiService.loginPostJWT(this.username,this.password).subscribe(
     //   (response: any) => {
