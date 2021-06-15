@@ -38,7 +38,7 @@ export class PerfilPage {
 
 
   logForm(){
-    this.apiService.actualitzarPerfil(this.element[0].id, this.element[0].nom, this.element[0].cognom, this.element[0].correu, this.element[0].telefon);
+    this.apiService.actualitzarPerfil(this.element[0].id, this.element[0].usuari, this.element[0].nom, this.element[0].cognom, this.element[0].correu);
     
   }
 

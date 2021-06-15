@@ -26,12 +26,15 @@ class Jwt_api extends JwtAPI_Controller {
 
     }
     
-    //MOSTRAR LES NOTICIES, TOTES O LA QUE SELECCIONIS
+    // URL PER ACCEDIR: http://localhost/treball-final-sintesi/api2
+    // Funció per la API amb el mètode: GET 
+    // Variables a afegir: - (només header amb el token)
+    // Aquesta funció retorna la informació de l'usuari i una llista amb els seus recursos preferits
     public function index_get(){
 		
         if ($this->auth_request()) {
 
-
+            //en el cas en que s'envii un get amb "perfil" com a variable, es retornarà la informació del perfil
             if($this->input->get('perfil') != null){
                 $jwt = $this->renewJWT();
                 $token=explode(" ",$this->head ("Authorization"));
@@ -43,6 +46,8 @@ class Jwt_api extends JwtAPI_Controller {
                 ];
                 $this->set_response($messagePost, API_Controller::HTTP_OK);
             }
+
+            //en el cas en que s'envii un get sense variables, es retornarà una llista amb els seus recursos preferits
             else{
                 $jwt = $this->renewJWT();
                 $token=explode(" ",$this->head ("Authorization"));
@@ -65,11 +70,14 @@ class Jwt_api extends JwtAPI_Controller {
         
     }
 
-    //CREAR UNA NOTICIA NOVA
+    // URL PER ACCEDIR: http://localhost/treball-final-sintesi/api2
+    // Funció per la API amb el mètode: POST 
+    // Variables a afegir: username, password
+    // Aquesta funció fa login i retorna el token a l'usuari
     public function index_post(){
 
-        $user = $this->post('username'); //administrator
-        $pass = $this->post('password'); //password
+        $user = $this->post('username');
+        $pass = $this->post('password');
         
         $this->login($user, $pass);
 

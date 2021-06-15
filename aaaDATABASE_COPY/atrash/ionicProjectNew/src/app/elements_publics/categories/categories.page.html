@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Categories</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+    <ion-item>
+        <ion-label>Seleccionar categoria</ion-label>
+        <ion-select [(ngModel)]="categoriaselected" value="brown" okText="Seleccionar" cancelText="Cancelar">
+            <ion-select-option value="{{ cat.id }}" *ngFor="let cat of categories">{{ cat.nom }}</ion-select-option>
+        </ion-select>
+    </ion-item>
+
+
+  
+
+    <div id="container">
+        <ion-list>
+            <div *ngFor="let recurs of elements" style="margin: 0; padding: 0;">
+
+                <ion-item *ngIf="recurs.categoria_id == categoriaselected">
+                    <ion-card style="width: 100%;" button (click)="getResource(recurs.id)">
+                        <ion-card-header>
+                            <ion-card-subtitle><ion-icon name="person"></ion-icon> {{ recurs.autor }}<div class="d-inline-block float-right badge badge-primary">ID: {{ recurs.id }}</div></ion-card-subtitle>
+                            <ion-card-title>{{ recurs.titol }}</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <p><ion-icon name="document-lock"></ion-icon> Privadesa: {{ recurs.privadesa }}</p>
+                            <p><ion-icon name="podium"></ion-icon> Tipus: {{ recurs.tipus }}</p>
+                            <p><ion-icon name="file-tray-stacked"></ion-icon> Categoria: {{ recurs.categoria }}</p>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-item>
+
+            </div>
+        </ion-list>
+    </div>
+
+
+
+
+
+</ion-content>

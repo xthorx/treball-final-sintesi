@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Visualitzar recurs numero: {{ element.id }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Autor: {{ element.autor }}</ion-card-subtitle>
+      <ion-card-title>Titol: {{ element.titol }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <div [innerHTML]="element.descripcio"></div>
+
+      <div *ngIf="element.tipus== 'infografia'">
+        <img src="http://localhost/treball-final-sintesi/imatge_mostrar_api/{{ element.id }}/{{ element.arxiu_name }}/{{tokenUsable}}">
+        <!-- {{element.tipus}} -->
+      </div>
+      <div *ngIf="element.tipus== 'video_arxiu'">
+        <video src="http://localhost/treball-final-sintesi/imatge_mostrar_api/{{ element.id }}/{{ element.arxiu_name }}/{{tokenUsable}}" class="img-fluid mt-2" controls></video>
+        <!-- {{element.tipus}} -->
+      </div>
+      <div *ngIf="element.tipus== 'pissarra'">
+        
+        <img src="http://localhost/treball-final-sintesi/imatge_mostrar_api/{{ element.id }}/{{ element.arxiu_name }}/{{tokenUsable}}">
+        <!-- {{element.tipus}} -->
+      </div>
+      <div *ngIf="element.tipus== 'video_youtube'">
+
+        <iframe width="100%" height="300" src="https://www.youtube.com/embed/LXb3EKWsInQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- {{element.tipus}} -->
+      </div>
+
+      Privadesa: {{ element.privadesa }}
+    </ion-card-content>
+  </ion-card>
+
+
+
+
+  <ion-item>
+    <a button (click)="returnBackRecurs(pagAnterior)" class="btn btn-primary">Tornar enrere</a>
+  </ion-item>
+
+
+</ion-content>

@@ -26,34 +26,41 @@ class controlador_api extends JwtAPI_Controller {
         $this->output->set_header("Access-Control-Allow-Origin: *");
     }
     
-    //MOSTRAR LES NOTICIES, TOTES O LA QUE SELECCIONIS
+    // URL PER ACCEDIR: http://localhost/treball-final-sintesi/api
+    // Funció per la API amb el mètode: GET 
+    // Variables a afegir: id, cat, categories, autor, categoria_name i privadesa.
+    // En el cas que es faci servir qualsevol dels paràmetres menys el de ID, no farà falta una token
     public function req_get(){
 
-        // GET request
-        // http://localhost/treball-final-sintesi/api
-        // http://localhost/treball-final-sintesi/api?id=57
-        // http://localhost/treball-final-sintesi/api?cat=1
-
         $token=explode(" ",$this->head ("Authorization"));
-        // $token_data = JWT::decode($token[1],$this->config->item('jwt_key'),array('HS256')); 
 
-        
         $id= $this->get('id');
         $cat= $this->get('cat');
 		
 		if($this->get('categories') != NULL){
+
+            //dona com a resposta totes les categories de la base de dades
 			$this->response(json_encode($this->model_principal->obtenir_totes_categories()), API_Controller::HTTP_OK);
 		}else if($this->get('autor') != NULL){ 
+
+            //dona com a resposta el nom d'un autor havent-hi donat anteriorment el seu ID
 			$this->response(json_encode($this->model_principal->autor_name($this->get('autor'))), API_Controller::HTTP_OK);
 		}else if($this->get('categoria_name') != NULL){ 
+
+            //dona com a resposta el nom d'una categoria que anteriorment s'hagi enviat el seu ID
 			$this->response(json_encode($this->model_principal->category_name($this->get('categoria_name'))), API_Controller::HTTP_OK);
-		}else if($this->get('privadesa') != NULL){ 
+		}else if($this->get('privadesa') != NULL){
+
+            //s'obté com a resposta el nom d'una classe, tot donant el seu ID per paràmetre
 			$this->response(json_encode($this->model_principal->obtenir_info_classe($this->get('privadesa'))), API_Controller::HTTP_OK);
 		}else if($id==NULL && $cat==NULL){
+
+            //obté una llista de tots els recursos
             $this->response(json_encode($this->model_principal->get_tots_recursos()), API_Controller::HTTP_OK);
         }else if($cat==NULL){
 
-
+            //retorna la informació d'un recurs en concret, amb tota la seva informació
+            //només si l'usuari té el permís necessari per veure'l
             if(!isset($token[1])){
 
                 $infoRecurs= $this->model_principal->get_recurs_individual($id)[0];
@@ -92,9 +99,6 @@ class controlador_api extends JwtAPI_Controller {
 
                     $jwt = $this->renewJWT();
 
-                    // $token=explode(" ",$this->head ("Authorization"));
-                    // $token_data = JWT::decode($token[1],$this->config->item('jwt_key'),array('HS256')); 
-
                     $messagePost = [
                         'status' => API_Controller::HTTP_OK,
                         'token' => $jwt,
@@ -112,13 +116,50 @@ class controlador_api extends JwtAPI_Controller {
         }
     }
 
+    // URL PER ACCEDIR: http://localhost/treball-final-sintesi/api
+    // Funció per la API amb el mètode: POST 
+    // Variables a afegir: id, nom, cognom, correu i telefon
+    // Aquesta funció actualitza el perfil d'usuari amb les noves dades enviades pel formulari
     public function req_post(){
 
-        echo $this->post('cmd');
+        if ($this->auth_request()) {
+
+            $token=explode(" ",$this->head ("Authorization"));
+            $token_data = JWT::decode($token[1],$this->config->item('jwt_key'),array('HS256'));
+
+            $id = $this->post('id');
+            $nom = $this->post('nom');
+            $cognom = $this->post('cognom');
+            $correu = $this->post('correu');
+            $telefon = $this->post('telefon');
+
+            $jwt = $this->renewJWT();
+
+
+            if($this->model_administrador->editar_perfil($id, $correu, $nom, $cognom, $telefon)){
+                $messagePost = [
+                    'status' => API_Controller::HTTP_OK,
+                    'error' => "Perfil actualitzat correctament.",
+                    'token' => $jwt
+                ];
+                $this->set_response($messagePost, API_Controller::HTTP_OK);
+            }else{
+                $messagePost = [
+                    'status' => API_Controller::HTTP_BAD_REQUEST,
+                    'error' => "No s'ha conseguit actualitzar el perfil correctament.",
+                    'token' => $jwt
+                ];
+                $this->set_response($messagePost, API_Controller::HTTP_BAD_REQUEST);
+            }
+
+        }
+
+        
     }
 
 
-
+    //Aquesta funció no és de la api, només comprova que l'usuari tingui
+    //els permisos suficients per entrar a un apartat
     public function redirectPermisos_pagines_ncontroller($permis){
 
         $permisUserLogged= $this->model_principal->user_group_check($IDUser)[0]->name;
@@ -144,9 +185,9 @@ class controlador_api extends JwtAPI_Controller {
         }
     }
 
+    //Aquesta funció no és de la api, només comprova que l'usuari formi part
+    //de la classe que tingui acces al recurs que s'intenta visualitzar.
     public function redirectPermisos_recursos_grups($privadesaRecurs, $IDUser){
-
-
 
         $permisUserLogged= $this->model_principal->user_group_check($IDUser)[0]->name;
 
@@ -174,52 +215,6 @@ class controlador_api extends JwtAPI_Controller {
 
 
 
-    //CREAR UNA NOTICIA NOVA
-    // public function index_post(){
-
-
-    //     if($this->post('title')!=NULL){
-
-    //         // CREAR NOTICIA
-    //         // PARÀMETRES NECESSARIS DEL POST EN CAS DE VOLER CREAR UNA NOTICIA: title, text
-    //         // AMB UN HEADER AMB: Authorization: Bearer XX-TOKEN-XX  
-
-    //         $title = $this->post('title');
-    //         $text = $this->post('text');
-
-    //         if ($this->auth_request()) {
-
-    //             $jwt = $this->renewJWT();
-
-    //             if ($this->News_model->set_newsparams($title,$text)){
-    //                 $this->set_response("Noticia afegida correctament.", API_Controller::HTTP_CREATED);
-    //             }
-                
-    //             else {
-    //                 $this->set_response("Error en publicar la noticia.", API_Controller::HTTP_BAD_REQUEST);
-    //             }
-
-    //         }
-            
-    //         else {
-    //             $this->set_response("Error en l'autenticació amb el token: " . $this->error_message, $this->auth_code);
-    //         }
-
-
-    //     }else{
-
-    //         // LOGIN NOMÉS (per obtenir la token)
-    //         // PARÀMETRES NECESSARIS DEL POST EN CAS DE VOLER DEMANAR EL TOKEN: username, password
-
-    //         $user = $this->post('username'); //administrator
-    //         $pass = $this->post('password'); //password
-            
-    //         $this->login($user, $pass);
-    //     }
-
-        
-    // }
-
 
 
     public function req_options() {
@@ -232,60 +227,9 @@ class controlador_api extends JwtAPI_Controller {
 
 
 
-
-
-
-
-
-
-
-    public function descarregar_fitxer_adjunt_api_get($ruta,$nomfitxer,$token){
-
-
-        $infoRecursIndividual= $this->model_principal->get_recurs_individual($ruta)[0];
-        if($infoRecursIndividual->privadesa=="public"){
-            //pot entrar tothom
-        }else if($infoRecursIndividual->privadesa=="privat"){
-            $this->redirectPermisos_pagines_ncontroller("professor"); //professor, admin o usuari
-        }else if(is_numeric($infoRecursIndividual->privadesa)){
-            if($this->ion_auth->logged_in()){
-                $this->redirectPermisos_recursos_grups($infoRecursIndividual->privadesa, $this->ion_auth->user()->row()->id); //privadesa,user_id
-            }else{
-                $this->session->set_flashdata('message', "No tens permís per entrar aquí.");
-                return redirect(base_url(""));
-            }
-            
-        }
-
-        // HEADER LOGGEDIN VARIABLE
-        if($this->ion_auth->logged_in()){
-            $data['loggedin'] = true;
-            $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
-        }else{
-            $data['loggedin'] = false;
-            // $this->session->set_flashdata('not_loggedin', "not_loggedin");
-            // return redirect(base_url("login"));
-            // die();
-        }
-
-        $image_path=file_get_contents('../../uploads/recurs_'.$ruta.'/fitxers/'. $nomfitxer);
-
-        header("Expires: 0");
-        header('Pragma: public');
-        header("Cache-Control: no-cache private", false);
-        header("Content-Description: File Transfer");
-        header("Content-disposition: attachment; filename=". $nomfitxer);      
-        header("Content-Type: application/force-download");
-        header("Content-Transfer-Encoding: binary");
-        header('Content-Length: '. strlen($image_path));
-        header('Connection: close');
-        ob_clean();
-        flush();
-        echo $image_path;
-        die();
-    }
-
-
+    // Aquesta funció comprova un token passat per paràmetre i mira
+    // si l'usuari en questió té permisos per veure un video
+    // i li retorna el video en cas afirmatiu
     public function mostrar_video_fitxer_api_get($ruta,$nomfitxer,$token){
 
         $infoRecursIndividual= $this->model_principal->get_recurs_individual($ruta)[0];
@@ -309,9 +253,6 @@ class controlador_api extends JwtAPI_Controller {
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
             $data['loggedin'] = false;
-            // $this->session->set_flashdata('not_loggedin', "not_loggedin");
-            // return redirect(base_url("login"));
-            // die();
         }
 
         $video_path=file_get_contents('../../uploads/recurs_'.$ruta.'/'. $nomfitxer);
@@ -321,6 +262,9 @@ class controlador_api extends JwtAPI_Controller {
     }
 
 
+    // Aquesta funció comprova un token passat per paràmetre i mira
+    // si l'usuari en questió té permisos per veure una foto
+    // i li retorna la foto en cas afirmatiu
     public function mostrar_imatge_fitxer_api_get($ruta,$nomfitxer,$token=NULL){
         
         if($token==NULL){
@@ -349,9 +293,6 @@ class controlador_api extends JwtAPI_Controller {
             $data['usuariLogat_nom']= $this->model_principal->autor_name($this->ion_auth->user()->row()->id)[0]->username;
         }else{
             $data['loggedin'] = false;
-            // $this->session->set_flashdata('not_loggedin', "not_loggedin");
-            // return redirect(base_url("login"));
-            // die();
         }
 
         $image_path=file_get_contents('../../uploads/recurs_'.$ruta.'/'. $nomfitxer);

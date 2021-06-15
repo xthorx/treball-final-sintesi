@@ -206,7 +206,7 @@ export class RecursService {
 
     let options;
 
-    if (localStorage.getItem('tokenUser') != null) {
+    if(localStorage.getItem('tokenUser') != null){
       options = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -214,7 +214,7 @@ export class RecursService {
         }),
         observe: 'response' as 'response'
       };
-    } else {
+    }else{
       options = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
@@ -223,7 +223,7 @@ export class RecursService {
       };
     }
 
-
+    
 
     console.log(options);
 
@@ -231,9 +231,9 @@ export class RecursService {
 
       (response: any) => {
 
+        
 
-
-        if (response.body.token != null) {
+        if(response.body.token != null){
           localStorage.setItem('tokenUser', response.body.token);
         }
 
@@ -277,7 +277,7 @@ export class RecursService {
         recurs.tipus = response.tipus_recurs;
         recurs.arxiu_name = response.arxiu_name;
 
-
+        
         this._recursos.pipe(take(1)).subscribe(
           (recursosOriginals: Recurs[]) => {
             this._recursos.next(recursosOriginals.concat(recurs));
@@ -285,7 +285,7 @@ export class RecursService {
           }
         );
 
-
+        
 
 
         this._recurs.next(recurs);
@@ -297,7 +297,7 @@ export class RecursService {
         //   localStorage.clear();
         //   window.location.href = "login";
         // }
-
+        
       }
     );
   }
@@ -386,13 +386,13 @@ export class RecursService {
             );
           }
         )
-
-        if (response.body.token != null) {
+        
+        if(response.body.token != null){
           localStorage.setItem('tokenUser', response.body.token);
 
           console.log("hola");
         }
-
+        
 
       }, (error) => {
         // console.log("ERROR: " + error.status);
@@ -434,8 +434,6 @@ export class RecursService {
 
         response = JSON.parse(response.body.infousuari)[0];
 
-        console.log(response);
-
         let perfil: Perfil = new Perfil();
         perfil.id = response.id;
         perfil.usuari = response.username;
@@ -457,35 +455,15 @@ export class RecursService {
 
       }, (error) => {
         // console.log("ERROR: " + error.status);
-        // localStorage.clear();
-        // window.location.href = "login";
+        localStorage.clear();
+        window.location.href = "login";
       }
     );
   }
 
 
 
-  actualitzarPerfil(id, nom, cognom, correu, telefon) {
-
-    let options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('tokenUser')
-      }),
-      observe: 'response' as 'response'
-    };
-
-    this.http.post('http://localhost/treball-final-sintesi/api', { id: id, nom: nom, cognom: cognom, correu: correu, telefon: telefon }, options).subscribe(
-      (response: any) => {
-        console.log(response);
-
-        localStorage.setItem('tokenUser', response.body.token);
-
-
-      }
-    );
-
-
+  actualitzarPerfil($id,$usuari,$nom,$cognom,$correu){
 
     // const params = new URLSearchParams();
     // params.set('cmd', 'cmd');

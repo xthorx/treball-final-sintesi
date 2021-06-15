@@ -1,0 +1,10 @@
+a:not([href]):not([class]) {
+    color: #007bff;
+    text-decoration: none;
+}
+
+
+a:not([href]):not([class]):hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
